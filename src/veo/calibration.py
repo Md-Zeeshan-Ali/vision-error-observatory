@@ -96,7 +96,7 @@ def _auroc(labels: np.ndarray, scores: np.ndarray) -> float | None:
     return float(roc_auc_score(labels, scores)) if 0 < labels.sum() < len(labels) else None
 
 
-def _bootstrap_auroc(labels: np.ndarray, scores: np.ndarray, groups: np.ndarray, replicates: int = 1000, seed: int = 42) -> dict:
+def bootstrap_auroc(labels: np.ndarray, scores: np.ndarray, groups: np.ndarray, replicates: int = 1000, seed: int = 42) -> dict:
     """AUROC with a 95% interval from resampling scenes (regions in one scene are not independent)."""
     point = _auroc(labels, scores)
     if point is None:
@@ -179,18 +179,18 @@ def evaluate(models: dict, rows: list[dict], settings: dict | None = None, repli
         entry = {
             "prevalence": float(labels.mean()) if len(labels) else 0.0,
             "positives": int(labels.sum()),
-            "hand_set": {**_bootstrap_auroc(labels, hand, groups, replicates), **_label_metrics(labels, hand >= 0.5)},
+            "hand_set": {**bootstrap_auroc(labels, hand, groups, replicates), **_label_metrics(labels, hand >= 0.5)},
         }
         if label_model is not None and category in label_model.categories:
             frozen = np.asarray([label_model.probabilities(row["features"])[category] for row in rows])
             threshold = label_model.categories[category]["threshold"]
-            entry["label_model"] = {**_bootstrap_auroc(labels, frozen, groups, replicates), **_label_metrics(labels, frozen >= threshold)}
+            entry["label_model"] = {**bootstrap_auroc(labels, frozen, groups, replicates), **_label_metrics(labels, frozen >= threshold)}
         model = models.get(category)
         if model is not None:
             probability = calibrated_probability(model, rows)
             boosted = model["_boosted"].predict_proba(all_features)[:, 1]
-            entry["calibrated"] = {**_bootstrap_auroc(labels, probability, groups, replicates), **_label_metrics(labels, probability >= model["threshold"])}
-            entry["learned"] = {**_bootstrap_auroc(labels, boosted, groups, replicates), **_label_metrics(labels, boosted >= 0.5)}
+            entry["calibrated"] = {**bootstrap_auroc(labels, probability, groups, replicates), **_label_metrics(labels, probability >= model["threshold"])}
+            entry["learned"] = {**bootstrap_auroc(labels, boosted, groups, replicates), **_label_metrics(labels, boosted >= 0.5)}
         report["categories"][category] = entry
     return report
 

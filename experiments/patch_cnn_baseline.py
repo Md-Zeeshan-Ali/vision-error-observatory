@@ -13,7 +13,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from veo.calibration import _bootstrap_auroc, _label_metrics, build_rows, silver_matrix
+from veo.calibration import bootstrap_auroc, _label_metrics, build_rows, silver_matrix
 from veo.config import config_from_dict
 from veo.data import load_rgb
 from veo.reports import write_result
@@ -92,7 +92,7 @@ def main() -> None:
     report = {}
     for column, category in enumerate(SILVER_CATEGORIES):
         labels = y_test[:, column]
-        report[category] = {"positives": int(labels.sum()), **_bootstrap_auroc(labels, scores[:, column], groups), **_label_metrics(labels, scores[:, column] >= 0.5)}
+        report[category] = {"positives": int(labels.sum()), **bootstrap_auroc(labels, scores[:, column], groups), **_label_metrics(labels, scores[:, column] >= 0.5)}
         print(f"{category:<16} AUROC {report[category]['auroc']}")
     write_result(args.output, {"train_regions": len(train_rows), "test_regions": len(test_rows), "epochs": args.epochs, "categories": report})
     print(f"Saved {args.output}")

@@ -1,6 +1,6 @@
 import json
 from collections.abc import Callable
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 
 import numpy as np
@@ -17,9 +17,11 @@ from .data import (
     validate_pairs,
 )
 from .inference import (
+    AFFINE_DEPTH_MODELS,
     OfficialMetricDepthPredictor,
     PrecomputedPredictor,
     TransformersDepthPredictor,
+    load_predictor,
 )
 from .label_model import model_fingerprint
 from .metrics import align_scale_only, align_scale_shift, compute_error_map, compute_metrics
@@ -128,7 +130,15 @@ def run_precomputed(config: Config, prediction_dir: Path) -> list[dict]:
     )
 
 
+def config_for_model(config: Config, model_id: str) -> Config:
+    """Each model is aligned in the space it predicts in."""
+    if model_id not in AFFINE_DEPTH_MODELS:
+        return config
+    return replace(config, experiment=replace(config.experiment, prediction_space="depth", primary_protocol="direct_depth_scale_shift"))
+
+
 def run_model(config: Config, model_id: str, device: str = "auto", limit: int | None = None, save_panels: bool = True, save_predictions: bool = True) -> list[dict]:
+    config = config_for_model(config, model_id)
     pairs = _pairs(config)
     if limit is not None:
         pairs = pairs[:limit]
@@ -137,7 +147,7 @@ def run_model(config: Config, model_id: str, device: str = "auto", limit: int | 
     def predict(pair, rgb, shape):
         # Loaded on first use, so a resumed run with every prediction cached never loads the model
         if "model" not in loaded:
-            loaded["model"] = TransformersDepthPredictor(model_id, device)
+            loaded["model"] = load_predictor(model_id, device)
         return loaded["model"].predict(rgb)
 
     return run_pairs(

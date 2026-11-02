@@ -7,6 +7,8 @@ import numpy as np
 from .interventions import holm, paired_statistics
 
 LABELS = ("textureless", "boundary_mixing", "thin_object", "reflection", "poor_lighting", "ambiguous")
+FINGERPRINT_CONTRASTS = ("family_dav2_small_vs_dpt_hybrid", "backbone_hybrid_vs_large")
+VALIDATED_AUROC = 0.7
 
 
 def image_outcomes(record: dict) -> dict[str, float]:
@@ -21,10 +23,15 @@ def image_outcomes(record: dict) -> dict[str, float]:
     return outcomes
 
 
-def compare(first: list[dict], second: list[dict], scene_of: dict[str, str], seed: int = 42) -> dict:
-    """first minus second, on images both models have; each scene counts once."""
-    outcomes_a = {record["sample_id"]: image_outcomes(record) for record in first}
-    outcomes_b = {record["sample_id"]: image_outcomes(record) for record in second}
+def image_composition(record: dict) -> dict[str, float] | None:
+    """Each label's share of the image's region pixels; None for an image with no regions."""
+    total = sum(region["area"] for region in record["regions"])
+    if not total:
+        return None
+    return {label: sum(r["area"] for r in record["regions"] if r["top_cause"] == label) / total for label in LABELS}
+
+
+def _paired(outcomes_a: dict[str, dict], outcomes_b: dict[str, dict], scene_of: dict[str, str], seed: int) -> dict:
     shared = sorted(outcomes_a.keys() & outcomes_b.keys())
     if not shared:
         raise ValueError("The two models share no images")
@@ -46,3 +53,41 @@ def compare(first: list[dict], second: list[dict], scene_of: dict[str, str], see
         row["p_holm"] = value
         row["reliable"] = bool(value < 0.05 and (row["upper"] < 0 or row["lower"] > 0))
     return {"images": len(shared), "scenes": len(scenes), "outcomes": result}
+
+
+def compare(first: list[dict], second: list[dict], scene_of: dict[str, str], seed: int = 42) -> dict:
+    """first minus second, on images both models have; each scene counts once."""
+    return _paired(
+        {record["sample_id"]: image_outcomes(record) for record in first},
+        {record["sample_id"]: image_outcomes(record) for record in second},
+        scene_of, seed,
+    )
+
+
+def compare_composition(first: list[dict], second: list[dict], scene_of: dict[str, str], seed: int = 42) -> dict:
+    """The same test on the mix of labels, on images where both models have regions."""
+    shares_a, shares_b = ({record["sample_id"]: image_composition(record) for record in records} for records in (first, second))
+    return _paired(
+        {sample_id: shares for sample_id, shares in shares_a.items() if shares is not None},
+        {sample_id: shares for sample_id, shares in shares_b.items() if shares is not None},
+        scene_of, seed,
+    )
+
+
+def fingerprint_verdict(by_dataset: dict[str, dict], label_auroc: dict[str, dict[str, float | None]]) -> dict:
+    """Apply the pre-registered rule: a label passes only if reliable with one sign on every dataset."""
+    report = {}
+    for contrast in FINGERPRINT_CONTRASTS:
+        labels = {}
+        for label in LABELS:
+            rows = {dataset: comparison["contrasts"][contrast]["composition"]["outcomes"][label] for dataset, comparison in by_dataset.items()}
+            signs = {np.sign(row["mean"]) for row in rows.values()}
+            passes = len(signs) == 1 and all(row.get("reliable", False) for row in rows.values())
+            aurocs = label_auroc.get(label, {})
+            labels[label] = {
+                "passes": passes,
+                "failure_type_difference": passes and bool(aurocs) and all(value is not None and value >= VALIDATED_AUROC for value in aurocs.values()),
+                "datasets": {dataset: {key: row.get(key) for key in ("mean", "lower", "upper", "p_holm", "reliable")} for dataset, row in rows.items()},
+            }
+        report[contrast] = {"verdict": "supported" if any(entry["passes"] for entry in labels.values()) else "cut", "labels": labels}
+    return report

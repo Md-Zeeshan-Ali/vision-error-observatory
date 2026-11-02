@@ -292,13 +292,26 @@ def _model_comparison(result: dict) -> list[str]:
     for name, contrast in result["contrasts"].items():
         lines += [f"**{name}**: {contrast['first']} minus {contrast['second']} ({contrast['scenes']} scenes)", "",
                   "| Outcome | First | Second | Difference [95% CI] | p (Holm) | Reliable |", "|---|---|---|---|---|---|"]
-        for outcome, row in contrast["outcomes"].items():
-            lines.append(f"| {outcome} | {row['first_mean']:.4f} | {row['second_mean']:.4f} | {row['mean']:+.4f} [{row['lower']:+.4f}, {row['upper']:+.4f}] | "
-                         f"{row['p_holm']:.4f} | {'yes' if row['reliable'] else 'no'} |")
+        for family in ("outcomes", "composition"):
+            rows = contrast.get(family, {})
+            rows = rows.get("outcomes", {}) if family == "composition" else rows
+            for outcome, row in rows.items():
+                name_cell = f"share of region pixels: {outcome}" if family == "composition" else outcome
+                lines.append(f"| {name_cell} | {row['first_mean']:.4f} | {row['second_mean']:.4f} | {row['mean']:+.4f} [{row['lower']:+.4f}, {row['upper']:+.4f}] | "
+                             f"{row['p_holm']:.4f} | {'yes' if row['reliable'] else 'no'} |")
         lines.append("")
     if result.get("skipped"):
         lines += [f"Not run (models missing): {', '.join(result['skipped'])}", ""]
     return lines
+
+
+def _ibims_labels(result: dict) -> list[str]:
+    lines = ["## External label check: iBims-1 (frozen label model v3)", "", f"{result['regions']} regions from {result['images']} images.", "",
+             "| Label | Positives | AUROC (v3) [95% CI] | AUROC (v2 rules) |", "|---|---|---|---|"]
+    for category, entry in result["categories"].items():
+        lines.append(f"| `{category}` | {entry['positives']} | {_auroc_cell(entry['label_model'])} | {_auroc_cell(entry['hand_set'])} |")
+    return lines + ["", f"`textureless` against any plane mask: {_auroc_cell(result['textureless_any_plane'])}. "
+                    f"`reflection` from `sensor_hole_fraction` alone: {_auroc_cell(result['reflection_sensor_holes_only'])}.", ""]
 
 
 def write_summary_markdown(results_dir: Path) -> Path:
@@ -336,6 +349,7 @@ def write_summary_markdown(results_dir: Path) -> Path:
         ("oracle_boundary_filter.json", _oracle),
         ("hypersim_reflection.json", _hypersim),
         ("model_comparison.json", _model_comparison),
+        ("label_check.json", _ibims_labels),
     ]
     for filename, render in sections:
         result = _load(results_dir / filename)

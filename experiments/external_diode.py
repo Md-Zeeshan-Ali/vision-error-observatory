@@ -21,6 +21,7 @@ MODELS = (
     "Intel/dpt-large",
     "Intel/zoedepth-nyu-kitti",
     "apple/DepthPro-hf",
+    "prs-eth/marigold-depth-v1-1",
 )
 
 
