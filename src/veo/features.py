@@ -18,6 +18,15 @@ Geometry cues use log depth, so they do not depend on the scene's absolute scale
   brightness, contrast mean and standard deviation of grey level
   aspect_ratio         bounding-box aspect ratio (informational)
   mean_depth_m         mean geometry depth in the region
+  coarse_grad          gradient energy after heavier smoothing (large-scale structure)
+  value_p95            95th percentile of HSV value
+  saturation_mean      mean HSV saturation
+  log_area             log of the region's pixel count
+
+Features that need the error target are added by ``error_context_features``:
+
+  signed_error         mean (prediction - truth) / truth; positive means the surface is predicted too far
+  sensor_hole_fraction share of the region's neighbourhood with no depth measurement
 """
 
 from dataclasses import dataclass, fields
@@ -54,6 +63,9 @@ class FeatureMaps:
     near_thin_image: np.ndarray
     highlight: np.ndarray
     clipped: np.ndarray
+    coarse_grad: np.ndarray
+    value: np.ndarray
+    saturation: np.ndarray
 
 
 def _disk(radius: int) -> np.ndarray:
@@ -67,6 +79,8 @@ def compute_feature_maps(rgb: np.ndarray, depth: np.ndarray, params: FeaturePara
     # A 3x3 Sobel responds with 8x the per-pixel slope
     grad = np.hypot(cv2.Sobel(smoothed, cv2.CV_32F, 1, 0), cv2.Sobel(smoothed, cv2.CV_32F, 0, 1)) / 8.0
     corner = cv2.cornerMinEigenVal(smoothed, blockSize=5, ksize=3)
+    coarse = cv2.GaussianBlur(gray, (0, 0), 4.0)
+    coarse_grad = np.hypot(cv2.Sobel(coarse, cv2.CV_32F, 1, 0), cv2.Sobel(coarse, cv2.CV_32F, 0, 1)) / 8.0
 
     depth = depth.astype(np.float32)
     measured = np.isfinite(depth) & (depth > 0)
@@ -92,7 +106,7 @@ def compute_feature_maps(rgb: np.ndarray, depth: np.ndarray, params: FeaturePara
     local = value.astype(np.int16) - cv2.medianBlur(value, 21).astype(np.int16)
     highlight = (value >= params.highlight_value) & (saturation <= params.highlight_saturation) & (local >= params.highlight_local_delta)
     clipped = (gray >= 250) | (gray <= 5)
-    return FeatureMaps(gray, grad, corner, depth, log_grad, near_edge, near_thin, near_thin_image, highlight, clipped)
+    return FeatureMaps(gray, grad, corner, depth, log_grad, near_edge, near_thin, near_thin_image, highlight, clipped, coarse_grad, value, saturation)
 
 
 def region_features(maps: FeatureMaps, mask: np.ndarray) -> dict[str, float]:
@@ -121,6 +135,23 @@ def region_features(maps: FeatureMaps, mask: np.ndarray) -> dict[str, float]:
         "contrast": float(gray.std()),
         "aspect_ratio": float(max(width, height) / max(min(width, height), 1)),
         "mean_depth_m": float(depth.mean()) if depth.size else 0.0,
+        "coarse_grad": float(maps.coarse_grad[mask].mean()),
+        "value_p95": float(np.percentile(maps.value[mask], 95)),
+        "saturation_mean": float(maps.saturation[mask].mean()),
+        "log_area": float(np.log(int(mask.sum()))),
+    }
+
+
+def error_context_features(mask: np.ndarray, aligned: np.ndarray, target: np.ndarray, radius: int = 7) -> dict[str, float]:
+    """Direction of the region's error, and how much of its surroundings the depth sensor could not measure."""
+    measured = np.isfinite(target) & (target > 0)
+    pixels = mask & measured & np.isfinite(aligned)
+    ys, xs = np.where(mask)
+    crop = (slice(max(ys.min() - radius, 0), ys.max() + radius + 1), slice(max(xs.min() - radius, 0), xs.max() + radius + 1))
+    neighbourhood = cv2.dilate(mask[crop].astype(np.uint8), _disk(radius)) > 0
+    return {
+        "signed_error": float(np.mean((aligned[pixels] - target[pixels]) / target[pixels])) if pixels.any() else 0.0,
+        "sensor_hole_fraction": float(1.0 - measured[crop][neighbourhood].mean()),
     }
 
 

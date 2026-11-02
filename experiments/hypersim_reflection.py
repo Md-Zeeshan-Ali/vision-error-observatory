@@ -122,7 +122,7 @@ def main() -> None:
         print(f"  {scene} {camera} {frame}: {analysis['num_regions']} regions, AbsRel {before_metrics['abs_rel']:.4f} -> {after_metrics['abs_rel']:.4f}", flush=True)
 
     targets = [row for row in rows if row["top_cause"] == "reflection"]
-    controls = [row for row in rows if row["reflection_score"] == 0.0]
+    controls = [row for row in rows if "reflection" not in row["labels"]]
     pairs = match_controls(targets, controls, seed=args.seed)
     differences = np.asarray([t["change"] - c["change"] for t, c in pairs])
     paired = paired_statistics(differences, [t["scene"] for t, _ in pairs], seed=args.seed) if pairs else {"n": 0}

@@ -37,6 +37,7 @@ class ExperimentConfig:
     # Depth used for geometry features: "ground_truth" (audit) or "prediction" (no ground truth needed)
     geometry_source: str = "ground_truth"
     include_reflection: bool = True
+    label_model: str | None = None  # fitted label model (docs/LABEL_MODEL_V3.md); None = the hand-set v2 rules
     texture_grad_scale: float = 8.0
     edge_log_threshold: float = 0.05
     edge_radius: int = 3

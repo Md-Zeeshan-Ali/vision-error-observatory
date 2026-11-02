@@ -21,6 +21,7 @@ from .inference import (
     PrecomputedPredictor,
     TransformersDepthPredictor,
 )
+from .label_model import model_fingerprint
 from .metrics import align_scale_only, align_scale_shift, compute_error_map, compute_metrics
 from .pipeline import align_prediction, analyze_sample
 from .provenance import config_hash, provenance
@@ -82,7 +83,7 @@ def run_pairs(
     prediction_dir = output_dir / "predictions"
     if save_predictions:
         prediction_dir.mkdir(parents=True, exist_ok=True)
-    key = config_hash({"config": asdict(config), "metadata": metadata, "max_depth_m": max_depth_m})
+    key = config_hash({"config": asdict(config), "metadata": metadata, "max_depth_m": max_depth_m, "label_model": model_fingerprint(config.experiment.label_model)})
     store = RecordStore(output_dir / "checkpoints" / Path(results_name).stem, key)
     records = []
     reused = 0

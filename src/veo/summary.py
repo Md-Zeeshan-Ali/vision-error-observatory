@@ -113,6 +113,8 @@ def _human_study(result: dict) -> list[str]:
             f"- Where VEO commits ({_pct(agreement['coverage'])} of items): accuracy {_interval(bootstrap['selective_accuracy'])} "
             f"vs majority baseline {_interval(bootstrap['selective_majority_baseline'])}"
         )
+    if "v2_rules_vs_consensus" in result:
+        lines.append(f"- v2 rules vs consensus: accuracy {_interval(result['v2_rules_vs_consensus']['bootstrap']['accuracy'])}")
     if "calibrated_vs_consensus" in result:
         lines.append(f"- Calibrated model vs consensus: accuracy {_interval(result['calibrated_vs_consensus']['bootstrap']['accuracy'])}")
     sensitivity = result.get("sensitivity_all_raters")
@@ -149,14 +151,14 @@ def _silver(result: dict) -> list[str]:
         f"- Fitted on {result['train']['regions']:,} train regions; scored on {evaluation['regions']:,} test regions "
         f"from {evaluation['scenes']} scenes (95% intervals resample scenes)",
         "",
-        "| Category | Test positives | AUROC hand-set | AUROC calibrated | AUROC learned | P / R / F1 hand-set | P / R / F1 calibrated | P / R / F1 learned |",
+        "| Category | Test positives | AUROC v2 rules | AUROC v3 model | AUROC learned | P / R / F1 v2 rules | P / R / F1 v3 model | P / R / F1 learned |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for category, entry in evaluation["categories"].items():
         lines.append(
             f"| `{category}` | {entry['positives']:,} ({_pct(entry['prevalence'])}) | {_auroc_cell(entry['hand_set'])} | "
-            f"{_auroc_cell(entry.get('calibrated'))} | {_auroc_cell(entry.get('learned'))} | {_f1_cell(entry['hand_set'])} | "
-            f"{_f1_cell(entry.get('calibrated'))} | {_f1_cell(entry.get('learned'))} |"
+            f"{_auroc_cell(entry.get('label_model') or entry.get('calibrated'))} | {_auroc_cell(entry.get('learned'))} | {_f1_cell(entry['hand_set'])} | "
+            f"{_f1_cell(entry.get('label_model') or entry.get('calibrated'))} | {_f1_cell(entry.get('learned'))} |"
         )
     lines += ["", "| VEO top label | Predicted | Confirmed by silver label |", "|---|---|---|"]
     for category, row in test["top_label_precision"].items():

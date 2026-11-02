@@ -23,6 +23,7 @@ experiment:
   opening_radius: 0
   geometry_source: ground_truth
   include_reflection: true
+  label_model: configs/label_model_v3.json  # fitted on the train split (docs/LABEL_MODEL_V3.md)
   random_seed: 42
 
 outputs:

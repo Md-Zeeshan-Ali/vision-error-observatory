@@ -3,7 +3,8 @@ from dataclasses import asdict
 import numpy as np
 
 from .config import ExperimentConfig
-from .features import FeatureParams, compute_feature_maps, region_features
+from .features import FeatureParams, compute_feature_maps, error_context_features, region_features
+from .label_model import load_label_model
 from .metrics import align_scale_shift, compute_error_map, compute_metrics, compute_ratio_map
 from .regions import extract_failure_regions
 from .scoring import classify
@@ -64,16 +65,17 @@ def analyze_sample(
         raise ValueError(f"Unknown geometry_source: {config.geometry_source}")
     maps = compute_feature_maps(rgb, geometry, FeatureParams.from_config(config)) if regions else None
     settings = asdict(config)
+    label_model = load_label_model(config.label_model)
     result_regions = []
     for region in regions:
-        features = region_features(maps, region["mask"])
+        features = {**region_features(maps, region["mask"]), **error_context_features(region["mask"], aligned_prediction, target)}
         result_regions.append({
             "region_id": region["region_id"],
             "bbox": region["bbox"],
             "area": region["area"],
             "mean_error": region["mean_error"],
             "features": features,
-            **classify(features, config.include_reflection, settings),
+            **(label_model.classify(features, settings) if label_model else classify(features, config.include_reflection, settings)),
         })
     return {
         "metrics": metrics,

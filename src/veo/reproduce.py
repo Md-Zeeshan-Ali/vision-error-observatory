@@ -17,6 +17,7 @@ from .config import Config, DatasetConfig, OutputConfig, load_config
 from .data import discover_manifest, load_depth
 from .fixtures import SyntheticDisparityPredictor, write_fixture_mat, write_fixture_splits
 from .inference import PrecomputedPredictor
+from .label_model import model_fingerprint
 from .nyu_dataset import create_scene_splits, extract_split, official_splits
 from .provenance import config_hash
 from .reports import write_result
@@ -229,7 +230,8 @@ def reproduce(
     elif mat_path is None or not mat_path.exists():
         raise FileNotFoundError(f"NYU labelled .mat not found at {mat_path}. Download it with: veo download-nyu")
     base = load_config(config_path)
-    key = config_hash({"config": asdict(base), "models": list(model_ids), "seed": seed, "fixture": fixture,
+    key = config_hash({"config": asdict(base), "primary_model": model_ids[0], "seed": seed, "fixture": fixture,
+                       "label_model": model_fingerprint(base.experiment.label_model),
                        "data": [mat_path.name, mat_path.stat().st_size]})
 
     print(f"[1/5] Extracting the test split from {mat_path}", flush=True)

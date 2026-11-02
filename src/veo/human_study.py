@@ -163,6 +163,13 @@ def analyze(manifest: dict, raters: list[dict], calibration: dict | None = None,
         "veo_vs_consensus": {**report, "bootstrap": bootstrap},
         "multilabel": multilabel,
     }
+    rule_labels = {i: classify(items[i]["features"], True)["top_cause"] for i in primary if "grad_energy" in items[i]["features"]}
+    if rule_labels:
+        rule_pairs = {i: (consensus[i], label, pairs[i][2]) for i, label in rule_labels.items()}
+        result["v2_rules_vs_consensus"] = {
+            **agreement_report([rule_pairs[i][0] for i in sorted(rule_pairs)], [rule_pairs[i][1] for i in sorted(rule_pairs)]),
+            "bootstrap": {"accuracy": _cluster_bootstrap(rule_pairs, scene_of, _accuracy, replicates, seed)},
+        }
     if calibration and calibration.get("models"):
         calibrated = {i: calibrated_label(items[i]["features"], calibration["models"]) for i in primary}
         calibrated_pairs = {i: (consensus[i], calibrated[i], pairs[i][2]) for i in primary}

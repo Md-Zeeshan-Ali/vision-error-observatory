@@ -37,16 +37,16 @@ from veo.runner import load_sample
 FIXTURE_MODEL = "synthetic-disparity"
 TESTS = {
     # name: (selects labelled regions, selects control candidates, edit)
-    "texture": (lambda r: r["top_cause"] == "textureless", lambda r: r["scores"]["textureless"] < 0.3, "texture"),
-    "exposure": (lambda r: r["top_cause"] == "poor_lighting", lambda r: r["scores"]["poor_lighting"] == 0.0, "brighten"),
+    "texture": (lambda r: r["top_cause"] == "textureless", lambda r: "textureless" not in r["labels"], "texture"),
+    "exposure": (lambda r: r["top_cause"] == "poor_lighting", lambda r: "poor_lighting" not in r["labels"], "brighten"),
     "resolution_boundary": (
         lambda r: r["top_cause"] == "boundary_mixing",
-        lambda r: r["scores"]["boundary_mixing"] < 0.3 and r["scores"]["thin_object"] < 0.3,
+        lambda r: not {"boundary_mixing", "thin_object"} & set(r["labels"]),
         "resolution",
     ),
     "resolution_thin": (
         lambda r: "thin_object" in r["labels"],
-        lambda r: r["scores"]["thin_object"] == 0.0 and r["scores"]["boundary_mixing"] < 0.3,
+        lambda r: not {"boundary_mixing", "thin_object"} & set(r["labels"]),
         "resolution",
     ),
 }

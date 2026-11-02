@@ -103,8 +103,17 @@ def agreement_report(reference: list[str], predicted: list[str], abstain_label: 
     return report
 
 
-def ablation_change(records: list[dict], dropped_signal: str, include_reflection: bool = True) -> dict[str, int]:
-    if dropped_signal not in NEUTRAL_VALUES:
+def model_neutral_values(label_model) -> dict[str, float]:
+    """Each feature of a fitted label model at its training mean, plus the rule-based lighting signals."""
+    neutral = {name: NEUTRAL_VALUES[name] for name in ("brightness", "clipped_fraction")}
+    for model in label_model.categories.values():
+        neutral.update(zip(model["features"], model["mean"], strict=True))
+    return neutral
+
+
+def ablation_change(records: list[dict], dropped_signal: str, include_reflection: bool = True, label_model=None, settings: dict | None = None) -> dict[str, int]:
+    neutral_values = model_neutral_values(label_model) if label_model else NEUTRAL_VALUES
+    if dropped_signal not in neutral_values:
         raise ValueError(f"Unsupported ablation signal: {dropped_signal}")
     changed = 0
     total = 0
@@ -113,8 +122,8 @@ def ablation_change(records: list[dict], dropped_signal: str, include_reflection
             features = dict(region["features"])
             if dropped_signal not in features:
                 continue
-            features[dropped_signal] = NEUTRAL_VALUES[dropped_signal]
-            new_label = classify(features, include_reflection)["top_cause"]
+            features[dropped_signal] = neutral_values[dropped_signal]
+            new_label = label_model.classify(features, settings)["top_cause"] if label_model else classify(features, include_reflection)["top_cause"]
             changed += new_label != region["top_cause"]
             total += 1
     return {"changed_regions": changed, "total_regions": total}
