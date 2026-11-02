@@ -10,13 +10,6 @@
 [![Paper](https://img.shields.io/badge/Paper-IEEE%20Format%20(5%2C020%20Words)-darkblue.svg)](paper/VEO_conference_paper.pdf)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
-
-**Anshuman Chakravorty**, **Zeeshan Ali**, and **Omer Faraz**  
-*Faculty Mentors:* **Prof. Anshi Bajaj** (Artificial Intelligence) & **Dr. Amit Saini** (Mathematics)  
-*School of Technology Management and Engineering (STME), SVKM’s NMIMS University, Hyderabad, India*  
-*Contact Email:* `anshumanchakravorty10@gmail.com`
-
 </div>
 
 ---
@@ -174,22 +167,6 @@ uv run python scripts/compute_human_agreement.py
 ```powershell
 uv run python scripts/build_final_word_paper.py
 # Generates paper/VEO_conference_paper.docx with active citation bookmarks and 9 styled tables
-```
-
----
-
-## Citation
-
-If you find the Vision Error Observatory (VEO) framework or empirical findings useful in your research, please cite:
-
-```bibtex
-@inproceedings{chakravorty2026veo,
-  title={Vision Error Observatory (VEO): A Model-Agnostic Diagnostic and Observability Framework for Failure Analysis in Monocular Depth Estimation},
-  author={Chakravorty, Anshuman and Ali, Zeeshan and Faraz, Omer},
-  booktitle={IEEE International Conference on Artificial Intelligence Trends and Pattern Recognition (ICAITPR)},
-  year={2026},
-  address={Hyderabad, India}
-}
 ```
 
 ---
