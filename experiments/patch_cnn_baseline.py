@@ -13,7 +13,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from veo.calibration import bootstrap_auroc, _label_metrics, build_rows, silver_matrix
+from veo.calibration import _label_metrics, bootstrap_auroc, build_rows, silver_matrix
 from veo.config import config_from_dict
 from veo.data import load_rgb
 from veo.reports import write_result
