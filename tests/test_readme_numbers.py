@@ -100,8 +100,8 @@ def _readme_rows() -> list[str]:
         rows.append(f"| {title} | {signed(d['mean'])} [{signed(d['lower'])}, {signed(d['upper'])}] | {p_value} |")
     finetune = _results("finetune", "guided_finetune.json")
     means = finetune["condition_means"]
-    for name, title, outcome, veo, control in (("boundary", "`boundary_mixing`", "abs_rel_boundary_mixing", "veo_boundary", "random_boundary"),
-                                               ("textureless", "`textureless`", "abs_rel_textureless", "veo_textureless", "random_textureless")):
+    for name, outcome, veo, control in (("boundary", "abs_rel_boundary_mixing", "veo_boundary", "random_boundary"),
+                                               ("textureless", "abs_rel_textureless", "veo_textureless", "random_textureless")):
         row = finetune["primary"][name]
         assert not row["supported"]
         rows.append(f"| {means[veo][outcome]:.3f} | {means[control][outcome]:.3f} | {row['mean']:+.3f} [{row['lower']:+.3f}, {row['upper']:+.3f}] | No |")
