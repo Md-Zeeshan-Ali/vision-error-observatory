@@ -1,4 +1,4 @@
-"""The README's v1 numbers must match the committed result files."""
+"""The v1 record's numbers must match the committed result files."""
 
 import json
 from pathlib import Path
@@ -7,7 +7,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[1]
 V1 = REPO / "results" / "v1"
-README = (REPO / "README.md").read_text(encoding="utf-8")
+V1_RECORD = (REPO / "docs" / "V1_RESULTS.md").read_text(encoding="utf-8")
 
 
 def _json(name: str) -> dict:
@@ -48,5 +48,5 @@ def _expected() -> list[str]:
 
 
 @pytest.mark.parametrize("text", _expected())
-def test_readme_states_result_file_numbers(text):
-    assert text in README
+def test_v1_record_states_result_file_numbers(text):
+    assert text in V1_RECORD

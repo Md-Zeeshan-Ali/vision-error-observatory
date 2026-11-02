@@ -19,7 +19,6 @@ def test_server():
         ("OrbitControls.js", "http://localhost:8000/assets/js/OrbitControls.js"),
         ("FontAwesome CSS", "http://localhost:8000/assets/fontawesome/all.min.css"),
         ("VEO Redesign Data JS", "http://localhost:8000/data/app_data_v2.js"),
-        ("Architecture Poster", "http://localhost:8000/assets/fig1_veo_architecture.png"),
     ]
     
     all_passed = True

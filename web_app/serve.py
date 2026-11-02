@@ -3,7 +3,6 @@ Vision Error Observatory (VEO) - High-Performance Local HTTP Server
 Features:
 - Seamless byte-range support (HTTP 206 Partial Content) for smooth MP4 video playback & seeking
 - MIME type mapping (mp4, css, js, json, svg, woff2, ico)
-- Fallback route alias for legacy links (/figures/* -> /assets/*)
 - Automatic port fallback (8000 -> 8001 -> 8080) if port is in use
 - Zero external dependencies; runs on standard library
 """
@@ -46,7 +45,7 @@ class VEORequestHandler(http.server.SimpleHTTPRequestHandler):
 
     @staticmethod
     def contained(path: Path) -> Path | None:
-        # Resolve and reject anything that escapes DIRECTORY (e.g. "/figures/..%2f..%2fetc")
+        # Resolve and reject anything that escapes DIRECTORY (e.g. "/assets/..%2f..%2fetc")
         resolved = path.resolve()
         try:
             resolved.relative_to(DIRECTORY)
@@ -70,14 +69,6 @@ class VEORequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Location", "/index.html")
             self.end_headers()
             return
-
-        # Fallback aliases to prevent 404s on legacy or cached links
-        for prefix in ("/figures/",):
-            if clean_path.startswith(prefix):
-                target = self.contained(DIRECTORY / "assets" / clean_path[len(prefix):])
-                if target is not None and target.is_file():
-                    self.serve_file(target, head_only=head_only)
-                    return
 
         # Handle regular files with byte-range support for videos
         target = self.contained(DIRECTORY / clean_path.lstrip("/"))
