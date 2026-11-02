@@ -199,6 +199,7 @@ def reproduce(
     device: str = "auto",
     seed: int = 42,
     fresh: bool = False,
+    extra_models: tuple[str, ...] = (),
 ) -> Path:
     """Run every stage; an interrupted run resumes from its checkpoints when called again.
 
@@ -260,6 +261,18 @@ def reproduce(
             primary_results = config.outputs.directory / "model_results.json"
             primary_model, primary_slug, primary_config = model_id, slug, config
 
+    for model_id in extra_models:
+        # Analysis only: enough for the model comparison, and it keeps predictions off the disk
+        slug = _slug(model_id)
+        config = _split_config(base, split_dir, outputs / slug, split_name, eval_crop)
+        print(f"[2/5] Predicting and analyzing with {model_id} (no panels or saved predictions)", flush=True)
+        run_model(config, model_id, device, save_panels=False, save_predictions=False)
+        (results / slug).mkdir(exist_ok=True)
+        shutil.copyfile(config.outputs.directory / "summary.json", results / slug / "summary.json")
+    if len(model_ids) + len(extra_models) > 1:
+        comparison_key = config_hash({"key": key, "models": sorted((*model_ids, *extra_models))})
+        _experiment_stage(stages, comparison_key, results / "model_comparison.json", "compare_models.py", "--root", outputs)
+
     print("[3/5] Running experiments on the primary model", flush=True)
     primary_predictions = primary_results.parent / "predictions"
     _experiment_stage(stages, key, results / "signal_ablation.json", "signal_ablation.py", "--results-path", primary_results)
@@ -289,6 +302,11 @@ def reproduce(
         _experiment_stage(
             stages, key, results / primary_slug / "silver_calibration.json", "silver_calibration.py",
             "--train-results", train_results, "--test-results", primary_results,
+        )
+        _experiment_stage(
+            stages, key, results / primary_slug / "patch_cnn.json", "patch_cnn_baseline.py",
+            "--train-results", train_results, "--test-results", primary_results,
+            "--checkpoints", results / primary_slug / "silver_calibration", "--device", device, *(["--epochs", "2"] if fixture else []),
         )
 
     print("[5/5] Writing summary", flush=True)

@@ -106,6 +106,7 @@ def main() -> None:
     parser.add_argument("--per-stratum", type=int, default=40)
     parser.add_argument("--random-count", type=int, default=60)
     parser.add_argument("--practice-count", type=int, default=20)
+    parser.add_argument("--extra-models", nargs="+", help="reproduce: more models, analysed for the comparison only")
     parser.add_argument("--fresh", action="store_true", help="reproduce: discard results and analysis checkpoints first")
     parser.add_argument("--retries", type=int, default=3, help="reproduce: resume automatically this many times after an error")
     parser.add_argument("--retry-wait", type=float, default=60.0, help="reproduce: seconds to wait before resuming")
@@ -127,6 +128,7 @@ def main() -> None:
                 device=args.device,
                 seed=args.seed,
                 fresh=args.fresh and attempt == 1,  # retries resume rather than start over
+                extra_models=tuple(args.extra_models or ()),
             ),
             args.retries,
             args.retry_wait,

@@ -23,9 +23,11 @@ SCENE_URL = "https://docs-assets.developer.apple.com/ml-research/datasets/hypers
 SPLIT_CSV_URL = "https://raw.githubusercontent.com/apple/ml-hypersim/main/evermotion_dataset/analysis/metadata_images_split_scene_v1.csv"
 CAMERA_CSV_URL = "https://raw.githubusercontent.com/apple/ml-hypersim/main/contrib/mikeroberts3000/metadata_camera_parameters.csv"
 FINAL = ("color", "residual")
-GEOMETRY = ("depth_meters", "semantic")
+GEOMETRY = ("depth_meters", "semantic", "semantic_instance")
 # NYU40 ids used by Hypersim's semantic labels
 REFLECTIVE_NYU40 = {9: "window", 19: "mirror", 25: "television", 30: "whiteboard"}
+# The same class groups as veo.silver, in NYU40 ids: wall, floor, ceiling, floor mat; wall, ceiling
+SILVER_GROUPS = {"reflective": set(REFLECTIVE_NYU40), "structure": {1, 2, 22, 20}, "flat": {1, 22}}
 
 
 def standard_camera_scenes(camera_csv: Path) -> set[str]:
@@ -115,5 +117,7 @@ def load_frame(cache: Path, scene: str, camera: str, frame: int) -> dict:
     depth = load_depth(frame_path(cache, scene, camera, frame, "depth_meters"))
     with h5py.File(frame_path(cache, scene, camera, frame, "semantic"), "r") as handle:
         semantic = np.asarray(handle["dataset"], dtype=np.int32)
+    with h5py.File(frame_path(cache, scene, camera, frame, "semantic_instance"), "r") as handle:
+        instance = np.asarray(handle["dataset"], dtype=np.int32)
     specular = np.abs(rgb.astype(np.float32) - rgb_diffuse.astype(np.float32)).mean(axis=2)
-    return {"rgb": rgb, "rgb_diffuse": rgb_diffuse, "depth": depth, "semantic": semantic, "specular": specular}
+    return {"rgb": rgb, "rgb_diffuse": rgb_diffuse, "depth": depth, "semantic": semantic, "instance": instance, "specular": specular}

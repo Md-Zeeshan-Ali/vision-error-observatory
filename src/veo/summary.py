@@ -266,7 +266,37 @@ def _hypersim(result: dict) -> list[str]:
     change = result.get("global_abs_rel_change")
     if change and change.get("n", 0) >= 2:
         lines.append(f"- Whole-image AbsRel change: {change['mean']:+.4f} [{change['lower']:+.4f}, {change['upper']:+.4f}]")
+    check = result.get("external_label_check")
+    if check:
+        lines += ["", "External check of the labels (Hypersim annotations; v3 was fitted on NYU and not refitted):", "",
+                  "| Category | Positives | AUROC v2 rules | AUROC v3 model | P / R / F1 v3 model |", "|---|---|---|---|---|"]
+        for category, entry in check["categories"].items():
+            lines.append(f"| `{category}` | {entry['positives']:,} ({_pct(entry['prevalence'])}) | {_auroc_cell(entry['hand_set'])} | "
+                         f"{_auroc_cell(entry.get('label_model'))} | {_f1_cell(entry.get('label_model'))} |")
     return lines + [""]
+
+
+def _patch_cnn(result: dict) -> list[str]:
+    if "categories" not in result:
+        return []
+    lines = ["## Small CNN on region patches (learned reference, test split)", "", "| Category | AUROC | P / R / F1 |", "|---|---|---|"]
+    for category, entry in result["categories"].items():
+        lines.append(f"| `{category}` | {_auroc_cell(entry)} | {_f1_cell(entry)} |")
+    return lines + [""]
+
+
+def _model_comparison(result: dict) -> list[str]:
+    lines = ["## Model comparison (scene-level paired tests, Holm-corrected within each contrast)", ""]
+    for name, contrast in result["contrasts"].items():
+        lines += [f"**{name}**: {contrast['first']} minus {contrast['second']} ({contrast['scenes']} scenes)", "",
+                  "| Outcome | First | Second | Difference [95% CI] | p (Holm) | Reliable |", "|---|---|---|---|---|---|"]
+        for outcome, row in contrast["outcomes"].items():
+            lines.append(f"| {outcome} | {row['first_mean']:.4f} | {row['second_mean']:.4f} | {row['mean']:+.4f} [{row['lower']:+.4f}, {row['upper']:+.4f}] | "
+                         f"{row['p_holm']:.4f} | {'yes' if row['reliable'] else 'no'} |")
+        lines.append("")
+    if result.get("skipped"):
+        lines += [f"Not run (models missing): {', '.join(result['skipped'])}", ""]
+    return lines
 
 
 def write_summary_markdown(results_dir: Path) -> Path:
@@ -291,6 +321,9 @@ def write_summary_markdown(results_dir: Path) -> Path:
         silver = _load(model_dir / "silver_calibration.json")
         if silver:
             lines += _silver(silver)
+        cnn = _load(model_dir / "patch_cnn.json")
+        if cnn:
+            lines += _patch_cnn(cnn)
         agreement = _load(model_dir / "geometry_agreement.json")
         if agreement and agreement.get("regions"):
             lines += _geometry_agreement(agreement)
@@ -300,6 +333,7 @@ def write_summary_markdown(results_dir: Path) -> Path:
         ("scoring_sanity_check.json", _sanity),
         ("oracle_boundary_filter.json", _oracle),
         ("hypersim_reflection.json", _hypersim),
+        ("model_comparison.json", _model_comparison),
     ]
     for filename, render in sections:
         result = _load(results_dir / filename)

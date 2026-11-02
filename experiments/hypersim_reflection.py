@@ -18,15 +18,25 @@ import numpy as np
 from scipy.stats import spearmanr
 from sklearn.metrics import roc_auc_score
 
+from veo.calibration import evaluate
 from veo.checkpoint import JsonlLog, resumed
 from veo.config import load_config
 from veo.data import make_valid_mask
-from veo.hypersim import REFLECTIVE_NYU40, ensure_metadata, fetch_frames, load_frame, select_frames
+from veo.hypersim import (
+    REFLECTIVE_NYU40,
+    SILVER_GROUPS,
+    ensure_metadata,
+    fetch_frames,
+    load_frame,
+    select_frames,
+)
 from veo.interventions import match_controls, paired_statistics, region_error
+from veo.label_model import load_label_model
 from veo.metrics import align_scale_shift, compute_metrics
 from veo.pipeline import analyze_sample, compute_regions
 from veo.provenance import config_hash
 from veo.reports import write_result
+from veo.silver import region_silver, silver_maps
 
 SPECULAR_STRONG = 10.0  # mean grey levels of specular light in a region
 
@@ -105,6 +115,7 @@ def main() -> None:
                        "abs_rel_after": after_metrics["abs_rel"], "specular_mean": float(sample["specular"][valid].mean())})
         analysis = analyze_sample(sample["rgb"], depth, original, valid, experiment)
         masks = {region["region_id"]: region["mask"] for region in compute_regions(depth, original, valid, experiment)["regions"]}
+        silver = silver_maps(np.maximum(sample["semantic"], 0), np.maximum(sample["instance"], 0), depth, SILVER_GROUPS)
         for region in analysis["regions"]:
             mask = masks[region["region_id"]]
             before = region_error(original, depth, valid, mask, space, args.max_depth)
@@ -117,6 +128,7 @@ def main() -> None:
                 "log_area": float(np.log(region["area"])), "mean_error": region["mean_error"],
                 "log_depth": float(np.log(max(region["features"]["mean_depth_m"], 0.1))),
                 "before": before, "after": after, "change": after - before,
+                "features": region["features"], "silver": region_silver(silver, mask),
             })
         log.append(name, {"images": images[image_start:], "rows": rows[row_start:]})
         print(f"  {scene} {camera} {frame}: {analysis['num_regions']} regions, AbsRel {before_metrics['abs_rel']:.4f} -> {after_metrics['abs_rel']:.4f}", flush=True)
@@ -144,8 +156,10 @@ def main() -> None:
             "annotated_reflective_surface": _auroc(rows, lambda row: row["reflective_share"] >= 0.3),
         },
         "global_abs_rel_change": paired_statistics(image_changes, [image["scene"] for image in images], seed=args.seed) if len(images) > 1 else None,
+        # Clean check: the model was fitted on NYU and is not refitted here
+        "external_label_check": evaluate({}, rows, asdict(experiment), label_model=load_label_model(experiment.label_model)),
         "images": images,
-        "rows": rows,
+        "rows": [{key: value for key, value in row.items() if key not in ("features", "silver")} for row in rows],
     }
     write_result(args.output, payload, experiment)
     print(f"Paired (reflection - control): {paired}")

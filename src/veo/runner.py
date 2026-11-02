@@ -128,7 +128,7 @@ def run_precomputed(config: Config, prediction_dir: Path) -> list[dict]:
     )
 
 
-def run_model(config: Config, model_id: str, device: str = "auto", limit: int | None = None, save_panels: bool = True) -> list[dict]:
+def run_model(config: Config, model_id: str, device: str = "auto", limit: int | None = None, save_panels: bool = True, save_predictions: bool = True) -> list[dict]:
     pairs = _pairs(config)
     if limit is not None:
         pairs = pairs[:limit]
@@ -146,7 +146,7 @@ def run_model(config: Config, model_id: str, device: str = "auto", limit: int | 
         predict,
         "model_results.json",
         {"model_id": model_id},
-        save_predictions=True,
+        save_predictions=save_predictions,
         save_panels=save_panels,
     )
 

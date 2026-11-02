@@ -24,8 +24,15 @@ class PrecomputedPredictor:
         return prediction
 
 
+# These checkpoints output metric depth; every other supported model outputs relative disparity
+METRIC_DEPTH_MODELS = {"Intel/zoedepth-nyu-kitti", "apple/DepthPro-hf"}
+
+
 class TransformersDepthPredictor:
+    """Hugging Face depth pipeline; always returns disparity-like values, inverting metric-depth models."""
+
     def __init__(self, model_id: str, device: str = "auto"):
+        self.inverts_output = model_id in METRIC_DEPTH_MODELS
         try:
             import torch
             from transformers import pipeline
@@ -40,7 +47,10 @@ class TransformersDepthPredictor:
         from PIL import Image
 
         result = self._pipe(Image.fromarray(rgb))
-        return self._prediction_from_result(result, rgb.shape[:2])
+        return self._as_disparity(self._prediction_from_result(result, rgb.shape[:2]))
+
+    def _as_disparity(self, prediction: np.ndarray) -> np.ndarray:
+        return 1.0 / np.clip(prediction, 1e-3, None) if self.inverts_output else prediction
 
     @staticmethod
     def _prediction_from_result(result, expected_shape: tuple[int, int]) -> np.ndarray:
@@ -56,7 +66,7 @@ class TransformersDepthPredictor:
 
         results = self._pipe([Image.fromarray(rgb) for rgb in rgb_images], batch_size=batch_size)
         return [
-            self._prediction_from_result(result, rgb.shape[:2])
+            self._as_disparity(self._prediction_from_result(result, rgb.shape[:2]))
             for result, rgb in zip(results, rgb_images, strict=True)
         ]
 
