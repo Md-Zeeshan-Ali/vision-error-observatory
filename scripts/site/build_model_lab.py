@@ -571,7 +571,7 @@ def build_cinematic_lab():
       <div id="cont-card-1" style="background: #FFFFFF; border: 1.5px solid var(--border-subtle); border-radius: 8px; padding: 6px; text-align: center;">
         <span style="font-size: 9.5px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--olive-primary); display: block;">1. RGB PHOTO</span>
         <div style="font-size: 10px; color: var(--text-dark); margin-top: 2px;">480 × 640 × 3</div>
-        <span style="font-size: 8.5px; color: var(--text-muted);">Scene 0049 Living Room</span>
+        <span style="font-size: 8.5px; color: var(--text-muted);">NYU test image</span>
       </div>
       <div id="cont-card-2" style="background: #FFFFFF; border: 1.5px solid var(--border-subtle); border-radius: 8px; padding: 6px; text-align: center;">
         <span style="font-size: 9.5px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--olive-primary); display: block;">2. DINOv2 FEATURES</span>
@@ -1029,7 +1029,7 @@ def build_cinematic_lab():
     };
 
     function initApp() {
-      // Load NYU Scene 0049 from VEO_DATA
+      // Load the first demo scene from VEO_DATA
       if (typeof VEO_DATA !== 'undefined' && VEO_DATA.scenes && VEO_DATA.scenes.length > 0) {
         currentSceneData = VEO_DATA.scenes[0];
       } else {
