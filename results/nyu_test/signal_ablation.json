@@ -1,0 +1,69 @@
+{
+  "rows": [
+    {
+      "signal": "grad_energy",
+      "neutral_value": 8.0,
+      "changed_regions": 807,
+      "total_regions": 6325,
+      "changed_fraction": 0.1275889328063241
+    },
+    {
+      "signal": "depth_edge_fraction",
+      "neutral_value": 0.0,
+      "changed_regions": 4433,
+      "total_regions": 6325,
+      "changed_fraction": 0.7008695652173913
+    },
+    {
+      "signal": "thin_fraction",
+      "neutral_value": 0.0,
+      "changed_regions": 979,
+      "total_regions": 6325,
+      "changed_fraction": 0.15478260869565216
+    },
+    {
+      "signal": "highlight_ratio",
+      "neutral_value": 0.0,
+      "changed_regions": 308,
+      "total_regions": 6325,
+      "changed_fraction": 0.04869565217391304
+    },
+    {
+      "signal": "brightness",
+      "neutral_value": 128.0,
+      "changed_regions": 141,
+      "total_regions": 6325,
+      "changed_fraction": 0.022292490118577073
+    },
+    {
+      "signal": "clipped_fraction",
+      "neutral_value": 0.0,
+      "changed_regions": 229,
+      "total_regions": 6325,
+      "changed_fraction": 0.036205533596837945
+    }
+  ],
+  "provenance": {
+    "created_utc": "2026-10-28T14:27:13+00:00",
+    "git_commit": "ba8999744ffe7b909b5fa00a920e50280fe083ff",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "inputs": {
+      "veo_results": {
+        "path": "outputs\\nyu_test\\depth-anything-v2-small-hf\\model_results.json",
+        "sha256": "2feafe772325ce2277f0126c2fc70f88d590a405b4d1d9a5256f644f252a17e7"
+      }
+    }
+  }
+}
