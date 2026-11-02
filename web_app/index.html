@@ -976,7 +976,7 @@
 
           <!-- Research Mode Technical Region Note -->
           <div class="research-only" style="margin-top: 14px; padding: 10px; background: var(--surface-beige); border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.4;">
-            <strong>Thresholding Protocol:</strong> P85 filter + 8-connectivity component extraction (Area &ge; 25 px).
+            <strong>Thresholding Protocol:</strong> pixels failing &delta;1 + 8-connectivity component extraction (Area &ge; 25 px).
           </div>
         </div>
       </div>
@@ -992,10 +992,10 @@
         </div>
         <div class="research-content">
           <p style="margin-bottom: 8px;">
-            VEO applies a reproducible, adaptive protocol to isolate failure clusters:
+            VEO uses a fixed, absolute rule to isolate failure clusters:
           </p>
           <ol style="margin-left: 20px; margin-bottom: 8px; line-height: 1.6;">
-            <li><strong>Percentile Threshold:</strong> We compute the 85th percentile of valid-pixel relative error across the specific image ($P_{85}$). Pixels above this threshold are marked as candidate errors.</li>
+            <li><strong>Failing Pixels:</strong> A pixel fails when predicted and true depth differ by more than 25% (it fails the standard &delta;1 test). Only pixels the depth sensor actually measured are scored.</li>
             <li><strong>Connected Component Grouping:</strong> Contiguous candidate pixels are grouped into discrete 2D spatial regions using 8-connectivity.</li>
             <li><strong>Noise Pruning:</strong> Regions smaller than 25 pixels ($Area &lt; 25$) are discarded to eliminate single-pixel sensor dropouts and spurious noise.</li>
           </ol>
@@ -1100,7 +1100,7 @@
         <span class="stage-badge">Stage 5 &bull; Evidence & Attribution</span>
         <h2 class="stage-title font-serif">Why Did the Error Occur?</h2>
         <p class="stage-subtitle">
-          VEO analyzes 8 quantitative visual and geometric signals to test which failure hypotheses best match the observable evidence. Remember: correlation with visual properties does not constitute proven causality.
+          VEO measures visual and geometric signals to rank which failure hypotheses best match the observable evidence. Remember: correlation with visual properties does not constitute proven causality.
         </p>
       </div>
 
@@ -1172,9 +1172,9 @@
             VEO explicitly distinguishes between <em>error detection</em>, <em>hypothesis ranking</em>, and <em>causal proof</em>:
           </p>
           <ul style="margin-left: 20px; line-height: 1.6;">
-            <li><strong>Rule-Engine Score:</strong> A heuristic measure of how strongly observable image and depth properties match known failure patterns. It is not an uncalibrated posterior probability.</li>
-            <li><strong>Ambiguity:</strong> When multiple explanations share nearly equal evidence (score margin &Delta;S &lt; 0.15) or top score is weak (&lt; 0.50), VEO assigns the diagnosis as <code>ambiguous</code> to prevent false certainty.</li>
-            <li><strong>Causal Claim Guardrail:</strong> Proving that texturelessness or lighting <em>caused</em> the error requires controlled physical or synthetic interventions (e.g., inpainting texture or injecting photons).</li>
+            <li><strong>Score:</strong> How strongly the region's measurements match a failure pattern, from small models fitted on the NYU train split against object annotations. A score of 0.50 or more means the label applies.</li>
+            <li><strong>Ambiguity:</strong> When no label reaches its threshold, VEO reports <code>ambiguous</code> rather than guessing.</li>
+            <li><strong>Not Causal Proof:</strong> VEO tested its labels by editing images and re-running the model. Only the depth-boundary label gained support, so treat the labels as descriptions of where and how a model fails, not as established causes</li>
           </ul>
         </div>
       </div>
@@ -1839,7 +1839,7 @@
       document.getElementById('s3-area-px').textContent = `${reg.area.toLocaleString()} px`;
       document.getElementById('s3-distance-m').textContent = `${meanSensorM.toFixed(2)} m`;
       document.getElementById('s3-cause-name').textContent = reg.top_cause;
-      document.getElementById('s3-threshold-text').textContent = `P85 = ${(currentSceneData.metrics.threshold * 100).toFixed(1)}%`;
+      document.getElementById('s3-threshold-text').textContent = `Failing: ${(currentSceneData.metrics.failure_pixel_fraction * 100).toFixed(1)}% of pixels`;
 
       // Update Stage 5 Signals (8 Signals)
       document.getElementById('s5-region-badge').textContent = `Region R${reg.region_id}`;
@@ -1848,13 +1848,12 @@
       const f = reg.features;
 
       const signals = [
-        { name: "Texture Variance", val: f.texture_var.toFixed(1), desc: f.texture_var < 200 ? "Low (Featureless Surface)" : "Rich Visual Details" },
-        { name: "Edge Density", val: `${(f.edge_density * 100).toFixed(1)}%`, desc: f.edge_density > 0.10 ? "Strong Boundaries Present" : "Smooth Surface" },
-        { name: "Brightness", val: f.brightness.toFixed(0), desc: f.brightness < 60 ? "Deep Shadow" : f.brightness > 200 ? "Bright Highlight" : "Normal Lighting" },
-        { name: "Contrast Range", val: f.contrast.toFixed(1), desc: f.contrast < 30 ? "Narrow Contrast" : "Sufficient Dynamic Range" },
-        { name: "Highlight Ratio", val: `${(f.highlight_ratio * 100).toFixed(1)}%`, desc: f.highlight_ratio > 0.15 ? "Specular Glare Hotspot" : "Diffuse Surface" },
-        { name: "Aspect Ratio", val: f.aspect_ratio.toFixed(1), desc: f.aspect_ratio > 3.0 ? "Slender Geometry (Pole/Leg)" : "Compact Shape" },
-        { name: "Depth Discontinuity", val: `${f.depth_discontinuity.toFixed(2)}m`, desc: f.depth_discontinuity > 0.3 ? "Silhouette Step Edge" : "Continuous Surface" },
+        { name: "Gradient Energy", val: f.grad_energy.toFixed(1), desc: f.grad_energy < 4 ? "Little Fine Detail" : "Rich Visual Detail" },
+        { name: "Depth-Edge Share", val: `${(f.depth_edge_fraction * 100).toFixed(1)}%`, desc: f.depth_edge_fraction > 0.3 ? "Region Hugs a Depth Edge" : "Away from Depth Edges" },
+        { name: "Thin Structure Share", val: `${(f.thin_fraction * 100).toFixed(1)}%`, desc: f.thin_fraction > 0.15 ? "Near a Thin Object in Depth" : "No Thin Structure" },
+        { name: "Sensor Holes Nearby", val: `${(f.sensor_hole_fraction * 100).toFixed(1)}%`, desc: f.sensor_hole_fraction > 0.1 ? "Sensor Failed Nearby (Glass, Mirror, Dark)" : "Well Measured" },
+        { name: "Signed Error", val: `${(f.signed_error * 100).toFixed(1)}%`, desc: f.signed_error < 0 ? "Predicted Too Near" : "Predicted Too Far" },
+        { name: "Brightness", val: f.brightness.toFixed(0), desc: f.brightness < 50 ? "Deep Shadow" : f.brightness > 200 ? "Very Bright" : "Normal Lighting" },
         { name: "Distance from Sensor", val: `${meanSensorM.toFixed(2)}m`, desc: "Physical reference distance" }
       ];
 
@@ -1874,11 +1873,11 @@
       // Update Stage 5 Narrative Box
       const narr = document.getElementById('s5-narrative-box');
       let narrText = `<strong>What we observed:</strong> `;
-      if (f.highlight_ratio > 0.15) narrText += `High specular highlights (${(f.highlight_ratio*100).toFixed(1)}%) indicating reflective surfaces. `;
-      if (f.texture_var < 200) narrText += `Low texture variance (${f.texture_var.toFixed(1)}) indicating featureless planar drywall. `;
-      if (f.depth_discontinuity > 0.25) narrText += `Sharp depth step discontinuity (${f.depth_discontinuity.toFixed(2)}m) at boundary. `;
-      if (f.aspect_ratio > 3.0) narrText += `Elongated geometry (aspect ratio ${f.aspect_ratio.toFixed(1)}). `;
-      narrText += `<br><span style="color: var(--text-muted); font-size: 11px;">Note: Empirical correlation ranks hypotheses; it does not constitute proven causal necessity.</span>`;
+      if (f.depth_edge_fraction > 0.3) narrText += `${(f.depth_edge_fraction*100).toFixed(0)}% of the region lies next to a depth edge. `;
+      if (f.sensor_hole_fraction > 0.1) narrText += `The depth sensor has no reading for ${(f.sensor_hole_fraction*100).toFixed(0)}% of the surroundings, which is common on glass and mirrors. `;
+      if (f.thin_fraction > 0.15) narrText += `The region touches a thin structure in the true depth. `;
+      if (f.grad_energy < 4) narrText += `The image has little fine detail here. `;
+      narrText += `<br><span style="color: var(--text-muted); font-size: 11px;">Note: these cues rank hypotheses. They are not proof of cause.</span>`;
       narr.innerHTML = narrText;
 
       // Update Stage 5 Hypotheses List
@@ -1910,7 +1909,7 @@
 
       // Update Ambiguity Indicator
       const ambBox = document.getElementById('s5-ambiguity-callout');
-      if (reg.top_cause === 'ambiguous' || reg.score_margin < 0.15) {
+      if (reg.top_cause === 'ambiguous') {
         ambBox.style.background = 'var(--error-light)';
         ambBox.style.borderColor = 'var(--error-terracotta)';
         ambBox.innerHTML = `
@@ -1918,7 +1917,7 @@
             <i class="fa-solid fa-triangle-exclamation" style="margin-right: 4px;"></i> Available Evidence is Inconclusive (Ambiguous)
           </div>
           <div style="color: var(--text-dark);">
-            Score margin is narrow (&Delta;S = ${reg.score_margin.toFixed(2)} &lt; 0.15). Multiple explanations are equally plausible; VEO explicitly reports ambiguity rather than forcing false certainty.
+            No failure hypothesis reaches its threshold, so VEO does not name a cause.
           </div>
         `;
       } else {
@@ -1929,7 +1928,7 @@
             <i class="fa-solid fa-check-circle" style="margin-right: 4px;"></i> Diagnostic Confidence: Distinct Leading Match
           </div>
           <div style="color: var(--text-dark);">
-            Leading explanation (${reg.top_cause}) holds a decisive margin (&Delta;S = ${reg.score_margin.toFixed(2)}) over secondary hypotheses.
+            The evidence best matches ${reg.top_cause}. This is a hypothesis, not a proven cause.
           </div>
         `;
       }

@@ -58,7 +58,7 @@ def test_reproduce_fixture_runs_every_stage(tmp_path):
     assert rules["delta_1.10"]["mean_failure_pixel_fraction"] > rules["delta_1.25 (primary)"]["mean_failure_pixel_fraction"] > rules["delta_1.5625"]["mean_failure_pixel_fraction"]
     agreement = json.loads((results / "synthetic-disparity" / "geometry_agreement.json").read_text(encoding="utf-8"))
     assert agreement["regions"] == sum(rules["delta_1.25 (primary)"]["cause_counts"].values())
-    assert "## Failure-rule sensitivity" in text and "## Ground-truth-free labels" in text
+    assert "## Failure-rule sensitivity" in text and "## Labels with geometry from the aligned prediction" in text
     silver = json.loads((results / "synthetic-disparity" / "silver_calibration.json").read_text(encoding="utf-8"))
     assert silver["train"]["regions"] > 0 and silver["test"]["regions"] == agreement["regions"]
     assert "## Objective (silver) labels" in text

@@ -54,3 +54,9 @@ New features for this rebuild:
 
 1. *Direction of `signed_error`.* This document expected positive values on reflective surfaces (the model seeing the scene behind them). The fit gives a negative coefficient: predictions on these surfaces are too near. The feature stays, since selection follows AUROC. A possible explanation, not established here: on mirrors and windows the sensor may measure through or into the reflection, so the "truth" lies behind the surface while the model predicts the surface. If so, some reflection "failures" are ground-truth errors rather than model errors.
 2. *Where the labels no longer apply.* `thin_evidence` (protocol v2, amendment 2) only applies to the hand-set rules. The v3 model always uses both thin cues.
+
+**2026-11-02, after NYU test scoring:**
+
+3. *Prediction-geometry mode is not ground-truth-free.* Its agreement with the audit rose to 78.5%, but v3 uses `signed_error` and `sensor_hole_fraction`, which need the error target, and regions always did. This mode only shows how much labels depend on true geometry. A ground-truth-free label model is still to be built.
+4. *Controls in the interventions changed.* Choosing controls by "no such label" replaced v2 score cut-offs because the labels changed. With it, `resolution_boundary` moved from unsupported to supported (difference -0.009, Holm p = 0.003). Since this design change was made after the earlier null result, the outcome is exploratory, not confirmatory.
+

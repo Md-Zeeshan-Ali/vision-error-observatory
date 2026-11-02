@@ -1194,7 +1194,7 @@ def generate_experience_html():
           <ul style="margin-left: 20px; line-height: 1.6;">
             <li><strong>Score:</strong> How strongly the region's measurements match a failure pattern, from small models fitted on the NYU train split against object annotations. A score of 0.50 or more means the label applies.</li>
             <li><strong>Ambiguity:</strong> When no label reaches its threshold, VEO reports <code>ambiguous</code> rather than guessing.</li>
-            <li><strong>Not Causal Proof:</strong> VEO tested its labels by editing images and re-running the model. Those tests did not confirm the labels as causes, so treat them as descriptions of where and how a model fails</li>
+            <li><strong>Not Causal Proof:</strong> VEO tested its labels by editing images and re-running the model. Only the depth-boundary label gained support, so treat the labels as descriptions of where and how a model fails, not as established causes</li>
           </ul>
         </div>
       </div>
@@ -1897,7 +1897,7 @@ def generate_experience_html():
       if (f.sensor_hole_fraction > 0.1) narrText += `The depth sensor has no reading for ${(f.sensor_hole_fraction*100).toFixed(0)}% of the surroundings, which is common on glass and mirrors. `;
       if (f.thin_fraction > 0.15) narrText += `The region touches a thin structure in the true depth. `;
       if (f.grad_energy < 4) narrText += `The image has little fine detail here. `;
-      narrText += `<br><span style="color: var(--text-muted); font-size: 11px;">Note: these cues rank hypotheses. In VEO's tests, editing the image did not confirm them as causes.</span>`;
+      narrText += `<br><span style="color: var(--text-muted); font-size: 11px;">Note: these cues rank hypotheses. They are not proof of cause.</span>`;
       narr.innerHTML = narrText;
 
       // Update Stage 5 Hypotheses List

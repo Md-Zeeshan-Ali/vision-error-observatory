@@ -169,9 +169,11 @@ def _silver(result: dict) -> list[str]:
 
 def _geometry_agreement(result: dict) -> list[str]:
     lines = [
-        "## Ground-truth-free labels (geometry from the aligned prediction)",
+        "## Labels with geometry from the aligned prediction",
         "",
-        f"- Same top label as the ground-truth audit on {_pct(result['top_cause_agreement'])} of {result['regions']:,} regions "
+        "Not usable without ground truth: regions, signed error and sensor holes still come from the error target.",
+        "",
+        f"- Same top label as with true geometry on {_pct(result['top_cause_agreement'])} of {result['regions']:,} regions "
         f"(κ = {result['top_cause_kappa']:.3f})",
         "",
         "| Label | Regions (audit) | Regions (prediction only) | Both |",
