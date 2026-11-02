@@ -170,19 +170,6 @@ scripts/site/  builders for the web app and video
 | [Human study](docs/HUMAN_STUDY_PROTOCOL.md) · [Rater guideline](docs/RATER_GUIDELINE.md) | Pre-registered analysis and rater instructions |
 | [v1 results](docs/V1_RESULTS.md) · [v1 errata](docs/ERRATA_V1.md) | The original study and what was corrected |
 
-## Authors
-
-Anshuman Chakravorty, Zeeshan Ali and Omer Faraz, with faculty mentors Prof. Anshi Bajaj and Dr. Amit Saini, School of Technology Management and Engineering, SVKM's NMIMS University, Hyderabad.
-
-```bibtex
-@software{chakravorty2026veo,
-  title  = {Vision Error Observatory: Failure Analysis for Monocular Depth Estimation},
-  author = {Chakravorty, Anshuman and Ali, Zeeshan and Faraz, Omer},
-  year   = {2026},
-  url    = {https://github.com/MdZeeshanAli01/VEO_V2}
-}
-```
-
 ## License
 
 [MIT](LICENSE)
