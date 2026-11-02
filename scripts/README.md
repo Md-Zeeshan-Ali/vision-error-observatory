@@ -11,4 +11,4 @@ Analysis lives in `src/veo` and the per-result experiments live in [`experiments
 
 Run every script from the repository root, for example `uv run python scripts/site/export_data.py`.
 
-`web_app/veo_explainer.mp4` and `web_app/data/app_data_v2.js` are not in git; they are assets of the `site-assets-v1` GitHub release, downloaded by `python web_app/fetch_assets.py` (the Dockerfile runs it at build time). After regenerating either file, publish it as a new release (for example `site-assets-v2`) and update `RELEASE` and the SHA-256 values in `web_app/fetch_assets.py`; `tests/test_fetch_assets.py` fails if the checksums and the local files disagree.
+`web_app/veo_explainer.mp4` and `web_app/data/app_data_v2.js` are not in git; they are assets of the `site-assets-v2` GitHub release, downloaded by `python web_app/fetch_assets.py` (the Dockerfile runs it at build time). After regenerating either file, publish it as a new release (for example `site-assets-v3`) and update `RELEASE` and the SHA-256 values in `web_app/fetch_assets.py`; `tests/test_fetch_assets.py` fails if the checksums and the local files disagree.

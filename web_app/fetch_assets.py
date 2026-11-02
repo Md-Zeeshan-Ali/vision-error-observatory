@@ -13,11 +13,11 @@ import sys
 import urllib.request
 from pathlib import Path
 
-RELEASE = "https://github.com/MdZeeshanAli01/VEO_V2/releases/download/site-assets-v1"
+RELEASE = "https://github.com/MdZeeshanAli01/VEO_V2/releases/download/site-assets-v2"
 WEB_ROOT = Path(__file__).resolve().parent
 ASSETS = {
-    "veo_explainer.mp4": "bd66d4ff0722fe1e2c250da172b78165d3462102388df7e659e1bbcd6321ec56",
-    "data/app_data_v2.js": "e1d6b5ce3e82b3371a20b8093a3cf203a274b75cafc73caaaf31cb864da11d4b",
+    "veo_explainer.mp4": "a4decc3920ded3e2116f8232a7872544d2c479ff1fc2c0320c8f2510da5cf58d",
+    "data/app_data_v2.js": "52e41dece1719031893dd5ff6d41415e73206837855057bd2586fb34a803d4cd",
 }
 
 

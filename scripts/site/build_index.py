@@ -574,7 +574,7 @@ def generate_experience_html():
         </div>
         <div>
           <h1 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark); line-height: 1.2;">
-            Vision Error Observatory <span style="font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--text-muted); margin-left: 6px;">VEO v2.4</span>
+            Vision Error Observatory <span style="font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--text-muted); margin-left: 6px;">VEO v3</span>
           </h1>
           <p style="font-size: 12px; color: var(--text-muted);">
             Scientific Monocular Depth-Estimation Failure Diagnosis

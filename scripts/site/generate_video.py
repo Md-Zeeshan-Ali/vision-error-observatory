@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-def create_slide_image(width, height, bg_color, header_bg, title, subtitle, bullets, callout=None, footer="Vision Error Observatory (VEO) - Capstone Research"):
+def create_slide_image(width, height, bg_color, header_bg, title, subtitle, bullets, callout=None, footer="Vision Error Observatory (VEO)"):
     img = Image.new("RGB", (width, height), bg_color)
     draw = ImageDraw.Draw(img)
 
@@ -59,7 +59,6 @@ def main():
     out_dir = Path("web_app")
     out_dir.mkdir(exist_ok=True)
     video_path = out_dir / "veo_explainer.mp4"
-    outputs_path = Path("outputs") / "veo_explainer_video.mp4"
 
     width, height = 1280, 720
     fps = 30
@@ -80,91 +79,86 @@ def main():
         # Slide 1: The Leaderboard Illusion
         {
             "header_bg": c_blue,
-            "title": "SCENE 1: THE LEADERBOARD ILLUSION",
-            "subtitle": "Why Standard Benchmark Metrics (AbsRel = 0.10) Obscure Critical Model Failures",
+            "title": "SCENE 1: ONE NUMBER HIDES A LOT",
+            "subtitle": "A good average says little about where and why a depth model fails",
             "bullets": [
-                ("The Leaderboard Claim:", "Depth Anything V2 achieves an impressive 0.1040 AbsRel and 89.7% delta1."),
-                ("The Statistical Flaw:", "Global scalars collapse millions of 3D pixel errors into a single monolithic average."),
-                ("The Hidden Hazard:", "Catastrophic localized failures on glass, thin legs, and flat walls are completely concealed."),
-                ("The Deployment Risk:", "Autonomous robots and AR systems crash because models misjudge local obstacles by 2+ meters.")
+                ("The Average:", "Depth Anything V2 Small scores AbsRel 0.051 and delta1 97.3% on NYU Depth V2."),
+                ("What It Hides:", "2.7% of pixels still fail, in 6,325 regions across 654 test images."),
+                ("The Question:", "Where do these failures sit, and what in the scene goes with them?")
             ],
             "callout": (
-                "THE PROBLEM:",
-                "A model can achieve a top leaderboard ranking while having localized 3-meter depth errors on obstacles.",
+                "THE GOAL:",
+                "Turn one score into a map of failure regions, with explanations that can be checked.",
                 c_red, (255, 240, 240)
             ),
             "duration_sec": 7
         },
-        # Slide 2: The Critical Gaps
-        {
-            "header_bg": c_red,
-            "title": "SCENE 2: THE CRITICAL OBSERVABILITY GAP",
-            "subtitle": "What Current Computer Vision Tools Fail to Tell You",
-            "bullets": [
-                ("Traditional Metrics (RMSE / MAE):", "Give only scalar scores — they cannot answer WHERE or WHY a model failed."),
-                ("Feature Saliency (Grad-CAM / RISE):", "Highlight internal neural activations, NOT physical geometric failure causes."),
-                ("The Polarity Reversal Trap:", "Naive direct regression inverts physical 3D geometry (s < 0 in 244/244 test scenes)."),
-                ("Black-Box Diagnosis:", "Dense error localization is rarely paired with interpretable, per-region cause hypotheses.")
-            ],
-            "callout": (
-                "THE RESEARCH GAP:",
-                "We need an external, post-hoc 'Observatory' that audits depth models like an MRI scanner—diagnosing root causes.",
-                c_blue, (240, 245, 255)
-            ),
-            "duration_sec": 7
-        },
-        # Slide 3: The VEO Paradigm & 5 Modules
         {
             "header_bg": c_amber,
-            "title": "SCENE 3: THE VISION ERROR OBSERVATORY (VEO)",
-            "subtitle": "A Model-Agnostic 5-Stage Diagnostic & Observability Framework",
+            "title": "SCENE 2: WHAT VEO DOES",
+            "subtitle": "A model-agnostic audit of any depth prediction",
             "bullets": [
-                ("Module M1 (Inverse Alignment):", "Fits scale-shift in 1/D space, matching disparity output (s > 0 in 244/244 scenes)."),
-                ("Module M2 (Dense Error Maps):", "Computes dense relative residuals |D_pred - D_gt| / D_gt across all valid metric pixels."),
-                ("Module M3 (Region Segmentation):", "Adaptive 85th-percentile error thresholding with 8-connectivity morphological clustering."),
-                ("Module M4 (7 Evidence Signals):", "Extracts Texture Variance, Canny Edge Density, Brightness, Contrast, Highlights, AR, and Discontinuity."),
-                ("Module M5 (Cause Attribution):", "Hand-set rule-based scores with an ambiguity gate (abstain if top < 0.40 or margin < 0.10).")
+                ("1. Align:", "Fit each prediction to measured depth in disparity space."),
+                ("2. Find Failures:", "Group pixels failing the delta1 test, on sensor-measured pixels only."),
+                ("3. Measure:", "Compute image and geometry cues for each failure region."),
+                ("4. Label:", "Small interpretable models name a likely cause, or abstain."),
+                ("5. Test:", "Edit the image, re-run the model, and check whether the error responds.")
             ],
             "callout": (
-                "THE VEO SOLUTION:",
-                "VEO isolates structured error clusters and attributes them to 7 physical categories: textureless, boundary, reflection, etc.",
+                "THE DESIGN:",
+                "Rules were fixed before results, and every reported number is computed by code.",
                 c_green, (240, 253, 245)
             ),
             "duration_sec": 8
         },
-        # Slide 4: Empirical Validation Proofs
         {
             "header_bg": c_green,
-            "title": "SCENE 4: V1 RESULTS AND LIMITATIONS",
-            "subtitle": "244 NYU Depth V2 Test Images (custom scene-disjoint split)",
+            "title": "SCENE 3: WHAT HELD UP",
+            "subtitle": "Against NYU annotations, synthetic Hypersim scenes and model re-runs",
             "bullets": [
-                ("Human Agreement (N=50):", "kappa vs VEO = 0.26 / 0.14, accuracy 36%; inter-rater kappa = 0.35."),
-                ("Where VEO Commits (29/50):", "58.6% accuracy vs 41.4% majority baseline. Textureless 7/8 correct, reflection 0/7."),
-                ("Scoring Sanity Check:", "Adding noise drops the textureless score 0.646 -> 0.000; checks the formula, not the model."),
-                ("Oracle Boundary Filtering:", "-0.35% regional AbsRel over 207 scenes, using ground-truth masks (not deployable).")
+                ("Depth Boundaries:", "AUROC 0.85 on NYU and 0.81 on Hypersim, a dataset it never saw."),
+                ("Thin Objects:", "AUROC 0.73 on NYU and 0.81 on Hypersim."),
+                ("Higher Resolution:", "Helps boundary regions more than matched controls (exploratory)."),
+                ("Model Size:", "Larger Depth Anything models reliably reduce error: 0.051, 0.046, 0.043."),
+                ("Specular Light:", "The more of it a region has, the more error falls without it (rho = -0.26).")
             ],
             "callout": (
-                "WORK IN PROGRESS:",
-                "VEO's localization works; its cause labels need calibration and larger validation (v2 in progress).",
+                "THE TAKEAWAY:",
+                "VEO's boundary label is its strongest result, and specular light really does raise error.",
                 c_blue, (240, 245, 255)
             ),
-            "duration_sec": 7
+            "duration_sec": 8
         },
-        # Slide 5: Welcome to the Interactive Lab
         {
-            "header_bg": c_blue,
-            "title": "SCENE 5: WELCOME TO THE INTERACTIVE DIAGNOSTIC LAB",
-            "subtitle": "Explore Live Test Scenes, Click High-Error Regions, and Inspect Mathematical Formulas",
+            "header_bg": c_red,
+            "title": "SCENE 4: WHAT DID NOT",
+            "subtitle": "Reported as plainly as the successes",
             "bullets": [
-                ("Step 1 (Select a Scene):", "Choose from NYU Depth V2 test scenes (Office, Living Room, Hallway)."),
-                ("Step 2 (View 4 Synchronized Views):", "Compare RGB Image, Depth Anything V2 Output, Ground Truth Depth, and Error Heatmaps."),
-                ("Step 3 (Click Any Error Region):", "Isolate bounding boxes, zoom into crops, and inspect all 7 extracted visual evidence signals."),
-                ("Step 4 (Inspect Real-Time Math):", "Watch the heuristic formulas calculate scores and trigger the ambiguity gate live."),
-                ("Step 5 (Edit the Evidence):", "Click 'Inject Synthetic Texture' to see how the rule-based scores respond.")
+                ("Reflection:", "AUROC 0.83 on NYU but 0.39 on Hypersim: it relies on Kinect sensor holes."),
+                ("Textureless:", "Near chance: AUROC 0.58 on NYU and 0.50 on Hypersim."),
+                ("Image Edits:", "Texture, brightening and thin-object resolution tests did not support the labels."),
+                ("ViT vs Hybrid:", "No reliable difference between DPT-Large and DPT-Hybrid.")
             ],
             "callout": (
-                "READY TO EXPLORE:",
-                "Switch to the 'Interactive Diagnostic Observatory' tab below to begin hands-on model failure analysis!",
+                "STILL OPEN:",
+                "A 300-region blinded human study is ready and needs raters.",
+                c_amber, (255, 250, 235)
+            ),
+            "duration_sec": 8
+        },
+        {
+            "header_bg": c_blue,
+            "title": "SCENE 5: EXPLORE THE RESULTS",
+            "subtitle": "Real test images with their actual failure regions",
+            "bullets": [
+                ("Pick a Scene:", "Four NYU test images, one for each main failure label."),
+                ("Compare Views:", "See the photo, the model's depth, the sensor's depth and the error."),
+                ("Click a Region:", "Inspect its measurements and how VEO ranks each explanation."),
+                ("Go 3D:", "Fly through true and predicted geometry, then see how the model works.")
+            ],
+            "callout": (
+                "READ IT AS:",
+                "A description of where a model fails and what goes with it, not proof of cause.",
                 c_amber, (255, 250, 235)
             ),
             "duration_sec": 6
@@ -209,14 +203,8 @@ def main():
 
     writer.release()
 
-    # Also copy to outputs
-    import shutil
-    outputs_path.parent.mkdir(exist_ok=True)
-    shutil.copyfile(video_path, outputs_path)
-
     print(f"\n[OK] Explainer video successfully generated and saved to:")
     print(f"     - {video_path.resolve()}")
-    print(f"     - {outputs_path.resolve()}")
 
 if __name__ == "__main__":
     main()

@@ -50,7 +50,7 @@ TAXONOMY = [
     {"id": "reflection", "label": "Reflective Surface", "metric_name": "Nearby sensor holes, signed error, saturation",
      "formula": "Logistic model fitted on the NYU train split",
      "desc": "Mirrors, windows and screens. The label relies on nearby depth-sensor failures, so it works for Kinect-style sensors and not in general. Some of these errors may be errors in the ground truth rather than the model.",
-     "remedy": "No remedy is established. Removing specular light in synthetic scenes did reduce error in proportion to its strength."},
+     "remedy": "No remedy is established. In synthetic scenes, the more specular light a region had, the more its error fell when that light was removed."},
     {"id": "poor_lighting", "label": "Poor Lighting", "metric_name": "Brightness, clipped pixels",
      "formula": "Hand-set rule (no annotation exists to fit against)",
      "desc": "Regions too dark or overexposed to show detail. Not validated against any annotation.",
@@ -153,7 +153,7 @@ def main() -> None:
         x, y, w, h = region["bbox"]
         scenes.append({
             "sample_id": sample_id,
-            "title": f"{FOCUS[focus]}: test image {sample_id}",
+            "title": FOCUS[focus],
             "category_focus": FOCUS[focus],
             "default_region": {"x": x + w // 2, "y": y + h // 2, "desc": f"Largest region labelled {focus} in the test split"},
             "width": width,
