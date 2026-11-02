@@ -89,10 +89,10 @@ def calibrated_label(features: dict, models: dict, settings: dict | None = None,
     return top if value >= threshold else ABSTAIN_LABEL
 
 
-def analyze(manifest: dict, raters: list[dict], calibration: dict | None = None, replicates: int = 1000, seed: int = 42) -> dict:
+def analyze(manifest: dict, raters: list[dict], calibration: dict | None = None, replicates: int = 1000, seed: int = 42, apply_exclusions: bool = True) -> dict:
     items = {item["id"]: item for item in manifest["items"]}
     practice = practice_scores(raters, manifest.get("practice", []))
-    included = [r for r in raters if practice[r["rater_id"]] is None or practice[r["rater_id"]] >= PRACTICE_PASS]
+    included = [r for r in raters if not apply_exclusions or practice[r["rater_id"]] is None or practice[r["rater_id"]] >= PRACTICE_PASS]
     if len(included) < 2:
         raise ValueError("At least two raters must pass the practice round")
 
@@ -190,4 +190,13 @@ def analyze(manifest: dict, raters: list[dict], calibration: dict | None = None,
         "at_least_three_classes_above_base_rate": len(above_chance) >= 3,
         "inter_rater_alpha_at_least_0_4": result["inter_rater"]["krippendorff_alpha"] >= 0.4,
     }
+    if apply_exclusions and len(included) < len(raters):
+        # Pre-registered sensitivity analysis: the same analysis with the excluded raters kept in
+        everyone = analyze(manifest, raters, calibration, replicates, seed, apply_exclusions=False)
+        result["sensitivity_all_raters"] = {
+            "inter_rater": everyone["inter_rater"],
+            "veo_vs_consensus_accuracy": everyone["veo_vs_consensus"]["bootstrap"]["accuracy"],
+            "veo_vs_consensus_kappa": everyone["veo_vs_consensus"]["bootstrap"]["kappa"],
+            "preregistered_checks": everyone["preregistered_checks"],
+        }
     return result

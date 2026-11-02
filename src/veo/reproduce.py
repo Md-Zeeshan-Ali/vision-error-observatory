@@ -256,7 +256,7 @@ def reproduce(
             agreement = geometry_source_agreement(config, discover_manifest(config.dataset.manifest))
             write_result(model_results / "geometry_agreement.json", agreement, config)
             primary_results = config.outputs.directory / "model_results.json"
-            primary_model, primary_slug = model_id, slug
+            primary_model, primary_slug, primary_config = model_id, slug, config
 
     print("[3/5] Running experiments on the primary model", flush=True)
     primary_predictions = primary_results.parent / "predictions"
@@ -267,7 +267,8 @@ def reproduce(
     )
     _experiment_stage(
         stages, key, results / "oracle_boundary_filter.json", "oracle_boundary_filter.py", "--results-path", primary_results,
-        "--prediction-dir", primary_predictions, "--depth-dir", split_dir / "depth",
+        "--prediction-dir", primary_predictions, "--depth-dir", primary_config.dataset.raw_depth_dir or primary_config.dataset.depth_dir,
+        *(["--crop", eval_crop] if eval_crop else []),
     )
     print("      model-in-the-loop interventions (texture, exposure, resolution)", flush=True)
     _experiment_stage(

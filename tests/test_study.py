@@ -77,6 +77,7 @@ def test_analysis_of_simulated_raters(study, tmp_path):
     raters = load_ratings(paths, manifest["study_id"])
     result = analyze(manifest, raters, replicates=50)
     assert result["raters"]["noise"]["included"] is False  # fails the practice round
+    assert result["sensitivity_all_raters"]["inter_rater"]["krippendorff_alpha"] < result["inter_rater"]["krippendorff_alpha"]
     assert result["items_rated"] == len(manifest["items"])
     assert result["inter_rater"]["krippendorff_alpha"] > 0.5
     assert result["inter_rater"]["fleiss_items"] == len(manifest["items"])

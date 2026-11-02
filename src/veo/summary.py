@@ -115,6 +115,10 @@ def _human_study(result: dict) -> list[str]:
         )
     if "calibrated_vs_consensus" in result:
         lines.append(f"- Calibrated model vs consensus: accuracy {_interval(result['calibrated_vs_consensus']['bootstrap']['accuracy'])}")
+    sensitivity = result.get("sensitivity_all_raters")
+    if sensitivity:
+        lines.append(f"- Sensitivity, all raters kept: Krippendorff α = {sensitivity['inter_rater']['krippendorff_alpha']:.3f}, "
+                     f"VEO accuracy {_interval(sensitivity['veo_vs_consensus_accuracy'])}")
     checks = result["preregistered_checks"]
     lines += ["", "| Pre-registered check | Result |", "|---|---|"]
     lines.append(f"| Krippendorff α ≥ 0.4 | {'pass' if checks['inter_rater_alpha_at_least_0_4'] else 'fail'} |")
