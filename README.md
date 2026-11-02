@@ -9,13 +9,6 @@
 [![Dataset](https://img.shields.io/badge/Dataset-NYU%20Depth%20V2%20%7C%20Hypersim-blueviolet.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
-
-**Anshuman Chakravorty**, **Zeeshan Ali**, and **Omer Faraz**  
-*Faculty Mentors:* **Prof. Anshi Bajaj** (Artificial Intelligence) & **Dr. Amit Saini** (Mathematics)  
-*School of Technology Management and Engineering (STME), SVKM’s NMIMS University, Hyderabad, India*  
-*Contact Email:* `anshumanchakravorty10@gmail.com`
-
 </div>
 
 ---
@@ -125,21 +118,6 @@ uv run python experiments/human_agreement.py --from-confusion results/v1/human_v
 ```
 
 Raw rater CSVs and per-region v1 outputs are not in the repository, so the other v1 numbers can be re-derived only by re-running the pipeline.
-
----
-
-## Citation
-
-If you use the Vision Error Observatory (VEO) software, please cite the repository:
-
-```bibtex
-@software{chakravorty2026veo,
-  title={Vision Error Observatory (VEO): A Model-Agnostic Diagnostic Framework for Failure Analysis in Monocular Depth Estimation},
-  author={Chakravorty, Anshuman and Ali, Zeeshan and Faraz, Omer},
-  year={2026},
-  url={https://github.com/MdZeeshanAli01/VEO_V2}
-}
-```
 
 ---
 
