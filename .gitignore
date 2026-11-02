@@ -118,3 +118,6 @@ study*.zip
 
 # Resume logs of long experiments
 *.checkpoint.jsonl
+
+# Paper drafts carry author names and stay local
+/paper/

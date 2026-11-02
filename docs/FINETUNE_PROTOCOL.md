@@ -63,4 +63,19 @@ This is one model, one weighting strength and one dataset, and the training and 
 
 ## Amendments
 
-None yet.
+### 2026-11-03: results
+
+The rules above were applied as written, and VEO-guided weighting is not supported for either target ([results](../results/finetune/guided_finetune.json), [pilot](../results/finetune/pilot.json)).
+
+| Test (first minus second) | Difference [95% CI] | Holm p | Seeds agree |
+|---|---|---|---|
+| Boundary outcome: `veo_boundary` vs `random_boundary` | +0.0202 [+0.0180, +0.0224] | 0.0002 | Yes |
+| Textureless outcome: `veo_textureless` vs `random_textureless` | +0.0035 [+0.0019, +0.0051] | 0.0002 | Yes |
+
+The direction is the opposite of the claim: the VEO-guided models were reliably worse than their random controls on their own targets. Overall AbsRel was also worse (+0.0028 and +0.0019), and the specificity contrasts point the same way. Random controls stayed close to `uniform`. Plain fine-tuning improved overall AbsRel against the pretrained model (−0.0051 [−0.0059, −0.0042]). This code's scoring of the pretrained model matches the stored NYU results (mean absolute per-image difference 0.00007).
+
+**Added after seeing the results, and exploratory.** To tell a working mechanism from a bug, [`finetune_diagnostic.py`](../experiments/finetune_diagnostic.py) scored the seed 0 models on the training images. On its own targeted regions, `veo_boundary` reached AbsRel 0.173, against 0.312 for `uniform` and 0.320 for `random_boundary`, and on all other pixels it was worse than `uniform` (0.0427 against 0.0388). `veo_textureless` shows the same pattern (0.242 against 0.315). So the weighting acts as intended, and the gain does not carry over to test images. This points to the model fitting those specific regions, possibly including sensor errors at boundaries, though no test here separates those explanations.
+
+`veo_textureless` had slightly fewer failing pixels than `uniform` (0.0219 against 0.0225), despite its worse AbsRel. This is an observation and was not a registered test.
+
+**Consequence.** As the blueprint's fallback states, no downstream benefit is claimed. No other weighting strength was tried after seeing these results, because choosing one that way would not be a fair test.

@@ -84,6 +84,17 @@ The original study claimed that ViT and convolutional models have distinct failu
 - **Backbone (DPT-Hybrid vs. DPT-Large):** no label passes, so the architecture claim is **cut**.
 - **Family (Depth Anything V2 Small vs. DPT-Hybrid):** only `textureless` passes, with a larger share for DPT-Hybrid (−0.29 on NYU, −0.12 on DIODE, −0.25 on iBims-1). That label scores close to chance against annotations, so this is a difference in VEO's labels, not an established difference in failure type.
 
+### Can the diagnosis improve a model?
+
+Fine-tuning Depth Anything V2 Small's decoder on NYU train, up-weighting the regions VEO diagnosed, does **not** help. Rules were written before test scoring, with three seeds per condition. Error is measured on annotated pixels rather than VEO's labels, and a negative difference would mean the diagnosis helped.
+
+| Up-weighted regions | Measured on | VEO-guided | Random control | Difference [95% CI] | Supported |
+|---|---|---|---|---|---|
+| `boundary_mixing` | Occluding boundaries | 0.113 | 0.093 | +0.020 [+0.018, +0.022] | No |
+| `textureless` | Walls and ceilings | 0.048 | 0.044 | +0.003 [+0.002, +0.005] | No |
+
+Both VEO-guided conditions were worse on their targets and overall, in all three seeds. Plain fine-tuning with no weighting improved AbsRel from 0.051 to 0.046, and random up-weighting changed it little. The weighting did act on the training images: at seed 0, `boundary_mixing` up-weighting cut error on its targeted training regions from 0.31 to 0.17, so the failure is best explained by fitting those specific regions rather than learning anything general. This is one weighting strength, on one dataset.
+
 ## Quick start
 
 Requires [uv](https://github.com/astral-sh/uv).
@@ -119,6 +130,7 @@ uv run python experiments/external_ibims.py --device cuda
 uv run python experiments/compare_models.py --root outputs/diode --output results/diode/model_comparison.json --scan-units
 uv run python experiments/compare_models.py --root outputs/ibims --output results/ibims/model_comparison.json
 uv run python experiments/fingerprint_decision.py
+uv run python experiments/guided_finetune.py --device cuda
 ```
 
 Summaries are written to `results/<dataset>/SUMMARY.md`. Runs resume after an interruption: run the same command again and it continues from its checkpoints. After changing code, add `--fresh`.
@@ -156,7 +168,7 @@ uv run python experiments/human_study.py --manifest study_manifest.json --rating
 ## Limitations
 
 - **Annotations are a proxy.** Wall and ceiling stand in for "textureless", and on average 42% of a region's pixels on NYU have no annotation at all.
-- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory.
+- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse.
 - **The audit needs ground truth.** Finding failure regions and two of the label cues rely on measured depth.
 - **Some failures may be sensor errors.** On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.
 - **DIODE labels can't be checked.** It has no annotations, so it supports metrics and the fingerprint test only. Its tests use 10 scans from 3 scenes, which are not independent.
@@ -183,6 +195,7 @@ scripts/site/  builders for the web app and video
 | [Label model](docs/LABEL_MODEL_V3.md) | How the labels were fitted, and amendments |
 | [Intervention tests](docs/INTERVENTION_PROTOCOL.md) | Image-edit and Hypersim test designs |
 | [Model comparison](docs/MODEL_COMPARISON_PROTOCOL.md) | Contrasts, statistics and external checks |
+| [Guided fine-tuning](docs/FINETUNE_PROTOCOL.md) | Whether the diagnosis can improve a model |
 | [Human study](docs/HUMAN_STUDY_PROTOCOL.md) · [Rater guideline](docs/RATER_GUIDELINE.md) | Pre-registered analysis and rater instructions |
 | [v1 results](docs/V1_RESULTS.md) · [v1 errata](docs/ERRATA_V1.md) | The original study and what was corrected |
 

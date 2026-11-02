@@ -3,6 +3,7 @@ import pytest
 
 from veo.finetune import contrast, derangement, image_outcomes, scale_shift_loss, target_weight
 from veo.silver import SILVER_CATEGORIES
+from veo.summary import _finetune
 
 
 def test_target_weight_gives_the_requested_share_of_the_loss():
@@ -90,6 +91,13 @@ def test_contrast_flags_seeds_that_disagree():
     first = {0: {f"img{i}": {"x": 0.1} for i in range(6)}, 1: {f"img{i}": {"x": 0.3} for i in range(6)}}
     second = {0: {f"img{i}": {"x": 0.2} for i in range(6)}, 1: {f"img{i}": {"x": 0.2} for i in range(6)}}
     assert not contrast(first, second, "x", {})["seeds_agree"]
+
+
+def test_finetune_summary_section():
+    row = {"mean": 0.02, "lower": 0.01, "upper": 0.03, "p_holm": 0.001, "seeds_agree": True}
+    means = {"abs_rel": 0.05, "delta1": 0.97, "failing_pixels": 0.03, "abs_rel_boundary_mixing": 0.1, "abs_rel_textureless": 0.04}
+    text = "\n".join(_finetune({"primary": {"boundary": {**row, "supported": False}}, "secondary": {"overall": row}, "condition_means": {"uniform": means}}))
+    assert "| boundary | +0.0200" in text and "| no |" in text and "| overall |" in text and "| uniform | 0.0500" in text
 
 
 def test_contrast_skips_images_without_the_outcome():

@@ -305,6 +305,19 @@ def _model_comparison(result: dict) -> list[str]:
     return lines
 
 
+def _finetune(result: dict) -> list[str]:
+    lines = ["## Guided fine-tuning (docs/FINETUNE_PROTOCOL.md)", "", "Each row is first minus second, so a negative difference favours the first condition.", "",
+             "| Test | Difference [95% CI] | p (Holm) | Seeds agree | Supported |", "|---|---|---|---|---|"]
+    for family in ("primary", "secondary"):
+        for name, row in result[family].items():
+            lines.append(f"| {name} | {row['mean']:+.4f} [{row['lower']:+.4f}, {row['upper']:+.4f}] | {row['p_holm']:.4f} | {'yes' if row['seeds_agree'] else 'no'} | "
+                         f"{('yes' if row['supported'] else 'no') if 'supported' in row else '-'} |")
+    lines += ["", "| Condition | AbsRel | delta1 | Failing pixels | AbsRel on boundary pixels | AbsRel on wall and ceiling pixels |", "|---|---|---|---|---|---|"]
+    for name, row in result["condition_means"].items():
+        lines.append(f"| {name} | {row['abs_rel']:.4f} | {row['delta1']:.4f} | {row['failing_pixels']:.4f} | {row['abs_rel_boundary_mixing']:.4f} | {row['abs_rel_textureless']:.4f} |")
+    return lines + [""]
+
+
 def _ibims_labels(result: dict) -> list[str]:
     lines = ["## External label check: iBims-1 (frozen label model v3)", "", f"{result['regions']} regions from {result['images']} images.", "",
              "| Label | Positives | AUROC (v3) [95% CI] | AUROC (v2 rules) |", "|---|---|---|---|"]
@@ -350,6 +363,7 @@ def write_summary_markdown(results_dir: Path) -> Path:
         ("hypersim_reflection.json", _hypersim),
         ("model_comparison.json", _model_comparison),
         ("label_check.json", _ibims_labels),
+        ("guided_finetune.json", _finetune),
     ]
     for filename, render in sections:
         result = _load(results_dir / filename)

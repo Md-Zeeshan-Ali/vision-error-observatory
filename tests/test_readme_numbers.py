@@ -98,6 +98,16 @@ def _readme_rows() -> list[str]:
         signed = lambda value, plus=True: f"{value:+.3f}".replace("-", "\u2212") if plus else f"{value:.3f}".replace("-", "\u2212")  # noqa: E731
         p_value = f"{d['p_holm']:.3f}" if d["p_holm"] < 0.01 else f"{d['p_holm']:.2f}"
         rows.append(f"| {title} | {signed(d['mean'])} [{signed(d['lower'])}, {signed(d['upper'])}] | {p_value} |")
+    finetune = _results("finetune", "guided_finetune.json")
+    means = finetune["condition_means"]
+    for name, title, outcome, veo, control in (("boundary", "`boundary_mixing`", "abs_rel_boundary_mixing", "veo_boundary", "random_boundary"),
+                                               ("textureless", "`textureless`", "abs_rel_textureless", "veo_textureless", "random_textureless")):
+        row = finetune["primary"][name]
+        assert not row["supported"]
+        rows.append(f"| {means[veo][outcome]:.3f} | {means[control][outcome]:.3f} | {row['mean']:+.3f} [{row['lower']:+.3f}, {row['upper']:+.3f}] | No |")
+    rows.append(f"improved AbsRel from {means['pretrained']['abs_rel']:.3f} to {means['uniform']['abs_rel']:.3f}")
+    check = _results("finetune", "training_pixel_check.json")["models"]
+    rows.append(f"from {check['uniform_seed0']['boundary_mixing']['abs_rel']:.2f} to {check['veo_boundary_seed0']['boundary_mixing']['abs_rel']:.2f}")
     dose = hypersim["dose_response_spearman"]
     rows.append(f"\u03c1 = {dose['estimate']:.2f}".replace("-", "\u2212"))
     rows.append(f"[{dose['lower']:.2f}, {dose['upper']:.2f}]".replace("-", "\u2212"))

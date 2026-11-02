@@ -9,7 +9,6 @@ then scores every model on the official test split. Runs resume from their last 
 
 import argparse
 import json
-import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -332,7 +331,6 @@ def main() -> None:
     for name, row in report["primary"].items():
         print(f"{name}: {row['mean']:+.5f} [{row['lower']:+.5f}, {row['upper']:+.5f}] p_holm {row['p_holm']:.4f} seeds {row['per_seed']} supported {row['supported']}")
     print(f"Saved {args.output}")
-    shutil.rmtree(args.outputs / "pilot", ignore_errors=True)
 
 
 if __name__ == "__main__":
