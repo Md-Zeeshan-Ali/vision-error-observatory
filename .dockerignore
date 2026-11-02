@@ -8,9 +8,6 @@ __pycache__
 checkpoints/
 data/
 outputs/
-paper/
-journal_paper/
-notebooks/
 official/
 scratch/
 tests/

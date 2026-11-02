@@ -4,5 +4,3 @@
 *.woff2 binary
 *.ico binary
 *.pdf binary
-*.ipynb text eol=lf
-*.ps1 text eol=crlf

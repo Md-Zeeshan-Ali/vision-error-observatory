@@ -1,6 +1,6 @@
 # VEO Research Protocol v2
 
-Frozen on 2026-10-28, before any v2 result on the NYU official test split was computed. Changes after this point must be listed under "Amendments" with a date and a reason. v1 (`RESEARCH_PROTOCOL_V1.md`) is superseded; its corrections are in `ERRATA_V1.md`.
+Frozen on 2026-10-28, before any v2 result on the NYU official test split was computed. Changes after this point must be listed under "Amendments" with a date and a reason. The v1 protocol is superseded (available at the `v1-archive` tag); its corrections are in `ERRATA_V1.md`.
 
 ## Data
 

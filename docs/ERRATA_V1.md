@@ -34,6 +34,4 @@ Source files for every number below are in [`results/v1/`](../results/v1/).
 
 `README.md`, the figure script and regenerated figures, `scripts/generate_explainer_video.py` and `web_app/veo_explainer.mp4`. The paper manuscripts (`journal_paper/`, `paper/`) and all `.docx` files were later deleted from the repository; they remain available at the `v1-archive` tag.
 
-## Files not corrected (read with this errata)
-
-All other Markdown documents in `docs/` and `scripts/` carry a banner pointing here.
+Other v1 documents, including the v1 protocol and project reports, were later removed from the repository; they remain available at the `v1-archive` tag.
