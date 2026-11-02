@@ -73,3 +73,25 @@ Written after the seven models above were reported on NYU and DIODE, and before 
 - **Datasets and units:** NYU test (scenes), iBims-1 (room types), and DIODE (scans). DIODE has only 3 scenes, too few for a sign-flip test to reach significance, so its 10 scans are used and are noted as not independent.
 - **Pass rule:** a label passes only if it is reliable by the claim rule above on all three datasets, with the same sign. Otherwise it fails.
 - **Verdict:** the claim is cut if no label passes in a contrast. A passing label supports only a difference in VEO's label shares. It is called a difference in failure type only if that label scored AUROC of at least 0.7 on both Hypersim and iBims-1.
+
+### 2026-11-02: results and deviations
+
+The rules above were applied as written. Three things were decided after seeing results, and are marked as such.
+
+**Fingerprint decision** ([results](../results/fingerprint_decision.json)).
+
+| Contrast | Passing labels | Verdict |
+|---|---|---|
+| Backbone: DPT-Hybrid vs DPT-Large | None | Cut |
+| Family: DA-V2 Small vs DPT-Hybrid | `textureless` (−0.29 on NYU, −0.12 on DIODE, −0.25 on iBims-1) | A difference in VEO's label shares only |
+
+`textureless` scored AUROC 0.50 on Hypersim, so it is not called a difference in failure type. `boundary_mixing` was reliable on NYU and iBims-1 but missed on DIODE (+0.10, Holm p = 0.07), so it fails.
+
+**Decided after seeing results:**
+
+- **`textureless` on iBims-1 is not reported.** Only 3 of 1,635 regions reached the 30% share of a wall mask, so its AUROC of 0.88 [0.63, 0.99] says nothing. The cause is the data rather than a mask error. Plane fits are tight inside the masks (residual 0.3%, against 17% with the mask moved away), and models rarely fail there (0.16% of wall pixels, against 2.8% of all pixels), because the masks mark clean planes. AUROCs from fewer than 10 positive regions are left out of the README. This doesn't affect the decision, because Hypersim already rules the label out.
+- **The `reflection` result on iBims-1 is read as a sensor effect.** Its AUROC of 0.82 is no better than `sensor_hole_fraction` alone (0.83), as this amendment anticipated.
+- **The DIODE summary was corrected.** The README said that the label mix was nearly identical for every model. That holds for region counts (76% to 78% `boundary_mixing`), but not for pixels, where `textureless` ranges from 58% to 81%.
+
+**Marigold alignment.** Its fitted scale was positive on 653 of 654 NYU frames, 312 of 325 DIODE frames and all 100 iBims-1 frames. Negative scales mean the fit reversed near and far on those frames, which is included in its numbers rather than removed.
+

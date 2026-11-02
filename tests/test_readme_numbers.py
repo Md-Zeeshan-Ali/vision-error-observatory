@@ -56,8 +56,12 @@ README = (REPO / "README.md").read_text(encoding="utf-8")
 RESULTS = REPO / "results"
 MODELS = {
     "Depth Anything V2 Large": "depth-anything-v2-large-hf", "Depth Pro": "depthpro-hf", "Depth Anything V2 Base": "depth-anything-v2-base-hf",
-    "ZoeDepth NYU+KITTI*": "zoedepth-nyu-kitti", "Depth Anything V2 Small": "depth-anything-v2-small-hf", "DPT-Hybrid": "dpt-hybrid-midas", "DPT-Large": "dpt-large",
+    "ZoeDepth NYU+KITTI*": "zoedepth-nyu-kitti", "Depth Anything V2 Small": "depth-anything-v2-small-hf", "Marigold\u2020": "marigold-depth-v1-1",
+    "DPT-Hybrid": "dpt-hybrid-midas", "DPT-Large": "dpt-large",
 }
+
+
+MIN_POSITIVES = 10  # below this an AUROC isn't reported (docs/MODEL_COMPARISON_PROTOCOL.md)
 
 
 def _results(*parts: str) -> dict:
@@ -67,12 +71,26 @@ def _results(*parts: str) -> dict:
 def _readme_rows() -> list[str]:
     nyu = _results("nyu_test", "depth-anything-v2-small-hf", "silver_calibration.json")["test"]["evaluation"]["categories"]
     hypersim = _results("hypersim", "hypersim_reflection.json")
-    rows = [f"| `{label}` | {nyu[label]['label_model']['auroc']:.2f} | {hypersim['external_label_check']['categories'][label]['label_model']['auroc']:.2f} |"
+    ibims = _results("ibims", "label_check.json")
+
+    def ibims_cell(label: str) -> str:
+        entry = ibims["categories"].get(label)
+        return f"{entry['label_model']['auroc']:.2f}" if entry and entry["positives"] >= MIN_POSITIVES else "\u2014"
+
+    rows = [f"| `{label}` | {nyu[label]['label_model']['auroc']:.2f} | {hypersim['external_label_check']['categories'][label]['label_model']['auroc']:.2f} | {ibims_cell(label)} |"
             for label in ("boundary_mixing", "thin_object", "reflection", "textureless")]
+    rows.append(f"which alone score {ibims['reflection_sensor_holes_only']['auroc']:.2f} on iBims-1")
+    rows.append(f"only {ibims['categories']['textureless']['positives']} regions fall on its wall masks")
+    decision = _results("fingerprint_decision.json")["contrasts"]
+    assert decision["backbone_hybrid_vs_large"]["verdict"] == "cut"
+    family = decision["family_dav2_small_vs_dpt_hybrid"]["labels"]
+    assert [label for label, entry in family.items() if entry["passes"]] == ["textureless"] and not family["textureless"]["failure_type_difference"]
+    shift = {name: f"{family['textureless']['datasets'][name]['mean']:.2f}".replace("-", "\u2212") for name in ("nyu_test", "diode", "ibims")}
+    rows.append(f"({shift['nyu_test']} on NYU, {shift['diode']} on DIODE, {shift['ibims']} on iBims-1)")
     for name, slug in MODELS.items():
-        summary, diode = _results("nyu_test", slug, "summary.json"), _results("diode", slug, "summary.json")
+        summary, diode, ibims_summary = (_results(name, slug, "summary.json") for name in ("nyu_test", "diode", "ibims"))
         rows.append(f"| {name} | {summary['mean_metrics']['abs_rel']:.3f} | {summary['mean_metrics']['delta1']:.3f} | "
-                    f"{100 * summary['mean_failure_pixel_fraction']:.1f}% | {diode['mean_metrics']['abs_rel']:.3f} |")
+                    f"{100 * summary['mean_failure_pixel_fraction']:.1f}% | {diode['mean_metrics']['abs_rel']:.3f} | {ibims_summary['mean_metrics']['abs_rel']:.3f} |")
     tests = _results("nyu_test", "depth-anything-v2-small-hf", "interventions.json")["tests"]
     for name, title in (("resolution_boundary", "Higher resolution, `boundary_mixing`"), ("resolution_thin", "Higher resolution, `thin_object`"),
                         ("exposure", "Brighten, `poor_lighting`"), ("texture", "Add texture, `textureless`")):

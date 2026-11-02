@@ -31,14 +31,16 @@ All results are from the official NYU Depth V2 test split (654 images, errors on
 
 ### Do the labels work?
 
-AUROC against object annotations, where 0.5 is chance. The label model was fitted on NYU train and never saw Hypersim, which makes Hypersim the clean check. NYU test results motivated this version of the labels, so they are not confirmatory.
+AUROC against object annotations, where 0.5 is chance. The label model was fitted on NYU train and never saw Hypersim or iBims-1, which makes them the clean checks. NYU test results motivated this version of the labels, so they are not confirmatory.
 
-| Label | NYU test | Hypersim | Verdict |
-|---|---|---|---|
-| `boundary_mixing` | 0.85 | 0.81 | Holds up across datasets |
-| `thin_object` | 0.73 | 0.81 | Holds up |
-| `reflection` | 0.83 | 0.39 | Kinect only: it relies on nearby sensor holes |
-| `textureless` | 0.58 | 0.50 | Close to chance |
+| Label | NYU test | Hypersim | iBims-1 | Verdict |
+|---|---|---|---|---|
+| `boundary_mixing` | 0.85 | 0.81 | 0.69 | Holds up, though weaker on iBims-1 |
+| `thin_object` | 0.73 | 0.81 | — | Holds up where it can be tested |
+| `reflection` | 0.83 | 0.39 | 0.82 | Depends on sensor holes, which alone score 0.83 on iBims-1 |
+| `textureless` | 0.58 | 0.50 | — | Close to chance |
+
+<sub>— means iBims-1 can't test the label: it has no thin-object annotation, and only 3 regions fall on its wall masks. It uses transparent surfaces for `reflection` and annotated depth edges for `boundary_mixing`.</sub>
 
 ### Do the explanations hold when the model is re-run?
 
@@ -55,23 +57,32 @@ Separately, removing specular light from synthetic Hypersim renders shows that i
 
 ### How do models compare?
 
-| Model | NYU AbsRel | NYU δ1 | NYU failing pixels | DIODE AbsRel |
-|---|---|---|---|---|
-| Depth Anything V2 Large | 0.043 | 0.979 | 2.1% | 0.065 |
-| Depth Pro | 0.043 | 0.979 | 2.1% | 0.064 |
-| Depth Anything V2 Base | 0.046 | 0.977 | 2.3% | 0.068 |
-| ZoeDepth NYU+KITTI* | 0.050 | 0.976 | 2.4% | 0.089 |
-| Depth Anything V2 Small | 0.051 | 0.973 | 2.7% | 0.073 |
-| DPT-Hybrid | 0.091 | 0.918 | 8.2% | 0.098 |
-| DPT-Large | 0.092 | 0.915 | 8.5% | 0.096 |
+| Model | NYU AbsRel | NYU δ1 | NYU failing pixels | DIODE AbsRel | iBims-1 AbsRel |
+|---|---|---|---|---|---|
+| Depth Anything V2 Large | 0.043 | 0.979 | 2.1% | 0.065 | 0.038 |
+| Depth Pro | 0.043 | 0.979 | 2.1% | 0.064 | 0.037 |
+| Depth Anything V2 Base | 0.046 | 0.977 | 2.3% | 0.068 | 0.041 |
+| ZoeDepth NYU+KITTI* | 0.050 | 0.976 | 2.4% | 0.089 | 0.066 |
+| Depth Anything V2 Small | 0.051 | 0.973 | 2.7% | 0.073 | 0.047 |
+| Marigold† | 0.059 | 0.959 | 4.1% | 0.086 | 0.053 |
+| DPT-Hybrid | 0.091 | 0.918 | 8.2% | 0.098 | 0.075 |
+| DPT-Large | 0.092 | 0.915 | 8.5% | 0.096 | 0.071 |
 
-<sub>*Trained on NYU, so its NYU row is not a fair comparison. All models are evaluated after per-image alignment. DIODE: 325 indoor frames.</sub>
+<sub>*Trained on NYU, so its NYU row is not a fair comparison. †Diffusion model, run with 4 denoising steps and no ensembling, which is lighter than in its paper. It is aligned in depth space, and its fitted scale came out negative on 1 NYU and 13 DIODE frames. All models are evaluated after per-image alignment. DIODE: 325 indoor frames. iBims-1: 100 indoor images, keeping transparent surfaces, so its numbers can't be compared with published ones.</sub>
 
-Scene-level paired tests with Holm correction, on NYU:
+Paired tests with Holm correction, on NYU unless noted:
 
-- **Size matters:** larger Depth Anything models reliably reduce AbsRel.
-- **Hybrid vs. pure ViT:** no reliable difference on any outcome between DPT-Hybrid and DPT-Large.
+- **Size matters:** larger Depth Anything models reliably reduce AbsRel on NYU and iBims-1. On DIODE, neither step up in size reliably changes AbsRel.
+- **Hybrid vs. pure ViT:** no reliable difference on any outcome between DPT-Hybrid and DPT-Large, on any of the three datasets.
+- **Diffusion:** Depth Anything V2 Small has lower AbsRel than Marigold on NYU and DIODE, with no reliable difference on iBims-1.
 - **Family:** DPT-Hybrid fails on about three times as many pixels as Depth Anything V2 Small, largely in regions labelled `textureless`. Training data differs too, so this can't be attributed to architecture.
+
+### Do models have a failure "fingerprint"?
+
+The original study claimed that ViT and convolutional models have distinct failure fingerprints. The rule was set before these results: a label counts only if its share of a model's failing regions differs reliably, in the same direction, on NYU, DIODE and iBims-1 ([decision](results/fingerprint_decision.json)).
+
+- **Backbone (DPT-Hybrid vs. DPT-Large):** no label passes, so the architecture claim is **cut**.
+- **Family (Depth Anything V2 Small vs. DPT-Hybrid):** only `textureless` passes, with a larger share for DPT-Hybrid (−0.29 on NYU, −0.12 on DIODE, −0.25 on iBims-1). That label scores close to chance against annotations, so this is a difference in VEO's labels, not an established difference in failure type.
 
 ## Quick start
 
@@ -90,7 +101,7 @@ uv run python -m veo.cli reproduce --fixture --workdir /tmp/veo
 
 ## Reproduce the results
 
-Needs a GPU for reasonable speed, about 20 GB of disk space, and the `model` extra.
+Needs a GPU for reasonable speed, about 25 GB of disk space, and the `model` extra.
 
 ```bash
 uv sync --extra dev --extra model
@@ -99,10 +110,15 @@ uv run python -m veo.cli download-nyu
 uv run python -m veo.cli reproduce --device cuda \
   --models depth-anything/Depth-Anything-V2-Small-hf Intel/dpt-hybrid-midas \
   --extra-models depth-anything/Depth-Anything-V2-Base-hf depth-anything/Depth-Anything-V2-Large-hf \
-                 Intel/dpt-large Intel/zoedepth-nyu-kitti apple/DepthPro-hf
+                 Intel/dpt-large Intel/zoedepth-nyu-kitti apple/DepthPro-hf prs-eth/marigold-depth-v1-1
 
 uv run python experiments/hypersim_reflection.py --device cuda --output results/hypersim/hypersim_reflection.json
 uv run python experiments/external_diode.py --device cuda
+uv run python experiments/external_ibims.py --device cuda
+
+uv run python experiments/compare_models.py --root outputs/diode --output results/diode/model_comparison.json --scan-units
+uv run python experiments/compare_models.py --root outputs/ibims --output results/ibims/model_comparison.json
+uv run python experiments/fingerprint_decision.py
 ```
 
 Summaries are written to `results/<dataset>/SUMMARY.md`. Runs resume after an interruption: run the same command again and it continues from its checkpoints. After changing code, add `--fresh`.
@@ -143,8 +159,8 @@ uv run python experiments/human_study.py --manifest study_manifest.json --rating
 - **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory.
 - **The audit needs ground truth.** Finding failure regions and two of the label cues rely on measured depth.
 - **Some failures may be sensor errors.** On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.
-- **DIODE labels are uninformative.** The label mix is nearly identical for every model there, so only its metrics are reported above.
-- **Not covered:** outdoor scenes, and iBims-1, which could not be downloaded.
+- **DIODE labels can't be checked.** It has no annotations, so it supports metrics and the fingerprint test only. Its tests use 10 scans from 3 scenes, which are not independent.
+- **Not covered:** outdoor scenes. The labels were fitted on indoor data only.
 
 ## Repository
 

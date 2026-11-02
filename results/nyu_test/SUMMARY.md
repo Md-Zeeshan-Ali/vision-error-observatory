@@ -104,9 +104,11 @@ Each labelled region is paired with a matched control region; both get the same 
 | `boundary_mixing` | 0.680 [0.658, 0.701] | 0.50 / 0.78 / 0.61 |
 | `textureless` | 0.724 [0.677, 0.763] | 0.12 / 0.46 / 0.20 |
 
-## Ground-truth-free labels (geometry from the aligned prediction)
+## Labels with geometry from the aligned prediction
 
-- Same top label as the ground-truth audit on 78.5% of 6,325 regions (κ = 0.684)
+Not usable without ground truth: regions, signed error and sensor holes still come from the error target.
+
+- Same top label as with true geometry on 78.5% of 6,325 regions (κ = 0.684)
 
 | Label | Regions (audit) | Regions (prediction only) | Both |
 |---|---|---|---|
@@ -170,6 +172,21 @@ Each labelled region is paired with a matched control region; both get the same 
 | `thin_object` | 651 | 8.6% | 0.0% | 1487 | 0.1% |
 | `reflection` | 281 | 3.7% | 0.0% | 395 | 0.1% |
 
+## Model: marigold-depth-v1-1
+
+- Samples: 654, regions: 7,020
+- AbsRel 0.0591, RMSE 0.2348 m, δ1 0.9591
+- Failing pixels: 4.1% per image on average; 3.8% of valid pixels lie in regions; 2,642 regions have more than one label
+
+| Label | Regions (top label) | Share | Valid pixels (top label) | Regions with label | Valid pixels with label |
+|---|---|---|---|---|---|
+| `boundary_mixing` | 3,207 | 45.7% | 0.2% | 3741 | 0.3% |
+| `ambiguous` | 1,124 | 16.0% | 0.4% | - | - |
+| `thin_object` | 1,040 | 14.8% | 0.0% | 2264 | 0.1% |
+| `poor_lighting` | 841 | 12.0% | 0.5% | 1330 | 0.6% |
+| `textureless` | 593 | 8.4% | 2.6% | 1174 | 3.0% |
+| `reflection` | 215 | 3.1% | 0.0% | 301 | 0.0% |
+
 ## Model: zoedepth-nyu-kitti
 
 - Samples: 654, regions: 5,718
@@ -229,6 +246,12 @@ Each labelled region is paired with a matched control region; both get the same 
 | pixels_reflection | 0.0004 | 0.0004 | +0.0000 [-0.0000, +0.0001] | 0.3984 | no |
 | pixels_poor_lighting | 0.0030 | 0.0022 | +0.0011 [+0.0004, +0.0019] | 0.0024 | yes |
 | pixels_ambiguous | 0.0030 | 0.0027 | +0.0004 [+0.0000, +0.0009] | 0.3145 | no |
+| share of region pixels: textureless | 0.2535 | 0.2023 | +0.0418 [+0.0204, +0.0632] | 0.0006 | yes |
+| share of region pixels: boundary_mixing | 0.3553 | 0.4227 | -0.0586 [-0.0803, -0.0370] | 0.0006 | yes |
+| share of region pixels: thin_object | 0.0548 | 0.0676 | -0.0088 [-0.0180, +0.0007] | 0.2004 | no |
+| share of region pixels: reflection | 0.0214 | 0.0236 | -0.0016 [-0.0063, +0.0019] | 0.9781 | no |
+| share of region pixels: poor_lighting | 0.1682 | 0.1363 | +0.0286 [+0.0108, +0.0461] | 0.0096 | yes |
+| share of region pixels: ambiguous | 0.1468 | 0.1474 | -0.0014 [-0.0208, +0.0176] | 0.9781 | no |
 
 **size_base_vs_large**: depth-anything-v2-base-hf minus depth-anything-v2-large-hf (215 scenes)
 
@@ -243,6 +266,12 @@ Each labelled region is paired with a matched control region; both get the same 
 | pixels_reflection | 0.0004 | 0.0003 | -0.0000 [-0.0000, +0.0000] | 0.9735 | no |
 | pixels_poor_lighting | 0.0022 | 0.0018 | +0.0004 [+0.0000, +0.0008] | 0.3456 | no |
 | pixels_ambiguous | 0.0027 | 0.0023 | +0.0003 [-0.0000, +0.0006] | 0.5314 | no |
+| share of region pixels: textureless | 0.2000 | 0.1864 | +0.0194 [+0.0017, +0.0389] | 0.1550 | no |
+| share of region pixels: boundary_mixing | 0.4311 | 0.4472 | -0.0229 [-0.0425, -0.0038] | 0.1254 | no |
+| share of region pixels: thin_object | 0.0668 | 0.0727 | -0.0068 [-0.0187, +0.0055] | 0.8309 | no |
+| share of region pixels: reflection | 0.0216 | 0.0202 | +0.0008 [-0.0025, +0.0043] | 0.8309 | no |
+| share of region pixels: poor_lighting | 0.1347 | 0.1403 | -0.0066 [-0.0196, +0.0062] | 0.8309 | no |
+| share of region pixels: ambiguous | 0.1457 | 0.1333 | +0.0161 [-0.0012, +0.0337] | 0.2540 | no |
 
 **backbone_hybrid_vs_large**: dpt-hybrid-midas minus dpt-large (215 scenes)
 
@@ -257,6 +286,12 @@ Each labelled region is paired with a matched control region; both get the same 
 | pixels_reflection | 0.0006 | 0.0006 | +0.0000 [-0.0001, +0.0001] | 1.0000 | no |
 | pixels_poor_lighting | 0.0109 | 0.0107 | -0.0003 [-0.0018, +0.0014] | 1.0000 | no |
 | pixels_ambiguous | 0.0088 | 0.0099 | -0.0009 [-0.0022, +0.0004] | 1.0000 | no |
+| share of region pixels: textureless | 0.5304 | 0.5184 | +0.0119 [-0.0173, +0.0428] | 1.0000 | no |
+| share of region pixels: boundary_mixing | 0.0973 | 0.1055 | -0.0067 [-0.0296, +0.0145] | 1.0000 | no |
+| share of region pixels: thin_object | 0.0112 | 0.0169 | -0.0054 [-0.0138, +0.0011] | 0.9521 | no |
+| share of region pixels: reflection | 0.0103 | 0.0097 | -0.0006 [-0.0036, +0.0019] | 1.0000 | no |
+| share of region pixels: poor_lighting | 0.1658 | 0.1736 | -0.0034 [-0.0213, +0.0154] | 1.0000 | no |
+| share of region pixels: ambiguous | 0.1850 | 0.1759 | +0.0043 [-0.0196, +0.0268] | 1.0000 | no |
 
 **family_dav2_small_vs_dpt_hybrid**: depth-anything-v2-small-hf minus dpt-hybrid-midas (215 scenes)
 
@@ -271,3 +306,29 @@ Each labelled region is paired with a matched control region; both get the same 
 | pixels_reflection | 0.0004 | 0.0006 | -0.0002 [-0.0003, -0.0000] | 0.0168 | yes |
 | pixels_poor_lighting | 0.0030 | 0.0109 | -0.0073 [-0.0096, -0.0053] | 0.0009 | yes |
 | pixels_ambiguous | 0.0030 | 0.0088 | -0.0054 [-0.0066, -0.0043] | 0.0009 | yes |
+| share of region pixels: textureless | 0.2497 | 0.5316 | -0.2856 [-0.3241, -0.2447] | 0.0006 | yes |
+| share of region pixels: boundary_mixing | 0.3560 | 0.0958 | +0.2641 [+0.2282, +0.2977] | 0.0006 | yes |
+| share of region pixels: thin_object | 0.0558 | 0.0111 | +0.0501 [+0.0355, +0.0673] | 0.0006 | yes |
+| share of region pixels: reflection | 0.0212 | 0.0102 | +0.0116 [+0.0029, +0.0225] | 0.0126 | yes |
+| share of region pixels: poor_lighting | 0.1734 | 0.1666 | -0.0012 [-0.0289, +0.0257] | 0.9298 | no |
+| share of region pixels: ambiguous | 0.1439 | 0.1847 | -0.0389 [-0.0677, -0.0091] | 0.0210 | yes |
+
+**family_dav2_small_vs_marigold**: depth-anything-v2-small-hf minus marigold-depth-v1-1 (215 scenes)
+
+| Outcome | First | Second | Difference [95% CI] | p (Holm) | Reliable |
+|---|---|---|---|---|---|
+| abs_rel | 0.0510 | 0.0591 | -0.0087 [-0.0113, -0.0061] | 0.0009 | yes |
+| delta1 | 0.9730 | 0.9591 | +0.0156 [+0.0101, +0.0213] | 0.0009 | yes |
+| failing_pixels | 0.0270 | 0.0409 | -0.0156 [-0.0213, -0.0101] | 0.0009 | yes |
+| pixels_textureless | 0.0164 | 0.0273 | -0.0129 [-0.0186, -0.0077] | 0.0009 | yes |
+| pixels_boundary_mixing | 0.0022 | 0.0022 | -0.0001 [-0.0003, +0.0001] | 0.3560 | no |
+| pixels_thin_object | 0.0004 | 0.0005 | -0.0001 [-0.0001, -0.0000] | 0.1389 | no |
+| pixels_reflection | 0.0004 | 0.0004 | +0.0000 [-0.0001, +0.0001] | 0.8198 | no |
+| pixels_poor_lighting | 0.0030 | 0.0046 | -0.0016 [-0.0026, -0.0005] | 0.0080 | yes |
+| pixels_ambiguous | 0.0030 | 0.0043 | -0.0009 [-0.0015, -0.0004] | 0.0035 | yes |
+| share of region pixels: textureless | 0.2535 | 0.2911 | -0.0464 [-0.0791, -0.0145] | 0.0165 | yes |
+| share of region pixels: boundary_mixing | 0.3520 | 0.3018 | +0.0500 [+0.0188, +0.0809] | 0.0126 | yes |
+| share of region pixels: thin_object | 0.0552 | 0.0492 | +0.0126 [+0.0001, +0.0269] | 0.1512 | no |
+| share of region pixels: reflection | 0.0214 | 0.0141 | +0.0070 [+0.0008, +0.0138] | 0.1168 | no |
+| share of region pixels: poor_lighting | 0.1711 | 0.1690 | +0.0047 [-0.0159, +0.0263] | 0.6743 | no |
+| share of region pixels: ambiguous | 0.1468 | 0.1748 | -0.0279 [-0.0567, -0.0007] | 0.1512 | no |

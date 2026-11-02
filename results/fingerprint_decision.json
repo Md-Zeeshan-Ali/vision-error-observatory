@@ -1,0 +1,383 @@
+{
+  "contrasts": {
+    "family_dav2_small_vs_dpt_hybrid": {
+      "verdict": "supported",
+      "labels": {
+        "textureless": {
+          "passes": true,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.2856395832790542,
+              "lower": -0.3241287233201304,
+              "upper": -0.244676383912407,
+              "p_holm": 0.0005999400059994001,
+              "reliable": true
+            },
+            "diode": {
+              "mean": -0.12366806381383359,
+              "lower": -0.18271572762983834,
+              "upper": -0.06377136900631981,
+              "p_holm": 0.0314968503149685,
+              "reliable": true
+            },
+            "ibims": {
+              "mean": -0.24915619138011055,
+              "lower": -0.3209910113066597,
+              "upper": -0.16401548958822795,
+              "p_holm": 0.011998800119988001,
+              "reliable": true
+            }
+          }
+        },
+        "boundary_mixing": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": 0.26407336576765233,
+              "lower": 0.22823512635464888,
+              "upper": 0.2976511219645298,
+              "p_holm": 0.0005999400059994001,
+              "reliable": true
+            },
+            "diode": {
+              "mean": 0.10328736752109495,
+              "lower": 0.04466051469744121,
+              "upper": 0.1649270859616728,
+              "p_holm": 0.071992800719928,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": 0.21136583394647426,
+              "lower": 0.1286167122713551,
+              "upper": 0.295665036277595,
+              "p_holm": 0.011998800119988001,
+              "reliable": true
+            }
+          }
+        },
+        "thin_object": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": 0.050085813946275835,
+              "lower": 0.03554275228147237,
+              "upper": 0.06734753490197341,
+              "p_holm": 0.0005999400059994001,
+              "reliable": true
+            },
+            "diode": {
+              "mean": 0.013441350008415892,
+              "lower": 0.009141624921842771,
+              "upper": 0.017534013002614403,
+              "p_holm": 0.009599040095990401,
+              "reliable": true
+            },
+            "ibims": {
+              "mean": 0.03327883733231878,
+              "lower": 0.00188426845597921,
+              "upper": 0.06960385793452405,
+              "p_holm": 0.36876312368763126,
+              "reliable": false
+            }
+          }
+        },
+        "reflection": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": 0.011572893648239532,
+              "lower": 0.002862840011049625,
+              "upper": 0.022542349876658627,
+              "p_holm": 0.012598740125987402,
+              "reliable": true
+            },
+            "diode": {
+              "mean": 0.011580853042600385,
+              "lower": 8.222529035860281e-05,
+              "upper": 0.034374161201012256,
+              "p_holm": 0.18298170182981702,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": 0.00017740538257653133,
+              "lower": 0.0,
+              "upper": 0.000532216147729594,
+              "p_holm": 1.0,
+              "reliable": false
+            }
+          }
+        },
+        "poor_lighting": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.001234564436745552,
+              "lower": -0.028862371952560827,
+              "upper": 0.025658708927417458,
+              "p_holm": 0.9298070192980702,
+              "reliable": false
+            },
+            "diode": {
+              "mean": -0.0010398358140427868,
+              "lower": -0.015297516619640517,
+              "upper": 0.013931255240980212,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.005668871548039171,
+              "lower": -0.03349161501949978,
+              "upper": 0.022060711802763235,
+              "p_holm": 1.0,
+              "reliable": false
+            }
+          }
+        },
+        "ambiguous": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.03885792564636794,
+              "lower": -0.06774675768094622,
+              "upper": -0.009052716041891304,
+              "p_holm": 0.020997900209979003,
+              "reliable": true
+            },
+            "diode": {
+              "mean": -0.003601670944234828,
+              "lower": -0.01616568881071107,
+              "upper": 0.007856265067301207,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": 0.010002986266780117,
+              "lower": -0.060490884852966706,
+              "upper": 0.07668392577743284,
+              "p_holm": 1.0,
+              "reliable": false
+            }
+          }
+        }
+      }
+    },
+    "backbone_hybrid_vs_large": {
+      "verdict": "cut",
+      "labels": {
+        "textureless": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": 0.01190746776994765,
+              "lower": -0.017284196947882007,
+              "upper": 0.04282727528007451,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "diode": {
+              "mean": -0.02101455856643585,
+              "lower": -0.05467074771747356,
+              "upper": 0.014007564809684334,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": 0.11083752991347877,
+              "lower": 0.03775762986279951,
+              "upper": 0.19507023416965633,
+              "p_holm": 0.0821917808219178,
+              "reliable": false
+            }
+          }
+        },
+        "boundary_mixing": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.00674899292425126,
+              "lower": -0.02957239495164819,
+              "upper": 0.014503719391473748,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "diode": {
+              "mean": 0.016252712882057586,
+              "lower": -0.01155482191696539,
+              "upper": 0.05005342883089766,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.04543848964734359,
+              "lower": -0.1442242964271037,
+              "upper": 0.03780493417625232,
+              "p_holm": 0.9051094890510949,
+              "reliable": false
+            }
+          }
+        },
+        "thin_object": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.0054004889174008265,
+              "lower": -0.013801831211139568,
+              "upper": 0.0010624828594540318,
+              "p_holm": 0.9521047895210478,
+              "reliable": false
+            },
+            "diode": {
+              "mean": -0.0014768179961672614,
+              "lower": -0.005086302781824673,
+              "upper": 0.0012245973729959811,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.011747590088985625,
+              "lower": -0.03129047453921628,
+              "upper": 0.0054513531748654745,
+              "p_holm": 0.8315168483151685,
+              "reliable": false
+            }
+          }
+        },
+        "reflection": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.0006433046162706892,
+              "lower": -0.0035779987113564353,
+              "upper": 0.0019129163677644788,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "diode": {
+              "mean": 0.0002575167655221286,
+              "lower": -0.00019027917608603249,
+              "upper": 0.0010025926952780683,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.0010138733132004961,
+              "lower": -0.0028314320144820033,
+              "upper": -2.2547792966731967e-05,
+              "p_holm": 0.5554444555544445,
+              "reliable": false
+            }
+          }
+        },
+        "poor_lighting": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": -0.0033981472075262638,
+              "lower": -0.021277617773732944,
+              "upper": 0.015377274426613305,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "diode": {
+              "mean": 0.005604679763591755,
+              "lower": -0.007343720748631347,
+              "upper": 0.021011899486681387,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.044830695365700855,
+              "lower": -0.0937445704731914,
+              "upper": -0.003277109702978556,
+              "p_holm": 0.5554444555544445,
+              "reliable": false
+            }
+          }
+        },
+        "ambiguous": {
+          "passes": false,
+          "failure_type_difference": false,
+          "datasets": {
+            "nyu_test": {
+              "mean": 0.004283465895501386,
+              "lower": -0.01960171996832701,
+              "upper": 0.026809598549624926,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "diode": {
+              "mean": 0.0003764671514316333,
+              "lower": -0.00632837520067415,
+              "upper": 0.008236957590959364,
+              "p_holm": 1.0,
+              "reliable": false
+            },
+            "ibims": {
+              "mean": -0.0078068814982481995,
+              "lower": -0.048158782310531466,
+              "upper": 0.04222512474284702,
+              "p_holm": 0.9051094890510949,
+              "reliable": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "label_auroc": {
+    "boundary_mixing": {
+      "hypersim": 0.8148592294570343,
+      "ibims": 0.6925196808791674
+    },
+    "textureless": {
+      "hypersim": 0.5034645803247818,
+      "ibims": 0.8776552287581699
+    },
+    "reflection": {
+      "hypersim": 0.3939941147921595,
+      "ibims": 0.8215220888040998
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T15:16:36+00:00",
+    "git_commit": "cdbaf9521ebe88173a0a4c7507be0d624bdb3bed",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "inputs": {
+      "nyu_test": {
+        "path": "results\\nyu_test\\model_comparison.json",
+        "sha256": "1545eb7f60e768522c043ac68a4d8128e8b6cc55ca00e46c9591aec476f8551a"
+      },
+      "diode": {
+        "path": "results\\diode\\model_comparison.json",
+        "sha256": "de72495818ef5255d964c42fb4912cc7a782def0a938d73cc4e32d492f5a4bf1"
+      },
+      "ibims": {
+        "path": "results\\ibims\\model_comparison.json",
+        "sha256": "4d024d16a6d3653fb95cbda052daa479cd1b0ce63784b5cf0bfd04377840b216"
+      }
+    }
+  }
+}
