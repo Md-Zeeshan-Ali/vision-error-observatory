@@ -27,7 +27,7 @@ flowchart LR
 
 ## Results
 
-All results are from the official NYU Depth V2 test split (654 images, errors on sensor-measured pixels only) unless noted. Every number below comes from the files in [`results/`](results/), and a test checks that this page matches them.
+All results are from the official NYU Depth V2 test split (654 images, errors on sensor-measured pixels only) unless noted. Every number below comes from the files in [`results/`](results/), and a test checks the tables against them.
 
 ### Do the labels work?
 
