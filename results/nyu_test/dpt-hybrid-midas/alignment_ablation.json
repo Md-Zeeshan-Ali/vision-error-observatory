@@ -3521,8 +3521,8 @@
     }
   ],
   "provenance": {
-    "created_utc": "2026-10-28T14:27:07+00:00",
-    "git_commit": "ba8999744ffe7b909b5fa00a920e50280fe083ff",
+    "created_utc": "2026-11-02T11:58:36+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
     "git_dirty": true,
     "python": "3.11.9",
     "platform": "Windows-10-10.0.26300-SP0",
@@ -3536,6 +3536,6 @@
       "torch": "2.11.0+cu128",
       "transformers": "5.17.0"
     },
-    "config_hash": "2664c414451f1f3d"
+    "config_hash": "a1ad8bc3c9c83fd4"
   }
 }

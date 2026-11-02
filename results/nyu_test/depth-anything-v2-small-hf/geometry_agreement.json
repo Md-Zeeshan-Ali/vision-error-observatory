@@ -1,12 +1,12 @@
 {
   "regions": 6325,
-  "top_cause_agreement": 0.529802371541502,
-  "top_cause_kappa": 0.2976972198770293,
+  "top_cause_agreement": 0.7848221343873518,
+  "top_cause_kappa": 0.6842817451650591,
   "per_label": {
     "boundary_mixing": {
-      "audit": 4660,
-      "prediction_only": 4638,
-      "both": 3949
+      "audit": 3565,
+      "prediction_only": 4016,
+      "both": 3086
     },
     "poor_lighting": {
       "audit": 1256,
@@ -14,24 +14,24 @@
       "both": 1256
     },
     "reflection": {
-      "audit": 443,
-      "prediction_only": 443,
-      "both": 443
+      "audit": 282,
+      "prediction_only": 282,
+      "both": 282
     },
     "textureless": {
-      "audit": 1663,
-      "prediction_only": 1663,
-      "both": 1663
+      "audit": 1023,
+      "prediction_only": 1023,
+      "both": 1023
     },
     "thin_object": {
-      "audit": 1780,
-      "prediction_only": 3331,
-      "both": 1091
+      "audit": 2171,
+      "prediction_only": 1890,
+      "both": 1738
     }
   },
   "provenance": {
-    "created_utc": "2026-10-28T14:06:11+00:00",
-    "git_commit": "ba8999744ffe7b909b5fa00a920e50280fe083ff",
+    "created_utc": "2026-11-02T11:58:35+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
     "git_dirty": true,
     "python": "3.11.9",
     "platform": "Windows-10-10.0.26300-SP0",
@@ -45,6 +45,6 @@
       "torch": "2.11.0+cu128",
       "transformers": "5.17.0"
     },
-    "config_hash": "e6fe2f957a5cd7c8"
+    "config_hash": "a945c2bc63b52907"
   }
 }

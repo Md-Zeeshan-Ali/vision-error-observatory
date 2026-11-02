@@ -1,20 +1,20 @@
 {
-  "sample_id": "scene_0009",
-  "region_id": 48,
+  "sample_id": "scene_0029",
+  "region_id": 59,
   "edit": "uniform integer noise [0, 100) added inside the bounding box",
   "model_rerun": false,
   "before": {
-    "textureless_score": 0.499308705329895,
-    "top_cause": "textureless"
+    "textureless_score": 0.0,
+    "top_cause": "boundary_mixing"
   },
   "after": {
     "textureless_score": 0.0,
-    "top_cause": "reflection"
+    "top_cause": "boundary_mixing"
   },
-  "score_decreased": true,
+  "score_decreased": false,
   "provenance": {
-    "created_utc": "2026-10-28T14:27:15+00:00",
-    "git_commit": "ba8999744ffe7b909b5fa00a920e50280fe083ff",
+    "created_utc": "2026-11-02T11:50:12+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
     "git_dirty": true,
     "python": "3.11.9",
     "platform": "Windows-10-10.0.26300-SP0",
@@ -31,7 +31,7 @@
     "inputs": {
       "veo_results": {
         "path": "outputs\\nyu_test\\depth-anything-v2-small-hf\\model_results.json",
-        "sha256": "2feafe772325ce2277f0126c2fc70f88d590a405b4d1d9a5256f644f252a17e7"
+        "sha256": "9c0851f8342e6a5afead164b9cd5118a3cc20797c50736eee7c63e2d0f7ce379"
       }
     }
   }

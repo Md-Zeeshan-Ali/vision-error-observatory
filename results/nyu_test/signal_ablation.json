@@ -1,51 +1,100 @@
 {
   "rows": [
     {
-      "signal": "grad_energy",
-      "neutral_value": 8.0,
-      "changed_regions": 807,
-      "total_regions": 6325,
-      "changed_fraction": 0.1275889328063241
-    },
-    {
-      "signal": "depth_edge_fraction",
-      "neutral_value": 0.0,
-      "changed_regions": 4433,
-      "total_regions": 6325,
-      "changed_fraction": 0.7008695652173913
-    },
-    {
-      "signal": "thin_fraction",
-      "neutral_value": 0.0,
-      "changed_regions": 979,
-      "total_regions": 6325,
-      "changed_fraction": 0.15478260869565216
-    },
-    {
-      "signal": "highlight_ratio",
-      "neutral_value": 0.0,
-      "changed_regions": 308,
-      "total_regions": 6325,
-      "changed_fraction": 0.04869565217391304
-    },
-    {
       "signal": "brightness",
       "neutral_value": 128.0,
-      "changed_regions": 141,
+      "changed_regions": 261,
       "total_regions": 6325,
-      "changed_fraction": 0.022292490118577073
+      "changed_fraction": 0.041264822134387355
     },
     {
       "signal": "clipped_fraction",
       "neutral_value": 0.0,
-      "changed_regions": 229,
+      "changed_regions": 155,
       "total_regions": 6325,
-      "changed_fraction": 0.036205533596837945
+      "changed_fraction": 0.02450592885375494
+    },
+    {
+      "signal": "sensor_hole_fraction",
+      "neutral_value": 0.26713505448131636,
+      "changed_regions": 212,
+      "total_regions": 6325,
+      "changed_fraction": 0.03351778656126482
+    },
+    {
+      "signal": "signed_error",
+      "neutral_value": 0.20485458665416562,
+      "changed_regions": 152,
+      "total_regions": 6325,
+      "changed_fraction": 0.024031620553359685
+    },
+    {
+      "signal": "saturation_mean",
+      "neutral_value": 98.8288461388455,
+      "changed_regions": 88,
+      "total_regions": 6325,
+      "changed_fraction": 0.01391304347826087
+    },
+    {
+      "signal": "thin_image_fraction",
+      "neutral_value": 0.3453900529421615,
+      "changed_regions": 885,
+      "total_regions": 6325,
+      "changed_fraction": 0.1399209486166008
+    },
+    {
+      "signal": "log_area",
+      "neutral_value": 4.568221535204231,
+      "changed_regions": 483,
+      "total_regions": 6325,
+      "changed_fraction": 0.07636363636363637
+    },
+    {
+      "signal": "thin_fraction",
+      "neutral_value": 0.1262355099770262,
+      "changed_regions": 350,
+      "total_regions": 6325,
+      "changed_fraction": 0.05533596837944664
+    },
+    {
+      "signal": "depth_edge_fraction",
+      "neutral_value": 0.6155210503655902,
+      "changed_regions": 2939,
+      "total_regions": 6325,
+      "changed_fraction": 0.46466403162055336
+    },
+    {
+      "signal": "depth_step",
+      "neutral_value": 0.10898011602194274,
+      "changed_regions": 166,
+      "total_regions": 6325,
+      "changed_fraction": 0.02624505928853755
+    },
+    {
+      "signal": "grad_energy",
+      "neutral_value": 11.13965080384605,
+      "changed_regions": 438,
+      "total_regions": 6325,
+      "changed_fraction": 0.06924901185770752
+    },
+    {
+      "signal": "contrast",
+      "neutral_value": 20.473878806524315,
+      "changed_regions": 495,
+      "total_regions": 6325,
+      "changed_fraction": 0.0782608695652174
+    },
+    {
+      "signal": "corner_strength",
+      "neutral_value": 57.31610292396704,
+      "changed_regions": 362,
+      "total_regions": 6325,
+      "changed_fraction": 0.05723320158102767
     }
   ],
   "provenance": {
-    "created_utc": "2026-10-28T14:27:13+00:00",
-    "git_commit": "ba8999744ffe7b909b5fa00a920e50280fe083ff",
+    "created_utc": "2026-11-02T11:50:12+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
     "git_dirty": true,
     "python": "3.11.9",
     "platform": "Windows-10-10.0.26300-SP0",
@@ -62,7 +111,7 @@
     "inputs": {
       "veo_results": {
         "path": "outputs\\nyu_test\\depth-anything-v2-small-hf\\model_results.json",
-        "sha256": "2feafe772325ce2277f0126c2fc70f88d590a405b4d1d9a5256f644f252a17e7"
+        "sha256": "9c0851f8342e6a5afead164b9cd5118a3cc20797c50736eee7c63e2d0f7ce379"
       }
     }
   }
