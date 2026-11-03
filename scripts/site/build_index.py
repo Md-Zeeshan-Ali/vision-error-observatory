@@ -996,7 +996,7 @@ def generate_experience_html():
 
           <!-- Research Mode Technical Region Note -->
           <div class="research-only" style="margin-top: 14px; padding: 10px; background: var(--surface-beige); border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.4;">
-            <strong>Thresholding Protocol:</strong> pixels failing &delta;1 + 8-connectivity component extraction (Area &ge; 25 px).
+            <strong>Thresholding Protocol:</strong> pixels failing &delta;1 + 4-connectivity component extraction (Area &ge; 25 px).
           </div>
         </div>
       </div>
@@ -1016,7 +1016,7 @@ def generate_experience_html():
           </p>
           <ol style="margin-left: 20px; margin-bottom: 8px; line-height: 1.6;">
             <li><strong>Failing Pixels:</strong> A pixel fails when predicted and true depth differ by more than 25% (it fails the standard &delta;1 test). Only pixels the depth sensor actually measured are scored.</li>
-            <li><strong>Connected Component Grouping:</strong> Contiguous candidate pixels are grouped into discrete 2D spatial regions using 8-connectivity.</li>
+            <li><strong>Connected Component Grouping:</strong> Contiguous candidate pixels are grouped into discrete 2D spatial regions using 4-connectivity.</li>
             <li><strong>Noise Pruning:</strong> Regions smaller than 25 pixels ($Area &lt; 25$) are discarded to eliminate single-pixel sensor dropouts and spurious noise.</li>
           </ol>
           <p style="font-size: 12px; color: var(--text-muted);">

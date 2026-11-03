@@ -24,7 +24,7 @@ Frozen on 2026-10-28, before any v2 result on the NYU official test split was co
 ## Failure regions
 
 - **Failing pixel:** `max(pred / gt, gt / pred) > 1.25` (fails δ1), inside the evaluation mask.
-- **Regions:** 8-connected components of failing pixels with area ≥ 25 px. No morphological opening, because it erases thin failure bands at edges and on thin objects.
+- **Regions:** 4-connected components (amendment 4; this line first said 8-connected) of failing pixels with area ≥ 25 px. No morphological opening, because it erases thin failure bands at edges and on thin objects.
 - **Sensitivity analysis:** δ thresholds 1.10, 1.25 (primary) and 1.5625, plus v1's per-image 85th-percentile rule for comparison.
 
 ## Features and hypotheses
@@ -62,3 +62,7 @@ Frozen on 2026-10-28, before any v2 result on the NYU official test split was co
 **2026-10-28, after the first NYU v2 run (post-hoc, disclosed):**
 
 3. *Cap on aligned predictions.* The first run showed DPT-Hybrid with mean AbsRel 12.5 and RMSE 421 m although δ1 was 0.918. In 2 of 654 images the inverse-depth fit maps some pixels to zero or negative disparity, which then became depths of up to 10^6 m. Aligned predictions are now capped at the evaluation range (`max_prediction_m: 10` for NYU; 20 m in the Hypersim test), as in standard NYU evaluation, and all v2 results were regenerated. This changes only pixels whose aligned depth exceeded the cap. It was decided after seeing results, so it is recorded here as a post-hoc correction of a numerical defect, not a pre-registered choice.
+
+**2026-11-03, found while writing up (no result changes):**
+
+4. *Region connectivity.* The "Failure regions" section said 8-connected components, but `src/veo/regions.py` calls `scipy.ndimage.label` with its default structure, which is 4-connected. Every v2 and v3 result was computed with 4-connectivity. The code is kept as it is so that published numbers stay reproducible, and this document now records what was actually done.
