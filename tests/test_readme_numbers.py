@@ -108,6 +108,25 @@ def _readme_rows() -> list[str]:
     rows.append(f"improved AbsRel from {means['pretrained']['abs_rel']:.3f} to {means['uniform']['abs_rel']:.3f}")
     check = _results("finetune", "training_pixel_check.json")["models"]
     rows.append(f"from {check['uniform_seed0']['boundary_mixing']['abs_rel']:.2f} to {check['veo_boundary_seed0']['boundary_mixing']['abs_rel']:.2f}")
+    sweep = _results("finetune", "weight_sweep.json")
+    minus = lambda value: f"{value:+.4f}".replace("-", "−")  # noqa: E731
+    for family, key in (("sweep", "boundary_share05"), ("sweep", "boundary_share10"), ("sweep", "textureless_share05"), ("sweep", "textureless_share10"),
+                        ("hard_example", "boundary_vs_failure_weighted"), ("hard_example", "textureless_vs_failure_weighted")):
+        row = sweep[family][key]
+        assert not row["supported"]
+        p_value = f"{row['p_holm']:.4f}" if row["p_holm"] < 0.01 else f"{row['p_holm']:.2f}"
+        rows.append(f"| {minus(row['mean'])} [{minus(row['lower'])}, {minus(row['upper'])}] | {p_value} | No |")
+    rows.append(f"({minus(sweep['descriptive']['failure_weighted_vs_uniform_overall']['mean'])} overall AbsRel)")
+    review = _results("review_checks.json")
+    cues, small = review["cue_baselines"]["nyu_test"], review["pixels"]["depth-anything-v2-small-hf"]
+    for label, cue, cue_name in (("boundary_mixing", "depth_edge_fraction", "depth-edge share"), ("thin_object", "thin_image_fraction", "thin-structure share"),
+                                 ("textureless", "log_area_alone", "region size"), ("reflection", "sensor_hole_fraction", "sensor holes")):
+        ratio = small["base_rates"][label]["rate_ratio"]
+        rows.append(f"| `{label}` | {cues[label]['label_model']['auroc']:.2f} | {cues[label][cue]['auroc']:.2f} ({cue_name}) | "
+                    f"{review['top_label']['nyu_test'][label]['precision']:.2f} | {ratio:.2f}× |".replace(f"{ratio:.2f}", f"{ratio:.2f}" if ratio < 1 else f"{ratio:.1f}")
+                    + f" {100 * small['edge_tolerance'][label]['kept_at_2px']:.0f}% |")
+    partial = review["specular_partial"]
+    rows.append(f"partial ρ = {partial['partial_spearman']:.2f}, 95% CI [{partial['lower']:.2f}, {partial['upper']:.2f}]".replace("-", "−"))
     dose = hypersim["dose_response_spearman"]
     rows.append(f"\u03c1 = {dose['estimate']:.2f}".replace("-", "\u2212"))
     rows.append(f"[{dose['lower']:.2f}, {dose['upper']:.2f}]".replace("-", "\u2212"))

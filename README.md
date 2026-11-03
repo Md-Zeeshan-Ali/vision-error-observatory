@@ -42,6 +42,25 @@ AUROC against object annotations, where 0.5 is chance. The label model was fitte
 
 <sub>— means iBims-1 can't test the label: it has no thin-object annotation, and only 3 regions fall on its wall masks. It uses transparent surfaces for `reflection` and annotated depth edges for `boundary_mixing`.</sub>
 
+### Are the labels more than their cues?
+
+These checks were added after the results above, in response to review, so they are exploratory ([results](results/review_checks.json)). Depth Anything V2 Small on NYU test unless noted.
+
+| Label | Label model AUROC | Best single cue | Top-label precision | Fail-rate ratio | Failing pixels left at 2 px |
+|---|---|---|---|---|---|
+| `boundary_mixing` | 0.85 | 0.85 (depth-edge share) | 0.68 | 6.2× | 34% |
+| `thin_object` | 0.73 | 0.66 (thin-structure share) | 0.24 | 2.2× | 29% |
+| `textureless` | 0.58 | 0.59 (region size) | 0.14 | 0.44× | 93% |
+| `reflection` | 0.83 | 0.76 (sensor holes) | 0.23 | 10.6× | 94% |
+
+<sub>Fail-rate ratio: how many times more often silver-positive pixels fail than other annotated pixels. Left at 2 px: the share of labelled failing pixels that still fail when any prediction within 2 px may match the measured depth.</sub>
+
+- **One cue does about as well.** Each label model barely beats its best single cue. On iBims-1, depth step alone scores 0.68 for boundaries, against 0.69 for the label model.
+- **Only boundaries are usually right as a top label**, with precision 0.68 on NYU and 0.65 on iBims-1.
+- **Walls and ceilings fail less often than other annotated pixels**, so `textureless` does not even pick out a high-risk surface.
+- **Most boundary failures are an edge placed a pixel or two off.** With a 2 px tolerance, 34% of boundary-labelled failing pixels remain, against 85% of failing pixels away from silver boundaries (49% against 92% for DPT-Hybrid). The offset may be in the model or in the registration of image and sensor.
+- **The rising boundary share is mostly mechanical.** Better models have a larger boundary share of failure-region pixels, but boundary failure as a share of all valid pixels barely moves with overall failure on NYU and DIODE (Spearman ρ = −0.12 and 0.02): other errors shrink around a nearly constant boundary floor. On iBims-1 it does move (ρ = 0.90).
+
 ### Do the explanations hold when the model is re-run?
 
 Each labelled region is paired with a matched control and both get the same edit (120 pairs). A negative difference means the edit helped labelled regions more.
@@ -53,7 +72,7 @@ Each labelled region is paired with a matched control and both get the same edit
 | Brighten, `poor_lighting` | −0.007 [−0.020, +0.007] | 0.72 | No |
 | Add texture, `textureless` | +0.014 [−0.019, +0.050] | 0.72 | No |
 
-Separately, removing specular light from synthetic Hypersim renders shows that it does raise depth error: the more a region has, the more its error falls without it (Spearman ρ = −0.26, 95% CI [−0.36, −0.14]).
+Separately, removing specular light from synthetic Hypersim renders shows that it does raise depth error: the more a region has, the more its error falls without it (Spearman ρ = −0.26, 95% CI [−0.36, −0.14]). This holds with each region's starting error held fixed (partial ρ = −0.24, 95% CI [−0.35, −0.10]).
 
 ### How do models compare?
 
@@ -93,7 +112,20 @@ Fine-tuning Depth Anything V2 Small's decoder on NYU train, up-weighting the reg
 | `boundary_mixing` | Occluding boundaries | 0.113 | 0.093 | +0.020 [+0.018, +0.022] | No |
 | `textureless` | Walls and ceilings | 0.048 | 0.044 | +0.003 [+0.002, +0.005] | No |
 
-Both VEO-guided conditions were worse on their targets and overall, in all three seeds. Plain fine-tuning with no weighting improved AbsRel from 0.051 to 0.046, and random up-weighting changed it little. The weighting did act on the training images: at seed 0, `boundary_mixing` up-weighting cut error on its targeted training regions from 0.31 to 0.17, so the failure is best explained by fitting those specific regions rather than learning anything general. This is one weighting strength, on one dataset.
+Both VEO-guided conditions were worse on their targets and overall, in all three seeds. Plain fine-tuning with no weighting improved AbsRel from 0.051 to 0.046, and random up-weighting changed it little. The weighting did act on the training images: at seed 0, `boundary_mixing` up-weighting cut error on its targeted training regions from 0.31 to 0.17, so the failure is best explained by fitting those specific regions rather than learning anything general.
+
+The test above gives the targeted pixels 20% of the loss. To check whether a gentler weight helps, and whether the label adds anything beyond "this region failed", an [amendment](docs/FINETUNE_PROTOCOL.md) fixed before any of these runs repeated it at 5% and 10%, and added a baseline that up-weights every failure region whatever its label ([results](results/finetune/weight_sweep.json)).
+
+| Comparison | Measured on | Difference [95% CI] | Holm p | Supported |
+|---|---|---|---|---|
+| VEO vs. random, 5% | Occluding boundaries | +0.0053 [+0.0038, +0.0067] | 0.0004 | No |
+| VEO vs. random, 10% | Occluding boundaries | +0.0114 [+0.0096, +0.0133] | 0.0004 | No |
+| VEO vs. random, 5% | Walls and ceilings | +0.0003 [−0.0003, +0.0009] | 0.34 | No |
+| VEO vs. random, 10% | Walls and ceilings | +0.0010 [−0.0003, +0.0022] | 0.25 | No |
+| VEO vs. all failures, 20% | Occluding boundaries | +0.0180 [+0.0167, +0.0193] | 0.0002 | No |
+| VEO vs. all failures, 20% | Walls and ceilings | +0.0013 [+0.0008, +0.0018] | 0.0002 | No |
+
+No strength helps. On boundaries the harm shrinks with the weight (+0.020 at 20%, +0.011 at 10%, +0.005 at 5%) but stays reliable, and on walls and ceilings the weaker weights make no reliable difference. Up-weighting every failure region was itself worse than plain fine-tuning (+0.0015 overall AbsRel), so neither the diagnosis nor the failure mask is a useful training signal here. All runs use one model and one dataset.
 
 ## Quick start
 
@@ -168,7 +200,7 @@ uv run python experiments/human_study.py --manifest study_manifest.json --rating
 ## Limitations
 
 - **Annotations are a proxy.** Wall and ceiling stand in for "textureless", and on average 42% of a region's pixels on NYU have no annotation at all.
-- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse.
+- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse at every weight tried. Each label model does little better than its best single cue, and most boundary failures are an edge placed a pixel or two off.
 - **The audit needs ground truth.** Finding failure regions and two of the label cues rely on measured depth.
 - **Some failures may be sensor errors.** On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.
 - **DIODE labels can't be checked.** It has no annotations, so it supports metrics and the fingerprint test only. Its tests use 10 scans from 3 scenes, which are not independent.

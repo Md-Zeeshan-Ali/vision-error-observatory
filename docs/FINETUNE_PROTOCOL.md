@@ -93,3 +93,20 @@ Two reviewers of the paper draft raised two points. The primary test used one, v
 - **Reading.** A supported sweep test would show that a weaker weight helps where the strong one did not. Since the strengths were chosen after the primary result, that would be evidence for a dose effect, not a replacement for the failed primary claim. A supported hard-example test would show that the label adds value beyond the failure mask.
 
 Command: `python experiments/guided_finetune.py --sweep`, which writes `results/finetune/weight_sweep.json`.
+
+### 2026-11-03: weight sweep and hard-example results
+
+The amendment above was committed (90a1317) before the first of these runs started, and its rules were applied as written ([results](../results/finetune/weight_sweep.json)). Differences are VEO-guided minus control on the matching outcome, pooled over seeds 0 to 2.
+
+| Test | Difference [95% CI] | Holm p | Seeds agree | Supported |
+|---|---|---|---|---|
+| Boundary, 5%: `veo` vs `random` | +0.0053 [+0.0038, +0.0067] | 0.0004 | Yes | No |
+| Textureless, 5%: `veo` vs `random` | +0.0003 [−0.0003, +0.0009] | 0.34 | Yes | No |
+| Boundary, 10%: `veo` vs `random` | +0.0114 [+0.0096, +0.0133] | 0.0004 | Yes | No |
+| Textureless, 10%: `veo` vs `random` | +0.0010 [−0.0003, +0.0022] | 0.25 | Yes | No |
+| Boundary, 20%: `veo_boundary` vs `failure_weighted` | +0.0180 [+0.0167, +0.0193] | 0.0002 | Yes | No |
+| Textureless, 20%: `veo_textureless` vs `failure_weighted` | +0.0013 [+0.0008, +0.0018] | 0.0002 | Yes | No |
+
+No sweep test is supported. On boundary pixels the harm shrinks with the share (+0.0202 at 20%, +0.0114 at 10%, +0.0053 at 5%) and stays reliable; on wall and ceiling pixels the weaker shares make no reliable difference. No hard-example test is supported either: VEO guidance was worse than up-weighting every failure region. Descriptively, `failure_weighted` was itself worse than `uniform` on boundary pixels (+0.0027), wall and ceiling pixels (+0.0025) and overall AbsRel (+0.0015).
+
+**Consequence.** No weighting strength or target tried here improves the model, and the label adds nothing over the failure mask as a training signal. No further strengths will be tried on this design.
