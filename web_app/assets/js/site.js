@@ -5,12 +5,9 @@
   "use strict";
 
   // ---------- constants ----------
-  const W = 640, H = 480;
-  const CROP = { x0: 41, y0: 45, x1: 601, y1: 471 }; // NYU evaluation crop
-  const FX = 518.8579, FY = 519.4696, CX = 325.5824, CY = 253.7362; // NYU Kinect intrinsics
-  const DATA_BYTES = 9277169;
+  const { W, H, CROP, clamp, ease, smooth, mkCanvas, TURBO, INFERNO, INFERNO_GLSL, lutCss } = window.VEO;
+  const { fx: FX, fy: FY, cx: CX, cy: CY } = window.VEO.CAM;
   const LN2 = Math.log(2);
-  const HOT = [255, 90, 54];
 
   const LABELS = {
     boundary_mixing: { name: "Depth boundary", color: "#ff7a45" },
@@ -71,62 +68,11 @@
   // ---------- helpers ----------
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const ease = (t) => 1 - Math.pow(1 - t, 3);
-  const smooth = (t) => t * t * (3 - 2 * t);
-  const mkCanvas = (w, h) => Object.assign(document.createElement("canvas"), { width: w, height: h });
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
   const fmtInt = (n) => n >= 10000 ? (n / 1000).toFixed(0) + "k" : n.toLocaleString("en-US");
   const finePointer = matchMedia("(pointer: fine)").matches;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function polyLUT(coef) {
-    // coef[channel] = polynomial coefficients, lowest order first
-    const lut = new Uint8ClampedArray(256 * 3);
-    for (let k = 0; k < 256; k++) {
-      const t = k / 255;
-      for (let ch = 0; ch < 3; ch++) {
-        const c = coef[ch];
-        let v = 0;
-        for (let j = c.length - 1; j >= 0; j--) v = v * t + c[j];
-        lut[k * 3 + ch] = v * 255;
-      }
-    }
-    return lut;
-  }
-  const TURBO = polyLUT([
-    [0.13572138, 4.6153926, -42.66032258, 132.13108234, -152.94239396, 59.28637943],
-    [0.09140261, 2.19418839, 4.84296658, -14.18503333, 4.27729857, 2.82956604],
-    [0.1066733, 12.64194608, -60.58204836, 110.36276771, -89.90310912, 27.34824973],
-  ]);
-  const INFERNO_C = [
-    [0.0002189403691192265, 0.001651004631001012, -0.01948089843709184],
-    [0.1065134194856116, 0.5639564367884091, 3.932712388889277],
-    [11.60249308247187, -3.972853965665698, -15.9423941062914],
-    [-41.70399613139459, 17.43639888205313, 44.35414519872813],
-    [77.162935699427, -33.40235894210092, -81.80730925738993],
-    [-71.31942824499214, 32.62606426397723, 73.20951985803202],
-    [25.13112622477341, -12.24266895238567, -23.07032500287172],
-  ];
-  const INFERNO = polyLUT([0, 1, 2].map((ch) => INFERNO_C.map((c) => c[ch])));
-  const lutCss = (lut, a = 0, b = 1) => {
-    const stops = [];
-    for (let k = 0; k <= 8; k++) {
-      const i = Math.round((a + (b - a) * k / 8) * 255) * 3;
-      stops.push(`rgb(${lut[i]},${lut[i + 1]},${lut[i + 2]}) ${k * 12.5}%`);
-    }
-    return `linear-gradient(90deg, ${stops.join(",")})`;
-  };
-
-  function decodeDepth(b64) {
-    const bin = atob(b64);
-    const n = bin.length >> 1;
-    const out = new Float32Array(n);
-    for (let i = 0, j = 0; i < n; i++, j += 2) out[i] = (bin.charCodeAt(j) | (bin.charCodeAt(j + 1) << 8)) / 1000;
-    return out;
-  }
-  const loadImg = (src) => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
 
   let toastTimer;
   function toast(msg) {
@@ -138,69 +84,19 @@
   }
 
   // ---------- data loading ----------
-  async function loadData() {
-    const setP = (f) => {
+  function loadData() {
+    return window.VEO.loadData((f) => {
       $("#loader-fill").style.width = pct(f, 0);
       $("#loader-pct").textContent = Math.round(f * 100) + "%";
-    };
-    try {
-      const res = await fetch("data/app_data_v2.js");
-      if (!res.ok || !res.body) throw new Error("fetch failed");
-      const total = Math.max(+res.headers.get("content-length") || 0, DATA_BYTES);
-      const reader = res.body.getReader();
-      const chunks = [];
-      let got = 0;
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        got += value.length;
-        setP(Math.min(got / total, 0.99));
-      }
-      const buf = new Uint8Array(got);
-      let off = 0;
-      for (const c of chunks) { buf.set(c, off); off += c.length; }
-      const text = new TextDecoder().decode(buf);
-      $("#loader-text").textContent = "Decoding depth maps";
-      return JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
-    } catch (e) {
-      // file:// or old browsers: fall back to a plain script tag
-      return new Promise((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src = "data/app_data_v2.js";
-        s.onload = () => resolve(window.VEO_DATA);
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
+    });
   }
 
   // ---------- scene preparation ----------
   async function prepScene(sc) {
-    if (sc._prep) return sc._prep;
-    const img = await loadImg(sc.images.rgb);
-    const c = mkCanvas(W, H);
-    const cx = c.getContext("2d", { willReadFrequently: true });
-    cx.drawImage(img, 0, 0, W, H);
-    const rgb = cx.getImageData(0, 0, W, H).data;
-    const gt = decodeDepth(sc.raw_depth.gt_b64_uint16);
-    const pd = decodeDepth(sc.raw_depth.pred_b64_uint16);
-    const lr = new Float32Array(W * H);
-    const crop = new Uint8Array(W * H);
-    let lo = Infinity, hi = -Infinity;
-    for (let y = CROP.y0; y < CROP.y1; y++) {
-      for (let x = CROP.x0; x < CROP.x1; x++) {
-        const i = y * W + x;
-        const g = gt[i], p = pd[i];
-        if (g > 0 && p > 0) {
-          crop[i] = 1;
-          lr[i] = Math.abs(Math.log(p / g));
-          if (g < lo) lo = g; if (g > hi) hi = g;
-          if (p < lo) lo = p; if (p > hi) hi = p;
-        }
-      }
-    }
-    const P = { sc, rgb, gt, pd, lr, crop, lo, hi, layers: {} };
+    const P = await window.VEO.prepScene(sc);
+    if (P.layers) return P;
+    P.layers = {};
+    const { rgb, gt, pd, lr, crop, lo, hi } = P;
     const mk = () => { const cv = mkCanvas(W, H); const x = cv.getContext("2d"); return { cv, x, d: x.createImageData(W, H) }; };
     const L = { photo: mk(), truth: mk(), pred: mk(), error: mk() };
     const span = hi - lo || 1;
@@ -225,7 +121,6 @@
     for (const k in L) { L[k].x.putImageData(L[k].d, 0, 0); P.layers[k] = L[k].cv; }
     P.failLayer = mk();
     P.layers.fail = P.failLayer.cv;
-    sc._prep = P;
     return P;
   }
 
@@ -259,17 +154,6 @@
   }
 
   // ---------- point cloud (three.js) ----------
-  const INFERNO_GLSL = `
-    vec3 inferno(float t) {
-      const vec3 c0 = vec3(${INFERNO_C[0].join(",")});
-      const vec3 c1 = vec3(${INFERNO_C[1].join(",")});
-      const vec3 c2 = vec3(${INFERNO_C[2].join(",")});
-      const vec3 c3 = vec3(${INFERNO_C[3].join(",")});
-      const vec3 c4 = vec3(${INFERNO_C[4].join(",")});
-      const vec3 c5 = vec3(${INFERNO_C[5].join(",")});
-      const vec3 c6 = vec3(${INFERNO_C[6].join(",")});
-      return c0 + t * (c1 + t * (c2 + t * (c3 + t * (c4 + t * (c5 + t * c6)))));
-    }`;
   const VERT = `
     uniform float uMix, uTime, uColorMode, uThr, uGlow, uScan, uScanOn, uBoxOn, uProj, uStep, uSizeMul;
     uniform vec4 uBox;
@@ -307,11 +191,6 @@
       if (dot(c, c) > 0.25) discard;
       gl_FragColor = vec4(vCol, 1.0);
     }`;
-
-  function webglOK() {
-    try { const c = document.createElement("canvas"); return !!(window.THREE && (c.getContext("webgl") || c.getContext("experimental-webgl"))); }
-    catch (e) { return false; }
-  }
 
   class PointCloud {
     constructor(canvas, opts = {}) {
@@ -1179,7 +1058,7 @@
     initExplorer();
     initInside();
 
-    if (webglOK()) {
+    if (window.VEO.webglOK()) {
       try { initHero(); initLift(); }
       catch (e) { console.warn("WebGL unavailable", e); state.hero = state.lift = null; }
     }

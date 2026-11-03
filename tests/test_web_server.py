@@ -32,8 +32,8 @@ def _status(port: int, path: str, method: str = "HEAD") -> int:
     "/index.html",
     "/model_lab.html",
     "/data/app_data_v2.js",
-    "/assets/fontawesome/all.min.css",
-    "/assets/webfonts/fa-solid-900.woff2",
+    "/assets/css/site.css",
+    "/assets/js/core.js",
     "/favicon.ico",
 ])
 def test_site_files_are_served(port, path):
