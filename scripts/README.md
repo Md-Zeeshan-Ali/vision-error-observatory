@@ -5,7 +5,7 @@ Analysis lives in `src/veo` and the per-result experiments live in [`experiments
 | Script | Output | Notes |
 |---|---|---|
 | `site/export_data.py` | `web_app/data/app_data_v2.js` | Needs a finished `veo reproduce` run; picks demo scenes from the test split. |
-| `site/build_index.py` | `web_app/index.html` | Static explorer page. |
+| — | `web_app/index.html` | Hand-written page; styles in `web_app/assets/css/site.css`, behaviour in `web_app/assets/js/site.js`. |
 | `site/build_model_lab.py` | `web_app/model_lab.html` | 3D teaching lab page. |
 | `site/generate_video.py` | `web_app/veo_explainer.mp4` | Slide video rendered with OpenCV/PIL. |
 

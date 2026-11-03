@@ -1,2189 +1,391 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vision Error Observatory (VEO) | Depth-Estimation Failure Observatory</title>
-  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vision Error Observatory</title>
+  <meta name="description" content="VEO finds where monocular depth models fail, describes each failure with measurable cues, and tests the explanations by editing images and re-running the model.">
+  <meta name="theme-color" content="#06070b">
+  <meta property="og:title" content="Vision Error Observatory">
+  <meta property="og:description" content="Find where monocular depth models fail, and test why.">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="alternate icon" href="favicon.ico">
-  
-  <!-- FontAwesome Icons & Local Tailwind -->
-  <link rel="stylesheet" href="assets/fontawesome/all.min.css">
-  <link rel="stylesheet" href="assets/css/tailwind.min.css">
-  
-  <!-- Local Offline Libraries: Three.js, OrbitControls, Chart.js -->
-  <script src="assets/js/three.min.js"></script>
-  <script src="assets/js/OrbitControls.js"></script>
-  <script src="assets/js/chart.min.js"></script>
-  
-  <!-- Precomputed Dataset Payload (NYU Depth V2 Test Scenes, Real Depths & Features) -->
-  <script src="data/app_data_v2.js"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-    
-    :root {
-      --bg-ivory: #F6F3EA;
-      --surface-beige: #EAE2D2;
-      --surface-card: #FFFFFF;
-      --surface-muted: #E2D9C7;
-      --border-subtle: #D9D1C2;
-      --border-strong: #C4BAA6;
-      --olive-primary: #68734D;
-      --olive-dark: #414A32;
-      --olive-light: #E8ECE2;
-      --warm-brown: #8B6849;
-      --error-terracotta: #C8755A;
-      --error-light: #F7EAE6;
-      --text-dark: #292B24;
-      --text-muted: #74756B;
-      --sage-green: #5A7A54;
-      --accent-gold: #C29B38;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-ivory);
-      color: var(--text-dark);
-      line-height: 1.5;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .font-serif {
-      font-family: 'Newsreader', Georgia, serif;
-    }
-    
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Subtle custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-ivory);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-strong);
-      border-radius: 4px;
-    }
-
-    /* Top Sticky Navigation Header */
-    .header-bar {
-      background: rgba(246, 243, 234, 0.95);
-      border-bottom: 1px solid var(--border-subtle);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-      padding: 12px 24px;
-    }
-    .header-inner {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    /* Mode Pill Switches */
-    .pill-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      border: 1px solid var(--border-subtle);
-      background: var(--surface-beige);
-      color: var(--text-dark);
-      text-decoration: none;
-    }
-    .pill-btn:hover {
-      background: var(--olive-light);
-      border-color: var(--olive-primary);
-    }
-    .pill-btn.active {
-      background: var(--olive-dark);
-      color: #FFFFFF;
-      border-color: var(--olive-dark);
-    }
-    .pill-btn.terracotta {
-      background: var(--error-light);
-      color: var(--error-terracotta);
-      border-color: var(--error-terracotta);
-    }
-    .pill-btn.terracotta.active {
-      background: var(--error-terracotta);
-      color: #FFFFFF;
-    }
-
-    /* Global Metric Ribbon */
-    .stats-ribbon {
-      background: var(--surface-beige);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 8px 24px;
-      font-size: 12px;
-    }
-    .stats-inner {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    /* Stage Stepper Navigation */
-    .stepper-nav {
-      background: rgba(234, 226, 210, 0.75);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 10px 24px;
-      position: sticky;
-      top: 61px;
-      z-index: 90;
-      backdrop-filter: blur(6px);
-    }
-    .stepper-inner {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      overflow-x: auto;
-    }
-    .stepper-step {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      border: 1px solid transparent;
-    }
-    .stepper-step:hover {
-      color: var(--text-dark);
-      background: rgba(255,255,255,0.6);
-    }
-    .stepper-step.active {
-      color: var(--olive-dark);
-      background: #FFFFFF;
-      border-color: var(--border-subtle);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      font-weight: 600;
-    }
-    .stepper-step.completed .step-num {
-      background: var(--olive-primary);
-      color: #FFFFFF;
-    }
-    .stepper-step.active .step-num {
-      background: var(--olive-dark);
-      color: #FFFFFF;
-    }
-    .step-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--surface-muted);
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Main Container */
-    .main-workspace {
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 24px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    /* Stage Panel Transition */
-    .stage-section {
-      display: none;
-      animation: fadeIn 0.3s ease-out forwards;
-    }
-    .stage-section.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Museum Exhibition Cards */
-    .exhibit-card {
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(41, 43, 36, 0.04);
-      overflow: hidden;
-    }
-    .card-header {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: var(--bg-ivory);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* Stage Header & Story Line */
-    .story-hero {
-      margin-bottom: 24px;
-    }
-    .stage-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: var(--olive-light);
-      color: var(--olive-dark);
-      margin-bottom: 8px;
-    }
-    .stage-title {
-      font-size: 32px;
-      font-weight: 500;
-      color: var(--text-dark);
-      line-height: 1.25;
-      margin-bottom: 8px;
-    }
-    .stage-subtitle {
-      font-size: 16px;
-      color: var(--text-muted);
-      max-width: 860px;
-      line-height: 1.5;
-    }
-
-    /* Clean Viewport Box */
-    .viewport-box {
-      position: relative;
-      background: #F0ECE1;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-    }
-    .viewport-canvas {
-      width: 100%;
-      max-width: 640px;
-      height: auto;
-      aspect-ratio: 4/3;
-      object-fit: contain;
-      cursor: crosshair;
-      display: block;
-      border-radius: 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      background: #000;
-    }
-
-    /* 3D WebGL Container */
-    #three-viewport {
-      width: 100%;
-      height: 520px;
-      background: var(--bg-ivory);
-      position: relative;
-      cursor: grab;
-    }
-    #three-viewport:active {
-      cursor: grabbing;
-    }
-
-    /* 3D Viewport Controls Pill */
-    .three-controls-bar {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 30;
-      background: rgba(246, 243, 234, 0.94);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      padding: 4px 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    /* Collapsible Research Drawer */
-    .research-drawer {
-      background: var(--bg-ivory);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      margin-top: 16px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    .research-header {
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      background: rgba(234, 226, 210, 0.4);
-      font-size: 13px;
-      font-weight: 500;
-    }
-    .research-content {
-      padding: 16px;
-      display: none;
-      font-size: 13px;
-      color: var(--text-dark);
-      border-top: 1px solid var(--border-subtle);
-      line-height: 1.6;
-    }
-    .research-drawer.open .research-content {
-      display: block;
-    }
-
-    /* Evidence Signal Badges */
-    .signal-card {
-      background: var(--bg-ivory);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .signal-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .signal-value {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .signal-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
-    /* Hypothesis Scorecard */
-    .hypothesis-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      border-radius: 6px;
-      background: var(--bg-ivory);
-      border: 1px solid var(--border-subtle);
-      margin-bottom: 6px;
-      font-size: 13px;
-    }
-    .hypothesis-row.top-rank {
-      border-color: var(--olive-primary);
-      background: var(--olive-light);
-    }
-    .hypothesis-bar-bg {
-      width: 110px;
-      height: 8px;
-      background: var(--surface-muted);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-left: 12px;
-    }
-    .hypothesis-bar-fill {
-      height: 100%;
-      background: var(--olive-primary);
-      border-radius: 4px;
-    }
-    .hypothesis-row.top-rank .hypothesis-bar-fill {
-      background: var(--olive-dark);
-    }
-
-    /* Consequence Scenario Box */
-    .scenario-card {
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 18px;
-      background: #FFFFFF;
-      transition: all 0.2s ease;
-    }
-    .scenario-card.active {
-      border-color: var(--error-terracotta);
-      background: var(--error-light);
-    }
-
-    /* Footer */
-    .footer-bar {
-      border-top: 1px solid var(--border-subtle);
-      background: var(--surface-beige);
-      padding: 16px 24px;
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    /* Research Mode Hidden Elements */
-    .research-only {
-      display: none;
-    }
-    body.research-mode .research-only {
-      display: block !important;
-    }
-    body.research-mode .guided-only {
-      display: none !important;
-    }
-
-    /* Button styles */
-    .btn-action {
-      background: var(--olive-dark);
-      color: #FFFFFF;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    .btn-action:hover {
-      background: #2E3524;
-      transform: translateY(-1px);
-    }
-    .btn-secondary {
-      background: var(--surface-beige);
-      color: var(--text-dark);
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      border: 1px solid var(--border-subtle);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    .btn-secondary:hover {
-      background: #DFD5C2;
-    }
-
-    /* Print Layout for Certificate */
-    @media print {
-      .header-bar, .stats-ribbon, .stepper-nav, .footer-bar, .btn-action, .btn-secondary, .pill-btn, .research-drawer {
-        display: none !important;
-      }
-      body {
-        background: #FFFFFF !important;
-        color: #000000 !important;
-      }
-      .main-workspace {
-        padding: 0 !important;
-        max-width: 100% !important;
-      }
-      #stage-1, #stage-2, #stage-3, #stage-4, #stage-5 {
-        display: none !important;
-      }
-      #stage-6 {
-        display: block !important;
-      }
-      .exhibit-card {
-        box-shadow: none !important;
-        border: 1px solid #CCCCCC !important;
-      }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 
-  <!-- ========================================================================= -->
-  <!-- 1. TOP NAVIGATION HEADER                                                 -->
-  <!-- ========================================================================= -->
-  <header class="header-bar">
-    <div class="header-inner">
-      <!-- Title & Branding -->
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--olive-dark); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 16px;">
-          <i class="fa-solid fa-compass-drafting"></i>
-        </div>
-        <div>
-          <h1 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark); line-height: 1.2;">
-            Vision Error Observatory <span style="font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--text-muted); margin-left: 6px;">VEO v3</span>
-          </h1>
-          <p style="font-size: 12px; color: var(--text-muted);">
-            Scientific Monocular Depth-Estimation Failure Diagnosis
-          </p>
-        </div>
-      </div>
-
-      <!-- Controls: Scene Switcher, Mode Toggle, Model Lab Link -->
-      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <!-- Scene Selector Dropdown -->
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <label for="scene-selector" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">
-            <i class="fa-solid fa-cube" style="margin-right: 4px;"></i> Scene:
-          </label>
-          <select id="scene-selector" onchange="onSceneChange(this.value)" style="background: var(--surface-beige); font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-dark); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 5px 10px; cursor: pointer; outline: none;">
-            <!-- Populated dynamically from app_data_v2.js -->
-          </select>
-        </div>
-
-        <!-- Guided / Research Mode Toggle -->
-        <button id="mode-toggle-btn" class="pill-btn" onclick="toggleResearchMode()" title="Toggle between beginner Guided Mode and technical Research Mode">
-          <i class="fa-solid fa-sliders"></i>
-          <span id="mode-label">Research Mode: OFF</span>
-        </button>
-
-        <!-- Audio Guide / Voice Narration Toggle -->
-        <button id="btn-narration-toggle" class="pill-btn" onclick="toggleVoiceNarration()" title="Toggle voice narration audio guide for exhibits and failure regions">
-          <i id="icon-narration" class="fa-solid fa-volume-high" style="color: var(--olive-primary);"></i>
-          <span id="label-narration">Audio Guide: ON</span>
-        </button>
-
-        <!-- Reciprocal Link to Model Lab -->
-        <a href="model_lab.html" class="pill-btn" style="background: var(--olive-light); color: var(--olive-dark); border-color: var(--olive-primary);" title="Inspect Depth Anything V2 model architecture">
-          <span>Learn how the model works</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 2. SCENE STATISTICS RIBBON                                               -->
-  <!-- ========================================================================= -->
-  <div class="stats-ribbon">
-    <div class="stats-inner">
-      <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <span style="font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-chart-simple" style="color: var(--olive-primary);"></i> Scene Metrics:
-        </span>
-        <span title="Root Mean Square Error gives higher weight to large depth discrepancies.">
-          RMSE: <strong class="font-mono" id="stat-rmse">—</strong>
-        </span>
-        <span style="color: var(--border-strong);">|</span>
-        <span title="Absolute Relative Error: average magnitude of relative depth discrepancy.">
-          AbsRel: <strong class="font-mono" id="stat-absrel">—</strong>
-        </span>
-        <span style="color: var(--border-strong);">|</span>
-        <span title="Threshold Accuracy: fraction of pixels within 25% of ground truth.">
-          &delta;<sub>1</sub> &lt; 1.25: <strong class="font-mono" id="stat-delta1">—</strong>
-        </span>
-        <span style="color: var(--border-strong);">|</span>
-        <span title="Physical ground-truth depth range measured by the reference sensor.">
-          Range: <strong class="font-mono" id="stat-range">—</strong>
-        </span>
-        <span style="color: var(--border-strong);">|</span>
-        <span title="Number of detected high-error connected component regions.">
-          Failure Regions: <strong class="font-mono" id="stat-regions" style="color: var(--error-terracotta);">—</strong>
-        </span>
-      </div>
-
-      <div style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
-        <span class="badge" style="background: rgba(104,115,77,0.15); color: var(--olive-dark); padding: 2px 6px; border-radius: 4px; font-weight: 500;">
-          NYU Depth V2 Test Split
-        </span>
-        <span>Inverse-depth scale/shift aligned</span>
-      </div>
-    </div>
+<!-- Loader -->
+<div id="loader" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-ring"><span></span><span></span><span></span></div>
+    <div class="loader-title">Calibrating the observatory</div>
+    <div class="loader-bar"><i id="loader-fill"></i></div>
+    <div class="loader-meta mono"><span id="loader-text">Loading NYU Depth V2 scenes</span> <span id="loader-pct">0%</span></div>
   </div>
+</div>
 
-  <!-- ========================================================================= -->
-  <!-- 3. STAGE STEPPER BAR                                                     -->
-  <!-- ========================================================================= -->
-  <nav class="stepper-nav">
-    <div class="stepper-inner">
-      <div class="stepper-step active" id="step-btn-1" onclick="goToStage(1)">
-        <span class="step-num">1</span>
-        <span>Enter Observatory</span>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--border-strong);"></i>
-      
-      <div class="stepper-step" id="step-btn-2" onclick="goToStage(2)">
-        <span class="step-num">2</span>
-        <span>What AI Sees</span>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--border-strong);"></i>
-      
-      <div class="stepper-step" id="step-btn-3" onclick="goToStage(3)">
-        <span class="step-num">3</span>
-        <span>Where Model Fails</span>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--border-strong);"></i>
-      
-      <div class="stepper-step" id="step-btn-4" onclick="goToStage(4)">
-        <span class="step-num">4</span>
-        <span>Inspect in 3D</span>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--border-strong);"></i>
-      
-      <div class="stepper-step" id="step-btn-5" onclick="goToStage(5)">
-        <span class="step-num">5</span>
-        <span>Evidence & Cause</span>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--border-strong);"></i>
-      
-      <div class="stepper-step" id="step-btn-6" onclick="goToStage(6)">
-        <span class="step-num">6</span>
-        <span>Real-World Impact</span>
-      </div>
-    </div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"><i id="scroll-fill"></i></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Vision Error Observatory, back to top">
+    <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".35"/><circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".7"/><circle cx="16" cy="16" r="3" fill="var(--hot)"/></svg>
+    <span>VEO</span>
+  </a>
+  <nav class="nav-links" aria-label="Sections">
+    <a href="#explore">Explore</a>
+    <a href="#lift">3D</a>
+    <a href="#labels">Labels</a>
+    <a href="#tests">Tests</a>
+    <a href="#models">Models</a>
+    <a href="#honest">Null results</a>
+    <a href="#inside">Inside</a>
+    <a href="model_lab.html">Model Lab</a>
   </nav>
+  <a class="nav-cta" href="https://github.com/MdZeeshanAli01/VEO_V2" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    <span>GitHub</span>
+  </a>
+</header>
 
-  <!-- ========================================================================= -->
-  <!-- 4. MAIN STAGE WORKSPACE                                                  -->
-  <!-- ========================================================================= -->
-  <main class="main-workspace">
+<main id="top">
 
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 1: ENTER THE OBSERVATORY                                        -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section active" id="stage-1">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 1 &bull; The Research Problem</span>
-        <h2 class="stage-title font-serif">When AI Sees Depth Incorrectly</h2>
-        <p class="stage-subtitle">
-          A computer can estimate how far away objects are from a single photograph. But sometimes a glass table, a dark corner, a featureless wall, or a thin chair leg can confuse it. VEO helps us discover where those mistakes happen, examine the visual evidence, and understand their potential consequences.
-        </p>
-      </div>
-
-      <!-- Hero Visual Trio -->
-      <div class="exhibit-card" style="margin-bottom: 24px; padding: 24px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: center;">
-          <!-- 1. The Photo -->
-          <div style="text-align: center;">
-            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">
-              1. The 2D Photograph
-            </div>
-            <div style="border-radius: 8px; overflow: hidden; border: 1px solid var(--border-subtle); background: #000;">
-              <img id="hero-img-rgb" src="" alt="RGB Scene" style="width: 100%; height: 200px; object-fit: cover;">
-            </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Visual light captured by the camera</p>
-          </div>
-
-          <!-- 2. The Predicted Depth -->
-          <div style="text-align: center;">
-            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--olive-primary); margin-bottom: 8px;">
-              2. AI Depth Prediction
-            </div>
-            <div style="border-radius: 8px; overflow: hidden; border: 1px solid var(--border-subtle); background: #000;">
-              <img id="hero-img-pred" src="" alt="Predicted Depth" style="width: 100%; height: 200px; object-fit: cover;">
-            </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Depth Anything V2 estimation</p>
-          </div>
-
-          <!-- 3. The 3D Error Surface -->
-          <div style="text-align: center;">
-            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--error-terracotta); margin-bottom: 8px;">
-              3. Measured Discrepancy
-            </div>
-            <div style="border-radius: 8px; overflow: hidden; border: 1px solid var(--border-subtle); background: #000;">
-              <img id="hero-img-error" src="" alt="Error Map" style="width: 100%; height: 200px; object-fit: cover;">
-            </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Observed deviation from sensor truth</p>
-          </div>
-        </div>
-
-        <!-- Primary CTA Buttons -->
-        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap;">
-          <button class="btn-action" onclick="goToStage(2)">
-            <span>Investigate This Scene</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-          <button class="btn-secondary" onclick="startGuidedWalkthrough()">
-            <i class="fa-solid fa-play"></i>
-            <span>Start Guided Walkthrough</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Real Dataset Scene Selection Gallery -->
-      <div>
-        <h3 class="font-serif" style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">
-          Select a Benchmark Scene from NYU Depth V2:
-        </h3>
-        <div id="scene-gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-          <!-- Dynamically populated scene cards -->
-        </div>
-      </div>
-    </section>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 2: UNDERSTAND WHAT THE AI SEES                                  -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section" id="stage-2">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 2 &bull; Visual Comparison</span>
-        <h2 class="stage-title font-serif">What the Camera Sees vs What the AI Predicts</h2>
-        <p class="stage-subtitle">
-          Compare the original room photograph against the AI model's estimated depth map and the ground-truth physical sensor measurement. Click or hover anywhere to inspect exact metric depth.
-        </p>
-      </div>
-
-      <!-- 2-Column Comparison Workspace -->
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start;">
-        <!-- Left Column: Interactive Canvas & View Selector -->
-        <div class="exhibit-card">
-          <div class="card-header">
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button class="pill-btn active" id="btn-view-rgb" onclick="switchStage2View('rgb')">
-                <i class="fa-regular fa-image"></i>
-                <span>The Photograph</span>
-              </button>
-              <button class="pill-btn" id="btn-view-pred" onclick="switchStage2View('pred')">
-                <i class="fa-solid fa-brain"></i>
-                <span>The AI's Prediction</span>
-              </button>
-              <button class="pill-btn" id="btn-view-gt" onclick="switchStage2View('gt')">
-                <i class="fa-solid fa-ruler-combined"></i>
-                <span>The Sensor's Measurement</span>
-              </button>
-            </div>
-
-            <!-- Colorbar Scale Legend -->
-            <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted);">
-              <span>Near (0.8m)</span>
-              <div style="width: 80px; height: 8px; border-radius: 4px; background: linear-gradient(to right, #440154, #3b528b, #21918c, #5ec962, #fde725);"></div>
-              <span>Far (3.0m+)</span>
-            </div>
-          </div>
-
-          <div class="viewport-box">
-            <canvas id="stage2-canvas" class="viewport-canvas" width="640" height="480"></canvas>
-          </div>
-
-          <div style="padding: 12px 18px; background: var(--bg-ivory); border-top: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-muted);">
-            <i class="fa-solid fa-crosshairs" style="margin-right: 4px; color: var(--olive-primary);"></i> Click or move cursor over the image to position the inspection crosshair.
-          </div>
-        </div>
-
-        <!-- Right Column: Live Pixel Inspector Card -->
-        <div class="exhibit-card" style="padding: 20px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-            <span class="pill-btn active" style="font-size: 12px; background: var(--olive-dark);">
-              <i class="fa-solid fa-location-crosshairs"></i> Inspected Pixel
-            </span>
-            <span class="font-mono" style="font-size: 12px; color: var(--text-muted);" id="hud-coord">
-              (240, 360)
-            </span>
-          </div>
-
-          <h4 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">
-            Point Measurement
-          </h4>
-          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px;" id="hud-explanation">
-            Sampling depth coordinates...
-          </p>
-
-          <!-- Key Pixel Metrics -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Model Estimate:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--olive-dark);" id="hud-pred">
-                —
-              </div>
-            </div>
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Sensor Ground Truth:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--text-dark);" id="hud-gt">
-                —
-              </div>
-            </div>
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle); grid-column: span 2;">
-              <div style="font-size: 11px; color: var(--text-muted);">Observed Discrepancy:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--error-terracotta);" id="hud-diff">
-                —
-              </div>
-            </div>
-          </div>
-
-          <button class="btn-action" style="width: 100%; justify-content: center;" onclick="goToStage(3)">
-            <span>Find Failure Regions &rarr;</span>
-          </button>
-
-          <!-- Research Mode Technical Mathematical Note -->
-          <div class="research-only" style="margin-top: 14px; padding: 10px; background: var(--surface-beige); border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.4;">
-            <strong>Formula:</strong> E_rel(x, y) = | D_pred(x, y) - D_gt(x, y) | / D_gt(x, y). Valid mask: D_gt &gt; 0.
-          </div>
-        </div>
-      </div>
-
-      <!-- Expandable Technical Formula Drawer -->
-      <div class="research-drawer" id="drawer-stage2">
-        <div class="research-header" onclick="toggleDrawer('drawer-stage2')">
-          <span style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-square-root-variable" style="color: var(--olive-primary);"></i>
-            <span>How do we compare the prediction with the ground truth?</span>
-          </span>
-          <i class="fa-solid fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="research-content">
-          <p style="margin-bottom: 8px;">
-            We align corresponding valid pixels between the depth prediction and the sensor measurement. Because monocular models often output scale-invariant values, VEO first fits a robust linear scale $s$ and shift $t$ in inverse-depth space:
-          </p>
-          <div class="font-mono" style="background: #FFFFFF; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin-bottom: 8px;">
-            1 / D_pred_aligned(x, y) = s &times; D_raw(x, y) + t &approx; 1 / D_gt(x, y)
-          </div>
-          <p>
-            Then, for every pixel where ground-truth depth is valid ($D_{gt} &gt; 0$), we compute the relative depth error:
-          </p>
-          <div class="font-mono" style="background: #FFFFFF; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin-top: 8px;">
-            E_rel(x, y) = | D_pred(x, y) - D_gt(x, y) | / D_gt(x, y)
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 3: FIND WHERE THE MODEL FAILS                                   -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section" id="stage-3">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 3 &bull; Error Localization</span>
-        <h2 class="stage-title font-serif">Isolating High-Error Regions</h2>
-        <p class="stage-subtitle">
-          Instead of looking at the entire room at once, VEO identifies contiguous areas where depth errors are unusually high. Click on any outlined region to investigate its characteristics.
-        </p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start;">
-        <!-- Left: Image with Region Overlays -->
-        <div class="exhibit-card">
-          <div class="card-header">
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button class="pill-btn active" id="btn-s3-overlay" onclick="setStage3Mode('overlay')">
-                <i class="fa-regular fa-square-check"></i>
-                <span>Photo + Regions</span>
-              </button>
-              <button class="pill-btn" id="btn-s3-heatmap" onclick="setStage3Mode('heatmap')">
-                <i class="fa-solid fa-fire"></i>
-                <span>Error Heatmap</span>
-              </button>
-              <button class="pill-btn" id="btn-s3-photo" onclick="setStage3Mode('photo')">
-                <i class="fa-regular fa-image"></i>
-                <span>Clean Photo</span>
-              </button>
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted);">
-              Threshold: <strong class="font-mono" id="s3-threshold-text">—</strong>
-            </div>
-          </div>
-
-          <div class="viewport-box">
-            <canvas id="stage3-canvas" class="viewport-canvas" width="640" height="480"></canvas>
-          </div>
-
-          <div style="padding: 12px 18px; background: var(--bg-ivory); border-top: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-muted);">
-            <i class="fa-solid fa-mouse-pointer" style="margin-right: 4px; color: var(--error-terracotta);"></i> Click any highlighted terracotta box to select that error cluster.
-          </div>
-        </div>
-
-        <!-- Right: Selected Region Inspector -->
-        <div class="exhibit-card" style="padding: 20px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-            <span class="pill-btn terracotta active" style="font-size: 12px;" id="s3-selected-id">
-              Region —
-            </span>
-            <span style="font-size: 11px; color: var(--text-muted);" id="s3-region-coords">
-              BBox: —
-            </span>
-          </div>
-
-          <h4 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;" id="s3-region-title">
-            Isolated Failure Cluster
-          </h4>
-          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px;" id="s3-region-desc">
-            VEO has identified a contiguous cluster where predicted depth deviates substantially from the sensor reference.
-          </p>
-
-          <!-- Key Region Numbers -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Average Error:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--error-terracotta);" id="s3-mean-err">
-                —
-              </div>
-            </div>
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Cluster Area:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--text-dark);" id="s3-area-px">
-                —
-              </div>
-            </div>
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Sensor Distance:</div>
-              <div class="font-mono" style="font-size: 16px; font-weight: 600; color: var(--text-dark);" id="s3-distance-m">
-                —
-              </div>
-            </div>
-            <div style="background: var(--bg-ivory); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-              <div style="font-size: 11px; color: var(--text-muted);">Rule Hypothesis:</div>
-              <div class="font-mono" style="font-size: 14px; font-weight: 600; color: var(--olive-dark);" id="s3-cause-name">
-                —
-              </div>
-            </div>
-          </div>
-
-          <button class="btn-action" style="width: 100%; justify-content: center;" onclick="goToStage(4)">
-            <span>Inspect This Region in 3D &rarr;</span>
-          </button>
-
-          <!-- Research Mode Technical Region Note -->
-          <div class="research-only" style="margin-top: 14px; padding: 10px; background: var(--surface-beige); border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.4;">
-            <strong>Thresholding Protocol:</strong> pixels failing &delta;1 + 4-connectivity component extraction (Area &ge; 25 px).
-          </div>
-        </div>
-      </div>
-
-      <!-- Expandable Selection Logic Drawer -->
-      <div class="research-drawer" id="drawer-stage3">
-        <div class="research-header" onclick="toggleDrawer('drawer-stage3')">
-          <span style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-filter" style="color: var(--olive-primary);"></i>
-            <span>How were these failure regions selected?</span>
-          </span>
-          <i class="fa-solid fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="research-content">
-          <p style="margin-bottom: 8px;">
-            VEO uses a fixed, absolute rule to isolate failure clusters:
-          </p>
-          <ol style="margin-left: 20px; margin-bottom: 8px; line-height: 1.6;">
-            <li><strong>Failing Pixels:</strong> A pixel fails when predicted and true depth differ by more than 25% (it fails the standard &delta;1 test). Only pixels the depth sensor actually measured are scored.</li>
-            <li><strong>Connected Component Grouping:</strong> Contiguous candidate pixels are grouped into discrete 2D spatial regions using 4-connectivity.</li>
-            <li><strong>Noise Pruning:</strong> Regions smaller than 25 pixels ($Area &lt; 25$) are discarded to eliminate single-pixel sensor dropouts and spurious noise.</li>
-          </ol>
-          <p style="font-size: 12px; color: var(--text-muted);">
-            <em>Note:</em> A highlighted region signifies an observed geometric discrepancy. It does not prove the model's internal causal mechanism.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 4: INVESTIGATE THE ERROR IN 3D                                  -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section" id="stage-4">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 4 &bull; 3D Geometric Discrepancy</span>
-        <h2 class="stage-title font-serif">Lifting the Error into 3D Space</h2>
-        <p class="stage-subtitle">
-          Observe how the predicted surface compares geometrically with the reference sensor mesh. Vertical terracotta stems represent the physical distance error at every vertex in the failure region.
-        </p>
-      </div>
-
-      <div class="exhibit-card">
-        <div class="card-header">
-          <!-- 3D Viewing Mode Switcher -->
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="pill-btn active" id="btn-3d-compare" onclick="setThreeMode('compare')">
-              <i class="fa-solid fa-code-compare"></i>
-              <span>Compare Both Surfaces</span>
-            </button>
-            <button class="pill-btn" id="btn-3d-gt" onclick="setThreeMode('gt')">
-              <i class="fa-solid fa-ruler"></i>
-              <span>Reference Surface (Sensor)</span>
-            </button>
-            <button class="pill-btn" id="btn-3d-pred" onclick="setThreeMode('pred')">
-              <i class="fa-solid fa-brain"></i>
-              <span>Predicted Surface (AI)</span>
-            </button>
-          </div>
-
-          <!-- 3D Legend & Controls -->
-          <div style="display: flex; align-items: center; gap: 12px; font-size: 12px;">
-            <span style="display: flex; align-items: center; gap: 6px;">
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #68734D;"></span> Sensor Mesh
-            </span>
-            <span style="display: flex; align-items: center; gap: 6px;">
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #8B6849;"></span> Predicted Mesh
-            </span>
-            <span style="display: flex; align-items: center; gap: 6px;">
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #C8755A;"></span> Error Stems
-            </span>
-          </div>
-        </div>
-
-        <!-- Three.js Canvas Viewport -->
-        <div style="position: relative;">
-          <div id="three-viewport"></div>
-
-          <!-- Floating 3D Controls Pill -->
-          <div class="three-controls-bar">
-            <button class="pill-btn" style="padding: 4px 8px; font-size: 11px;" onclick="resetThreeCamera()" title="Reset Camera View">
-              <i class="fa-solid fa-arrow-rotate-left"></i> Reset
-            </button>
-            <button class="pill-btn" style="padding: 4px 8px; font-size: 11px;" onclick="focusThreeOnRegion()" title="Focus on Selected Region">
-              <i class="fa-solid fa-crosshairs"></i> Focus Region
-            </button>
-            <button class="pill-btn" style="padding: 4px 8px; font-size: 11px;" onclick="toggleThreeWireframe()" title="Toggle Wireframe">
-              <i class="fa-solid fa-border-none"></i> Wireframe
-            </button>
-          </div>
-
-          <!-- Explanatory Callout Banner with Metric Disclosure -->
-          <div style="position: absolute; bottom: 16px; left: 16px; z-index: 20; background: rgba(246, 243, 234, 0.94); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px 14px; max-width: 440px; backdrop-filter: blur(4px);">
-            <div style="font-weight: 600; font-size: 13px; color: var(--text-dark); margin-bottom: 2px;">
-              <i class="fa-solid fa-up-down" style="color: var(--error-terracotta); margin-right: 4px;"></i> The Gap is the Depth Error
-            </div>
-            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 4px;">
-              While the sensor measured an upright planar surface, the model's estimate bends and warps. Use left-click to orbit, right-click to pan, and wheel to zoom.
-            </div>
-            <div style="font-size: 10px; color: var(--text-muted); font-style: italic; border-top: 1px solid var(--border-subtle); padding-top: 4px;">
-              Disclosure: 3D relief mesh renders relative surface topography with 1.5&times; depth elevation scaling to highlight spatial divergence.
-            </div>
-          </div>
-        </div>
-
-        <div style="padding: 14px 20px; background: var(--bg-ivory); border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
-          <div style="font-size: 13px; color: var(--text-dark);">
-            Next: Examine the visual clues and test failure hypotheses for this region.
-          </div>
-          <button class="btn-action" style="padding: 6px 14px; font-size: 12px;" onclick="goToStage(5)">
-            <span>Investigate Evidence &rarr;</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 5: UNDERSTAND WHY THE ERROR MAY HAVE HAPPENED                   -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section" id="stage-5">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 5 &bull; Evidence & Attribution</span>
-        <h2 class="stage-title font-serif">Why Did the Error Occur?</h2>
-        <p class="stage-subtitle">
-          VEO measures visual and geometric signals to rank which failure hypotheses best match the observable evidence. Remember: correlation with visual properties does not constitute proven causality.
-        </p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
-        <!-- Left: The 8 Quantitative Evidence Signals -->
-        <div class="exhibit-card" style="padding: 20px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-            <h3 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark);">
-              Observable Visual Clues (8 Signals)
-            </h3>
-            <span style="font-size: 11px; color: var(--text-muted);" id="s5-region-badge">Region —</span>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" id="s5-signals-grid">
-            <!-- Populated dynamically with 8 signal cards -->
-          </div>
-
-          <!-- Plain language narrative box -->
-          <div style="margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: var(--bg-ivory); border: 1px solid var(--border-subtle); font-size: 12px; line-height: 1.5;" id="s5-narrative-box">
-            Analyzing visual clues...
-          </div>
-        </div>
-
-        <!-- Right: Hypothesis Scorecard & Ambiguity Status -->
-        <div class="exhibit-card" style="padding: 20px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-            <h3 class="font-serif" style="font-size: 18px; font-weight: 600; color: var(--text-dark);">
-              Rule-Engine Hypotheses
-            </h3>
-            <span style="font-size: 11px; color: var(--text-muted);">Evidence-based ranking</span>
-          </div>
-
-          <div id="s5-hypotheses-list" style="margin-bottom: 16px;">
-            <!-- Populated dynamically -->
-          </div>
-
-          <!-- Ambiguity Callout Box -->
-          <div id="s5-ambiguity-callout" style="padding: 12px 14px; border-radius: 8px; background: var(--olive-light); border: 1px solid var(--olive-primary); font-size: 12px; line-height: 1.45; margin-bottom: 16px;">
-            <div style="font-weight: 600; color: var(--olive-dark); margin-bottom: 4px;">
-              <i class="fa-solid fa-scale-balanced" style="margin-right: 4px;"></i> Diagnostic Confidence Status
-            </div>
-            <div style="color: var(--text-dark);" id="s5-ambiguity-text">
-              Evaluating hypothesis score margin...
-            </div>
-          </div>
-
-          <button class="btn-action" style="width: 100%; justify-content: center;" onclick="goToStage(6)">
-            <span>Assess Real-World Consequences &rarr;</span>
-          </button>
-
-          <!-- Research Mode Hypothesis Note -->
-          <div class="research-only" style="margin-top: 14px; padding: 10px; background: var(--surface-beige); border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; line-height: 1.4;">
-            <strong>Ambiguity Threshold:</strong> Flagged as <code>ambiguous</code> if TopScore &lt; 0.50 OR (S_1 - S_2) &lt; 0.15. Prevents false certainty.
-          </div>
-        </div>
-      </div>
-
-      <!-- Expandable Causal Guardrail Drawer -->
-      <div class="research-drawer" id="drawer-stage5">
-        <div class="research-header" onclick="toggleDrawer('drawer-stage5')">
-          <span style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-shield-halved" style="color: var(--olive-primary);"></i>
-            <span>Scientific Limitation: Correlation vs Causal Attribution</span>
-          </span>
-          <i class="fa-solid fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="research-content">
-          <p style="margin-bottom: 8px;">
-            VEO explicitly distinguishes between <em>error detection</em>, <em>hypothesis ranking</em>, and <em>causal proof</em>:
-          </p>
-          <ul style="margin-left: 20px; line-height: 1.6;">
-            <li><strong>Score:</strong> How strongly the region's measurements match a failure pattern, from small models fitted on the NYU train split against object annotations. A score of 0.50 or more means the label applies.</li>
-            <li><strong>Ambiguity:</strong> When no label reaches its threshold, VEO reports <code>ambiguous</code> rather than guessing.</li>
-            <li><strong>Not Causal Proof:</strong> VEO tested its labels by editing images and re-running the model. Only the depth-boundary label gained support, so treat the labels as descriptions of where and how a model fails, not as established causes</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- STAGE 6: UNDERSTAND THE REAL-WORLD CONSEQUENCES                       -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="stage-section" id="stage-6">
-      <div class="story-hero">
-        <span class="stage-badge">Stage 6 &bull; Operational Risk Assessment</span>
-        <h2 class="stage-title font-serif">Why Does This Error Matter?</h2>
-        <p class="stage-subtitle">
-          In robotics, augmented reality, or autonomous navigation, depth errors translate directly into physical risks. See what this specific discrepancy could mean for an embodied system.
-        </p>
-      </div>
-
-      <!-- Three Consequence Scenarios -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
-        <!-- Scenario 1: Collision Hazard -->
-        <div class="scenario-card" id="card-risk-collision">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-            <div style="width: 32px; height: 32px; border-radius: 8px; background: #F7EAE6; color: var(--error-terracotta); display: flex; align-items: center; justify-content: center; font-size: 16px;">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 600; color: var(--text-dark);">Collision Hazard</h4>
-          </div>
-          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 10px;">
-            Occurs when the AI predicts an obstacle is <strong>farther away</strong> than it physically is (D_pred &gt; D_gt). A robot planner assumes free space and may collide with the physical obstacle.
-          </div>
-          <span class="badge" id="badge-risk-collision" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--surface-muted); color: var(--text-dark);">
-            Inactive
-          </span>
-        </div>
-
-        <!-- Scenario 2: Phantom Obstacle -->
-        <div class="scenario-card" id="card-risk-phantom">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-            <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--olive-light); color: var(--olive-dark); display: flex; align-items: center; justify-content: center; font-size: 16px;">
-              <i class="fa-solid fa-ban"></i>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 600; color: var(--text-dark);">Phantom Obstacle</h4>
-          </div>
-          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 10px;">
-            Occurs when the AI predicts empty space or distant walls are <strong>closer</strong> than they are (D_pred &lt; D_gt). May trigger unnecessary braking, path detours, or stalled exploration.
-          </div>
-          <span class="badge" id="badge-risk-phantom" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--surface-muted); color: var(--text-dark);">
-            Inactive
-          </span>
-        </div>
-
-        <!-- Scenario 3: Surface Warping -->
-        <div class="scenario-card" id="card-risk-warping">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-            <div style="width: 32px; height: 32px; border-radius: 8px; background: #FAF2DF; color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 16px;">
-              <i class="fa-solid fa-shapes"></i>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 600; color: var(--text-dark);">Surface Distortion</h4>
-          </div>
-          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 10px;">
-            Inconsistent depth across a planar surface creates non-physical curvature. Corrupts 3D mesh reconstruction, SLAM loop closure, and AR hologram positioning.
-          </div>
-          <span class="badge" id="badge-risk-warping" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--surface-muted); color: var(--text-dark);">
-            Potential Impact
-          </span>
-        </div>
-      </div>
-
-      <!-- Final Diagnostic Certificate & Summary Card -->
-      <div class="exhibit-card" style="padding: 24px; background: #FFFFFF; border-left: 4px solid var(--olive-primary);">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <div>
-            <h3 class="font-serif" style="font-size: 20px; font-weight: 600; color: var(--text-dark);">
-              VEO Diagnostic Summary Certificate
-            </h3>
-            <p style="font-size: 12px; color: var(--text-muted);">
-              Synthesis of empirical observations and evidence attribution
-            </p>
-          </div>
-          <span class="pill-btn" style="background: var(--bg-ivory); font-size: 11px;" onclick="window.print()">
-            <i class="fa-solid fa-print"></i> Print / Save Report
-          </span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: 13px;">
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Investigated Scene:</div>
-            <strong id="cert-scene-title">—</strong>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Isolated Cluster:</div>
-            <strong id="cert-region-id" style="color: var(--error-terracotta);">—</strong>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Measured Discrepancy:</div>
-            <strong class="font-mono" id="cert-discrepancy">—</strong>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Strongest Hypothesis:</div>
-            <strong id="cert-cause">—</strong>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Operational Risk:</div>
-            <strong id="cert-risk" style="color: var(--error-terracotta);">—</strong>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text-muted);">Scientific Limitation:</div>
-            <span style="font-size: 12px; color: var(--text-muted);">Post-hoc empirical correlation</span>
-          </div>
-        </div>
-
-        <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-          <button class="btn-secondary" onclick="goToStage(1)">
-            <i class="fa-solid fa-arrow-rotate-left"></i>
-            <span>Investigate Another Scene</span>
-          </button>
-          <a href="model_lab.html" class="btn-action">
-            <span>Explore Depth Anything V2 Architecture</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ========================================================================= -->
-  <!-- 5. FOOTER                                                                -->
-  <!-- ========================================================================= -->
-  <footer class="footer-bar">
-    <div style="max-width: 1440px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-      <div>
-        <strong>Vision Error Observatory (VEO)</strong> &bull; Ground-Truth-Assisted Post-Hoc Diagnostic Pipeline &bull; NYU Depth V2 Benchmark
-      </div>
-      <div>
-        <a href="model_lab.html" style="color: var(--olive-primary); text-decoration: underline; margin-right: 14px;">Model Lab</a>
-        <span style="color: var(--border-strong);">|</span>
-        <span style="margin-left: 14px;">Built with Three.js r128 &bull; Offline Reproducible</span>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas id="hero-canvas" aria-label="A real NYU Depth V2 scene as a 3D point cloud, morphing between sensor depth and the model's prediction"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="eyebrow reveal"><span class="dot"></span> Vision Error Observatory</div>
+      <h1 class="hero-title reveal">
+        <span class="line">Depth models are</span>
+        <span class="line"><em>confidently wrong</em></span>
+        <span class="line">in specific places.</span>
+      </h1>
+      <p class="hero-sub reveal">VEO finds those places, describes each one with measurable cues, names a likely cause or abstains, and then <strong>tests</strong> the explanation by editing the image and running the model again.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-primary magnetic" href="#explore">Explore the failures <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost magnetic" href="#tests">See what held up</a>
       </div>
     </div>
-  </footer>
-
-  <!-- ========================================================================= -->
-  <!-- 6. OBSERVATORY SCRIPT ENGINE                                             -->
-  <!-- ========================================================================= -->
-  <script>
-    // --- Application State ---
-    let currentStage = 1;
-    let voiceNarrationEnabled = true;
-
-    const STAGE_NARRATIONS = {
-      1: "Stage 1: Enter the Space. We begin by observing the physical scene, camera resolution, and ground-truth sensor boundaries.",
-      2: "Stage 2: The Model's Prediction. The AI estimates metric depth across every pixel from a single color photograph. Tap anywhere to inspect point measurements.",
-      3: "Stage 3: Where It Fails. We compare predictions against sensor ground truth to isolate connected failure regions.",
-      4: "Stage 4: The 3D Discrepancy. Inspect the dual 3D surface mesh. Terracotta stems show where the model prediction deviates from physical reality.",
-      5: "Stage 5: Why It Happens. We analyze 8 quantitative visual signals to uncover the likely failure mechanism behind this error.",
-      6: "Stage 6: Why It Matters. We evaluate operational risk, determining whether depth overestimation creates a collision hazard or underestimation creates a phantom obstacle."
-    };
-
-    function speakNarration(text) {
-      if (!voiceNarrationEnabled) return;
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const clean = text.replace(/[^a-zA-Z0-9.,?! ]/g, ' ');
-      const utterance = new SpeechSynthesisUtterance(clean);
-      utterance.rate = 1.05;
-      utterance.pitch = 1.0;
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function toggleVoiceNarration() {
-      voiceNarrationEnabled = !voiceNarrationEnabled;
-      const icon = document.getElementById('icon-narration');
-      const label = document.getElementById('label-narration');
-      if (voiceNarrationEnabled) {
-        icon.className = "fa-solid fa-volume-high";
-        icon.style.color = "var(--olive-primary)";
-        label.textContent = "Audio Guide: ON";
-        narrateCurrentStage();
-      } else {
-        icon.className = "fa-solid fa-volume-xmark";
-        icon.style.color = "var(--text-muted)";
-        label.textContent = "Audio Guide: OFF";
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      }
-    }
-
-    function narrateCurrentStage() {
-      if (STAGE_NARRATIONS[currentStage]) {
-        speakNarration(STAGE_NARRATIONS[currentStage]);
-      }
-    }
-
-    function narrateCurrentRegion() {
-      if (!currentSceneData || !currentSceneData.regions[currentRegionIdx]) return;
-      const reg = currentSceneData.regions[currentRegionIdx];
-      const causeName = reg.top_cause ? reg.top_cause.replace(/_/g, ' ') : 'depth discrepancy';
-      speakNarration(`Selected Region R${reg.region_id}. Area: ${reg.area.toLocaleString()} pixels. Relative error: ${(reg.mean_error * 100).toFixed(1)} percent. Diagnostic mechanism: ${causeName}.`);
-    }
-    let currentSceneIdx = 0;
-    let currentSceneData = null;
-    let currentRegionIdx = 0;
-    let isResearchMode = false;
-    let stage2ViewMode = 'rgb'; // 'rgb' | 'pred' | 'gt'
-    let stage3ViewMode = 'overlay'; // 'overlay' | 'heatmap' | 'photo'
-    let threeMode = 'compare'; // 'compare' | 'gt' | 'pred'
-
-    // Selected inspector pixel
-    let selectedPixelX = 240;
-    let selectedPixelY = 360;
-
-    // Raw depth buffers
-    let rawGtDepth = null;
-    let rawPredDepth = null;
-
-    // Three.js instances
-    let scene3D, camera3D, renderer3D, controls3D;
-    let gtMesh, predMesh, errorStemsGroup;
-    let threeInitialized = false;
-
-    // --- 1. Initialization ---
-    function initApp() {
-      if (!window.VEO_DATA || !window.VEO_DATA.scenes || window.VEO_DATA.scenes.length === 0) {
-        console.error("VEO_DATA not found or empty.");
-        return;
-      }
-
-      // Populate Scene Selector Dropdown (using clean Unicode bullet)
-      const selector = document.getElementById('scene-selector');
-      selector.innerHTML = '';
-      window.VEO_DATA.scenes.forEach((sc, idx) => {
-        const opt = document.createElement('option');
-        opt.value = idx;
-        opt.textContent = `${sc.sample_id} • ${sc.title}`;
-        selector.appendChild(opt);
-      });
-
-      // Populate Stage 1 Scene Cards Gallery
-      populateSceneGallery();
-
-      // Load initial scene (Scene 0)
-      loadScene(0);
-
-      // Initialize Three.js
-      initThreeJS();
-
-      // Hook canvas mouse events for Stage 2 pixel inspector
-      setupStage2Inspector();
-
-      // Setup window resize
-      window.addEventListener('resize', onWindowResize);
-    }
-
-    // --- 2. Scene Management ---
-    function loadScene(idx) {
-      currentSceneIdx = idx;
-      currentSceneData = window.VEO_DATA.scenes[idx];
-      document.getElementById('scene-selector').value = idx;
-
-      // Update Ribbon Metrics with clean typography
-      const m = currentSceneData.metrics;
-      document.getElementById('stat-rmse').textContent = m.rmse.toFixed(3) + 'm';
-      document.getElementById('stat-absrel').textContent = m.abs_rel.toFixed(3);
-      document.getElementById('stat-delta1').textContent = (m.delta1 * 100).toFixed(1) + '%';
-      document.getElementById('stat-range').textContent = `${currentSceneData.depth_range[0].toFixed(2)}m – ${currentSceneData.depth_range[1].toFixed(2)}m`;
-      document.getElementById('stat-regions').textContent = `${currentSceneData.regions.length} clusters`;
-
-      // Decode Base64 Raw Depth Arrays (uint16 in millimetres)
-      rawGtDepth = decodeBase64Uint16(currentSceneData.raw_depth.gt_b64_uint16);
-      rawPredDepth = decodeBase64Uint16(currentSceneData.raw_depth.pred_b64_uint16);
-
-      // Update Hero Images
-      document.getElementById('hero-img-rgb').src = currentSceneData.images.rgb;
-      document.getElementById('hero-img-pred').src = currentSceneData.images.depth_pred;
-      document.getElementById('hero-img-error').src = currentSceneData.images.error_map;
-
-      // Reset to default region (safely clamped to region array)
-      currentRegionIdx = 0;
-      if (currentSceneData.regions.length > 1) {
-        // Prefer region 1 if region 0 is a full-border artifact
-        if (currentSceneData.regions[0].bbox[2] <= 20 || currentSceneData.regions[0].bbox[3] <= 20) {
-          currentRegionIdx = 1;
-        }
-      }
-
-      // Sample pixel from selected region centroid
-      const [rx, ry, rw, rh] = currentSceneData.regions[currentRegionIdx].bbox;
-      selectedPixelX = Math.floor(rx + rw / 2);
-      selectedPixelY = Math.floor(ry + rh / 2);
-
-      // Inspect default pixel
-      inspectPixel(selectedPixelX, selectedPixelY);
-
-      // Render Stage 2 Canvas
-      renderStage2();
-
-      // Render Stage 3 Canvas
-      renderStage3();
-
-      // Update Region Inspector Cards (Stage 3 & 5 & 6)
-      updateRegionUI();
-
-      // Rebuild 3D Meshes
-      if (threeInitialized) {
-        buildThreeMeshes();
-      }
-    }
-
-    function onSceneChange(val) {
-      loadScene(parseInt(val, 10));
-    }
-
-    function decodeBase64Uint16(base64Str) {
-      const binStr = atob(base64Str);
-      const len = binStr.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binStr.charCodeAt(i);
-      }
-      return new Uint16Array(bytes.buffer);
-    }
-
-    function populateSceneGallery() {
-      const grid = document.getElementById('scene-gallery-grid');
-      grid.innerHTML = '';
-      window.VEO_DATA.scenes.forEach((sc, idx) => {
-        const card = document.createElement('div');
-        card.className = 'exhibit-card';
-        card.style.cursor = 'pointer';
-        card.style.padding = '12px';
-        card.style.transition = 'all 0.2s ease';
-        card.onmouseenter = () => { card.style.transform = 'translateY(-2px)'; };
-        card.onmouseleave = () => { card.style.transform = 'translateY(0)'; };
-        card.onclick = () => { loadScene(idx); goToStage(2); };
-
-        card.innerHTML = `
-          <div style="border-radius: 6px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border-subtle); height: 130px; background: #000;">
-            <img src="${sc.images.rgb}" alt="${sc.title}" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div style="font-size: 11px; font-weight: 600; color: var(--olive-primary); text-transform: uppercase; margin-bottom: 2px;">
-            ${sc.sample_id} • ${sc.category_focus}
-          </div>
-          <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3;">
-            ${sc.title}
-          </h4>
-          <div style="font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between;">
-            <span>RMSE: <strong class="font-mono">${sc.metrics.rmse.toFixed(3)}m</strong></span>
-            <span>Regions: <strong class="font-mono">${sc.regions.length}</strong></span>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // --- 3. Stage Navigation ---
-    function goToStage(stageNum) {
-      currentStage = stageNum;
-
-      // Update Stepper Bar UI
-      for (let i = 1; i <= 6; i++) {
-        const stepBtn = document.getElementById(`step-btn-${i}`);
-        const stageSec = document.getElementById(`stage-${i}`);
-        
-        if (i < stageNum) {
-          stepBtn.className = 'stepper-step completed';
-        } else if (i === stageNum) {
-          stepBtn.className = 'stepper-step active';
-        } else {
-          stepBtn.className = 'stepper-step';
-        }
-
-        if (i === stageNum) {
-          stageSec.classList.add('active');
-        } else {
-          stageSec.classList.remove('active');
-        }
-      }
-
-      // Stage-specific re-renders
-      if (stageNum === 2) renderStage2();
-      if (stageNum === 3) renderStage3();
-      narrateCurrentStage();
-      if (stageNum === 4 && threeInitialized) {
-        onWindowResize();
-        buildThreeMeshes();
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function startGuidedWalkthrough() {
-      goToStage(2);
-    }
-
-    function toggleResearchMode() {
-      isResearchMode = !isResearchMode;
-      document.body.classList.toggle('research-mode', isResearchMode);
-      const btn = document.getElementById('mode-toggle-btn');
-      const label = document.getElementById('mode-label');
-      if (isResearchMode) {
-        btn.classList.add('active');
-        label.textContent = "Research Mode: ON";
-      } else {
-        btn.classList.remove('active');
-        label.textContent = "Research Mode: OFF";
-      }
-    }
-
-    function toggleDrawer(id) {
-      const drawer = document.getElementById(id);
-      drawer.classList.toggle('open');
-      const icon = drawer.querySelector('.toggle-icon');
-      if (icon) {
-        icon.style.transform = drawer.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
-      }
-    }
-
-    // --- 4. Stage 2: Visual Comparison & Pixel Inspection ---
-    function switchStage2View(view) {
-      stage2ViewMode = view;
-      ['rgb', 'pred', 'gt'].forEach(v => {
-        const btn = document.getElementById(`btn-view-${v}`);
-        if (v === view) btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-      renderStage2();
-    }
-
-    function renderStage2() {
-      const canvas = document.getElementById('stage2-canvas');
-      if (!canvas || !currentSceneData) return;
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-
-      let imgSrc = currentSceneData.images.rgb;
-      if (stage2ViewMode === 'pred') imgSrc = currentSceneData.images.depth_pred;
-      if (stage2ViewMode === 'gt') imgSrc = currentSceneData.images.depth_gt;
-
-      img.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // Draw crosshair on selected pixel
-        drawCrosshair(ctx, selectedPixelX, selectedPixelY);
-      };
-      img.src = imgSrc;
-    }
-
-    function drawCrosshair(ctx, x, y) {
-      ctx.save();
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 1.5;
-      ctx.shadowColor = 'rgba(0,0,0,0.85)';
-      ctx.shadowBlur = 4;
-
-      // Circle
-      ctx.beginPath();
-      ctx.arc(x, y, 9, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Crosshair lines
-      ctx.beginPath();
-      ctx.moveTo(x - 14, y); ctx.lineTo(x - 3, y);
-      ctx.moveTo(x + 3, y); ctx.lineTo(x + 14, y);
-      ctx.moveTo(x, y - 14); ctx.lineTo(x, y - 3);
-      ctx.moveTo(x, y + 3); ctx.lineTo(x, y + 14);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function setupStage2Inspector() {
-      const canvas = document.getElementById('stage2-canvas');
-      if (!canvas) return;
-
-      const handleMoveOrClick = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const x = Math.max(0, Math.min(639, Math.floor((e.clientX - rect.left) * scaleX)));
-        const y = Math.max(0, Math.min(479, Math.floor((e.clientY - rect.top) * scaleY)));
-
-        selectedPixelX = x;
-        selectedPixelY = y;
-        inspectPixel(x, y);
-        renderStage2();
-      };
-
-      canvas.addEventListener('mousemove', handleMoveOrClick);
-      canvas.addEventListener('click', handleMoveOrClick);
-    }
-
-    function inspectPixel(x, y) {
-      if (!rawGtDepth || !rawPredDepth) return;
-      const idx = y * 640 + x;
-      const rawGt = rawGtDepth[idx];
-      const rawPred = rawPredDepth[idx];
-
-      const gtM = rawGt / 1000.0;
-      const predM = rawPred / 1000.0;
-      const diffM = predM - gtM;
-      const relErr = gtM > 0 ? (Math.abs(diffM) / gtM) * 100 : 0;
-
-      document.getElementById('hud-coord').textContent = `(${x}, ${y})`;
-      
-      if (gtM <= 0.05 || gtM > 10.0) {
-        document.getElementById('hud-gt').textContent = "Invalid (Sensor Dropout)";
-        document.getElementById('hud-pred').textContent = `${predM.toFixed(2)} m`;
-        document.getElementById('hud-diff').textContent = "N/A";
-        document.getElementById('hud-explanation').textContent = "No valid reference sensor measurement at this coordinate (sensor ray missing/shadowed).";
-      } else {
-        document.getElementById('hud-gt').textContent = `${gtM.toFixed(2)} m`;
-        document.getElementById('hud-pred').textContent = `${predM.toFixed(2)} m`;
-        const sign = diffM >= 0 ? "+" : "";
-        document.getElementById('hud-diff').textContent = `${sign}${diffM.toFixed(2)} m (${relErr.toFixed(1)}%)`;
-        
-        let expl = `The model estimates ${predM.toFixed(2)}m while sensor measured ${gtM.toFixed(2)}m. `;
-        if (Math.abs(diffM) < 0.08) {
-          expl += "Accurate prediction within 8cm tolerance.";
-        } else if (diffM > 0) {
-          expl += `Prediction is ${Math.abs(diffM).toFixed(2)}m too far away (underestimating proximity).`;
-        } else {
-          expl += `Prediction is ${Math.abs(diffM).toFixed(2)}m too close (overestimating proximity).`;
-        }
-        document.getElementById('hud-explanation').textContent = expl;
-      }
-    }
-
-    // --- 5. Stage 3: Error Region Finding ---
-    function setStage3Mode(mode) {
-      stage3ViewMode = mode;
-      ['overlay', 'heatmap', 'photo'].forEach(m => {
-        const btn = document.getElementById(`btn-s3-${m}`);
-        if (m === mode) btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-      renderStage3();
-    }
-
-    function renderStage3() {
-      const canvas = document.getElementById('stage3-canvas');
-      if (!canvas || !currentSceneData) return;
-      const ctx = canvas.getContext('2d');
-
-      const bgImg = new Image();
-      bgImg.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-
-        // Draw region bounding boxes if in overlay or photo mode
-        if (stage3ViewMode === 'overlay' || stage3ViewMode === 'photo') {
-          drawRegionOverlays(ctx);
-        }
-      };
-
-      if (stage3ViewMode === 'heatmap') {
-        bgImg.src = currentSceneData.images.error_map;
-      } else {
-        bgImg.src = currentSceneData.images.rgb;
-      }
-    }
-
-    function drawRegionOverlays(ctx) {
-      if (!currentSceneData || !currentSceneData.regions) return;
-
-      currentSceneData.regions.forEach((reg, idx) => {
-        const [x, y, w, h] = reg.bbox;
-        const isSelected = idx === currentRegionIdx;
-
-        ctx.save();
-        if (isSelected) {
-          ctx.strokeStyle = '#C8755A';
-          ctx.lineWidth = 3;
-          ctx.fillStyle = 'rgba(200, 117, 90, 0.22)';
-          ctx.fillRect(x, y, w, h);
-        } else {
-          ctx.strokeStyle = 'rgba(200, 117, 90, 0.65)';
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([4, 4]);
-        }
-        ctx.strokeRect(x, y, w, h);
-
-        // Draw Pill Badge
-        ctx.fillStyle = isSelected ? '#C8755A' : 'rgba(41, 43, 36, 0.85)';
-        ctx.fillRect(x, Math.max(0, y - 18), 34, 16);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '600 10px "JetBrains Mono", monospace';
-        ctx.fillText(`R${reg.region_id}`, x + 5, Math.max(0, y - 18) + 12);
-        ctx.restore();
-      });
-
-      // Handle click to select region (resolves smallest area region on overlap)
-      const canvas = document.getElementById('stage3-canvas');
-      canvas.onclick = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const clickX = (e.clientX - rect.left) * scaleX;
-        const clickY = (e.clientY - rect.top) * scaleY;
-
-        let bestIdx = -1;
-        let minArea = Infinity;
-        for (let i = 0; i < currentSceneData.regions.length; i++) {
-          const [rx, ry, rw, rh] = currentSceneData.regions[i].bbox;
-          if (clickX >= rx && clickX <= rx + rw && clickY >= ry && clickY <= ry + rh) {
-            if (currentSceneData.regions[i].area < minArea) {
-              minArea = currentSceneData.regions[i].area;
-              bestIdx = i;
-            }
-          }
-        }
-        if (bestIdx !== -1) {
-          selectRegion(bestIdx);
-        }
-      };
-    }
-
-    function selectRegion(idx) {
-      currentRegionIdx = idx;
-      renderStage3();
-      updateRegionUI();
-      if (threeInitialized) {
-        buildThreeMeshes();
-        focusThreeOnRegion();
-      }
-      if (currentStage === 3) {
-        narrateCurrentRegion();
-      }
-    }
-
-    function updateRegionUI() {
-      if (!currentSceneData || !currentSceneData.regions[currentRegionIdx]) return;
-      const reg = currentSceneData.regions[currentRegionIdx];
-
-      // Calculate exact mean signed difference within the region's bounding box
-      const [rx, ry, rw, rh] = reg.bbox;
-      let sumDiffM = 0;
-      let sumGtM = 0;
-      let count = 0;
-
-      if (rawGtDepth && rawPredDepth) {
-        for (let r = ry; r < ry + rh; r++) {
-          for (let c = rx; c < rx + rw; c++) {
-            const idx = r * 640 + c;
-            const gtM = rawGtDepth[idx] / 1000.0;
-            const predM = rawPredDepth[idx] / 1000.0;
-            if (gtM > 0.05 && gtM < 10.0) {
-              sumDiffM += (predM - gtM);
-              sumGtM += gtM;
-              count++;
-            }
-          }
-        }
-      }
-      const meanDiffM = count > 0 ? (sumDiffM / count) : 0;
-      const meanSensorM = count > 0 ? (sumGtM / count) : reg.features.mean_depth_m;
-
-      // Update Stage 3 Inspector
-      document.getElementById('s3-selected-id').textContent = `Region R${reg.region_id}`;
-      document.getElementById('s3-region-coords').textContent = `BBox: [${reg.bbox.join(', ')}]`;
-      document.getElementById('s3-mean-err').textContent = `${(reg.mean_error * 100).toFixed(1)}%`;
-      document.getElementById('s3-area-px').textContent = `${reg.area.toLocaleString()} px`;
-      document.getElementById('s3-distance-m').textContent = `${meanSensorM.toFixed(2)} m`;
-      document.getElementById('s3-cause-name').textContent = reg.top_cause;
-      document.getElementById('s3-threshold-text').textContent = `Failing: ${(currentSceneData.metrics.failure_pixel_fraction * 100).toFixed(1)}% of pixels`;
-
-      // Update Stage 5 Signals (8 Signals)
-      document.getElementById('s5-region-badge').textContent = `Region R${reg.region_id}`;
-      const sigGrid = document.getElementById('s5-signals-grid');
-      sigGrid.innerHTML = '';
-      const f = reg.features;
-
-      const signals = [
-        { name: "Gradient Energy", val: f.grad_energy.toFixed(1), desc: f.grad_energy < 4 ? "Little Fine Detail" : "Rich Visual Detail" },
-        { name: "Depth-Edge Share", val: `${(f.depth_edge_fraction * 100).toFixed(1)}%`, desc: f.depth_edge_fraction > 0.3 ? "Region Hugs a Depth Edge" : "Away from Depth Edges" },
-        { name: "Thin Structure Share", val: `${(f.thin_fraction * 100).toFixed(1)}%`, desc: f.thin_fraction > 0.15 ? "Near a Thin Object in Depth" : "No Thin Structure" },
-        { name: "Sensor Holes Nearby", val: `${(f.sensor_hole_fraction * 100).toFixed(1)}%`, desc: f.sensor_hole_fraction > 0.1 ? "Sensor Failed Nearby (Glass, Mirror, Dark)" : "Well Measured" },
-        { name: "Signed Error", val: `${(f.signed_error * 100).toFixed(1)}%`, desc: f.signed_error < 0 ? "Predicted Too Near" : "Predicted Too Far" },
-        { name: "Brightness", val: f.brightness.toFixed(0), desc: f.brightness < 50 ? "Deep Shadow" : f.brightness > 200 ? "Very Bright" : "Normal Lighting" },
-        { name: "Distance from Sensor", val: `${meanSensorM.toFixed(2)}m`, desc: "Physical reference distance" }
-      ];
-
-      signals.forEach(s => {
-        const div = document.createElement('div');
-        div.className = 'signal-card';
-        div.innerHTML = `
-          <div class="signal-label">${s.name}</div>
-          <div class="signal-value">
-            <span>${s.val}</span>
-          </div>
-          <div class="signal-desc">${s.desc}</div>
-        `;
-        sigGrid.appendChild(div);
-      });
-
-      // Update Stage 5 Narrative Box
-      const narr = document.getElementById('s5-narrative-box');
-      let narrText = `<strong>What we observed:</strong> `;
-      if (f.depth_edge_fraction > 0.3) narrText += `${(f.depth_edge_fraction*100).toFixed(0)}% of the region lies next to a depth edge. `;
-      if (f.sensor_hole_fraction > 0.1) narrText += `The depth sensor has no reading for ${(f.sensor_hole_fraction*100).toFixed(0)}% of the surroundings, which is common on glass and mirrors. `;
-      if (f.thin_fraction > 0.15) narrText += `The region touches a thin structure in the true depth. `;
-      if (f.grad_energy < 4) narrText += `The image has little fine detail here. `;
-      narrText += `<br><span style="color: var(--text-muted); font-size: 11px;">Note: these cues rank hypotheses. They are not proof of cause.</span>`;
-      narr.innerHTML = narrText;
-
-      // Update Stage 5 Hypotheses List
-      const hypList = document.getElementById('s5-hypotheses-list');
-      hypList.innerHTML = '';
-      const scores = reg.scores;
-      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-
-      sorted.forEach(([cause, score], rk) => {
-        const isTop = rk === 0;
-        const row = document.createElement('div');
-        row.className = `hypothesis-row ${isTop ? 'top-rank' : ''}`;
-        row.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <strong style="color: ${isTop ? 'var(--olive-dark)' : 'var(--text-dark)'}; text-transform: capitalize;">
-              ${cause.replace('_', ' ')}
-            </strong>
-            ${isTop ? '<span class="badge" style="background: var(--olive-primary); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 4px;">Top Match</span>' : ''}
-          </div>
-          <div style="display: flex; align-items: center;">
-            <span class="font-mono" style="font-size: 12px; font-weight: 600;">${score.toFixed(2)}</span>
-            <div class="hypothesis-bar-bg">
-              <div class="hypothesis-bar-fill" style="width: ${Math.min(100, score * 100)}%;"></div>
+    <div class="hero-hud mono" aria-live="polite">
+      <div class="hud-row"><span class="hud-k">Scene</span><span id="hero-scene">—</span></div>
+      <div class="hud-row"><span class="hud-k">Showing</span><span id="hero-state" class="hud-state">Sensor truth</span></div>
+      <div class="hud-meter"><i id="hero-meter"></i></div>
+      <div class="hud-legend"><span><i class="sw sw-truth"></i>truth</span><span><i class="sw sw-pred"></i>prediction</span><span><i class="sw sw-fail"></i>fails δ<sub>1</sub></span></div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-band">
+    <div class="stat reveal"><b class="count" data-to="654">0</b><span>NYU test images audited</span></div>
+    <div class="stat reveal"><b class="count" data-to="8">0</b><span>depth models compared</span></div>
+    <div class="stat reveal"><b class="count" data-to="4">0</b><span>datasets, one synthetic</span></div>
+    <div class="stat reveal"><b class="count" data-to="120">0</b><span>matched pairs per edit test</span></div>
+    <div class="stat reveal"><b class="count" data-to="300">0</b><span>regions in the blinded human study</span></div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section problem" id="problem">
+    <div class="wrap">
+      <p class="kicker reveal">01 · The problem</p>
+      <p class="statement" id="statement">On average, Depth Anything V2 Small gets 97.3% of NYU pixels within 25% of their true depth. That number hides where the other pixels go wrong. They gather into regions, and a region can have a cause you can name, measure and test.</p>
+
+      <div class="pipeline reveal" id="pipeline">
+        <div class="pipe-track"><i class="pipe-pulse"></i></div>
+        <div class="pipe-step"><span class="pipe-n">1</span><b>Align</b><small>Fit the prediction to the sensor in disparity space, per image</small></div>
+        <div class="pipe-step"><span class="pipe-n">2</span><b>Find</b><small>Group pixels failing δ<sub>1</sub> on measured depth into regions</small></div>
+        <div class="pipe-step"><span class="pipe-n">3</span><b>Measure</b><small>Gradient, depth edges, thin structure, sensor holes, brightness</small></div>
+        <div class="pipe-step"><span class="pipe-n">4</span><b>Label</b><small>Name a likely cause, or abstain when evidence is weak</small></div>
+        <div class="pipe-step"><span class="pipe-n">5</span><b>Test</b><small>Edit the image, re-run the model, compare with matched controls</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORER -->
+  <section class="section explore" id="explore">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">02 · Explore</p>
+        <h2 class="reveal">Hunt for failures in <em>real test images</em></h2>
+        <p class="lede reveal">Four scenes from the NYU Depth V2 test split, each picked as the largest region of one label. Drag the divider, switch to the lens, hover for exact depths, and click a box to open its file.</p>
+      </div>
+
+      <div class="scene-strip reveal" id="scene-strip" role="tablist" aria-label="Scenes"></div>
+
+      <div class="explorer">
+        <div class="viewer-col">
+          <div class="toolbar">
+            <div class="seg" role="group" aria-label="View mode">
+              <button data-mode="wipe" class="on">Wipe</button>
+              <button data-mode="lens">Lens</button>
+              <button data-mode="single">Single</button>
+            </div>
+            <div class="layer-picks">
+              <div class="pick"><span class="pick-k">Base</span><div class="chips" id="pick-a"></div></div>
+              <div class="pick" id="pick-b-wrap"><span class="pick-k">Reveal</span><div class="chips" id="pick-b"></div></div>
             </div>
           </div>
-        `;
-        hypList.appendChild(row);
-      });
 
-      // Update Ambiguity Indicator
-      const ambBox = document.getElementById('s5-ambiguity-callout');
-      if (reg.top_cause === 'ambiguous') {
-        ambBox.style.background = 'var(--error-light)';
-        ambBox.style.borderColor = 'var(--error-terracotta)';
-        ambBox.innerHTML = `
-          <div style="font-weight: 600; color: var(--error-terracotta); margin-bottom: 4px;">
-            <i class="fa-solid fa-triangle-exclamation" style="margin-right: 4px;"></i> Available Evidence is Inconclusive (Ambiguous)
+          <div class="viewer" id="viewer">
+            <canvas id="view-canvas" width="640" height="480"></canvas>
+            <div class="viewer-tag mono" id="tag-a">Photo</div>
+            <div class="viewer-tag right mono" id="tag-b">Error</div>
+            <div class="viewer-hint mono" id="viewer-hint">drag the handle · click a box</div>
           </div>
-          <div style="color: var(--text-dark);">
-            No failure hypothesis reaches its threshold, so VEO does not name a cause.
+
+          <div class="under-viewer">
+            <div class="thr">
+              <label for="thr" class="mono">Failure threshold δ</label>
+              <input type="range" id="thr" min="1.05" max="1.6" step="0.01" value="1.25">
+              <output id="thr-out" class="mono">1.25</output>
+              <div class="thr-read mono"><b id="thr-frac">—</b> of crop pixels fail <span class="muted" id="thr-note"></span></div>
+            </div>
+            <div class="legend-bar">
+              <span class="mono muted" id="legend-lo">near</span>
+              <i id="legend-grad"></i>
+              <span class="mono muted" id="legend-hi">far</span>
+            </div>
           </div>
-        `;
-      } else {
-        ambBox.style.background = 'var(--olive-light)';
-        ambBox.style.borderColor = 'var(--olive-primary)';
-        ambBox.innerHTML = `
-          <div style="font-weight: 600; color: var(--olive-dark); margin-bottom: 4px;">
-            <i class="fa-solid fa-check-circle" style="margin-right: 4px;"></i> Diagnostic Confidence: Distinct Leading Match
+        </div>
+
+        <aside class="side-col">
+          <div class="card readout">
+            <div class="card-k">Under the cursor</div>
+            <div class="readout-grid mono">
+              <div><span>Truth</span><b id="ro-gt">—</b></div>
+              <div><span>Prediction</span><b id="ro-pd">—</b></div>
+              <div><span>Ratio</span><b id="ro-ratio">—</b></div>
+              <div><span>Verdict</span><b id="ro-verdict">—</b></div>
+            </div>
+            <div class="readout-px mono muted" id="ro-px">hover the image</div>
           </div>
-          <div style="color: var(--text-dark);">
-            The evidence best matches ${reg.top_cause}. This is a hypothesis, not a proven cause.
+
+          <div class="card scene-metrics">
+            <div class="card-k">Scene metrics <span class="muted">(VEO, measured pixels)</span></div>
+            <div class="metric-grid mono" id="scene-metrics"></div>
           </div>
-        `;
-      }
 
-      // Update Stage 6 Consequences based on actual signed meanDiffM
-      const cardCol = document.getElementById('card-risk-collision');
-      const cardPhan = document.getElementById('card-risk-phantom');
-      const badgeCol = document.getElementById('badge-risk-collision');
-      const badgePhan = document.getElementById('badge-risk-phantom');
+          <div class="card dossier" id="dossier">
+            <div class="card-k">Region file</div>
+            <div id="dossier-body"><p class="muted">Click a box on the image.</p></div>
+          </div>
+        </aside>
+      </div>
 
-      let riskLabel = "Surface Distortion";
-      if (meanDiffM > 0.05) {
-        cardCol.className = 'scenario-card active';
-        cardPhan.className = 'scenario-card';
-        badgeCol.textContent = `Active Hazard (Estimated +${meanDiffM.toFixed(2)}m farther)`;
-        badgeCol.style.background = 'var(--error-terracotta)';
-        badgeCol.style.color = '#FFFFFF';
-        badgePhan.textContent = 'Inactive';
-        badgePhan.style.background = 'var(--surface-muted)';
-        badgePhan.style.color = 'var(--text-dark)';
-        riskLabel = `Potential Collision Hazard (+${meanDiffM.toFixed(2)}m)`;
-      } else if (meanDiffM < -0.05) {
-        cardCol.className = 'scenario-card';
-        cardPhan.className = 'scenario-card active';
-        badgePhan.textContent = `Active Hazard (Estimated ${Math.abs(meanDiffM).toFixed(2)}m closer)`;
-        badgePhan.style.background = 'var(--olive-dark)';
-        badgePhan.style.color = '#FFFFFF';
-        badgeCol.textContent = 'Inactive';
-        badgeCol.style.background = 'var(--surface-muted)';
-        badgeCol.style.color = 'var(--text-dark)';
-        riskLabel = `Potential Phantom Obstacle (${meanDiffM.toFixed(2)}m)`;
-      } else {
-        cardCol.className = 'scenario-card';
-        cardPhan.className = 'scenario-card';
-        riskLabel = "Surface Distortion (Low Signed Bias)";
-      }
+      <div class="region-rail">
+        <div class="rail-head">
+          <span class="card-k">All regions in this scene</span>
+          <div class="chips small" id="label-filter"></div>
+        </div>
+        <div class="rail" id="region-rail"></div>
+      </div>
+    </div>
+  </section>
 
-      // Update Certificate
-      document.getElementById('cert-scene-title').textContent = currentSceneData.title;
-      document.getElementById('cert-region-id').textContent = `Region R${reg.region_id} (${reg.area.toLocaleString()} px)`;
-      const sign = meanDiffM >= 0 ? "+" : "";
-      document.getElementById('cert-discrepancy').textContent = `${sign}${meanDiffM.toFixed(2)}m (${(reg.mean_error * 100).toFixed(1)}% rel error)`;
-      document.getElementById('cert-cause').textContent = `${reg.top_cause.toUpperCase()} (Confidence: ${reg.confidence})`;
-      document.getElementById('cert-risk').textContent = riskLabel;
-    }
+  <!-- 3D -->
+  <section class="section lift" id="lift">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">03 · Lift into 3D</p>
+        <h2 class="reveal">Two worlds, <em>one photograph</em></h2>
+        <p class="lede reveal">Every point is a real pixel, placed in space with the Kinect's camera geometry. Morph between the depth the sensor measured and the depth the model predicted, and watch the selected region move.</p>
+      </div>
+      <div class="lift-stage reveal">
+        <canvas id="lift-canvas" aria-label="Interactive 3D point cloud of the selected scene"></canvas>
+        <div class="lift-controls">
+          <div class="morph">
+            <span class="mono">Truth</span>
+            <input type="range" id="morph" min="0" max="1" step="0.001" value="0" aria-label="Morph between truth and prediction">
+            <span class="mono">Prediction</span>
+            <button class="icon-btn" id="morph-play" aria-label="Play morph">▶</button>
+          </div>
+          <div class="seg" role="group" aria-label="Colour">
+            <button data-color="0" class="on">Photo</button>
+            <button data-color="1">Error</button>
+          </div>
+          <label class="toggle"><input type="checkbox" id="fail-glow" checked><span></span>Glow failing points</label>
+          <label class="toggle"><input type="checkbox" id="scan" checked><span></span>Depth scan</label>
+        </div>
+        <div class="lift-hint mono">drag to orbit · scroll to zoom · right-drag to pan</div>
+        <div class="lift-region mono" id="lift-region"></div>
+      </div>
+    </div>
+  </section>
 
-    // --- 6. Stage 4: Three.js 3D Discrepancy Mesh ---
-    function initThreeJS() {
-      const container = document.getElementById('three-viewport');
-      if (!container) return;
+  <!-- LABELS -->
+  <section class="section labels" id="labels">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">04 · Labels</p>
+        <h2 class="reveal">Six names for a failure, <em>graded honestly</em></h2>
+        <p class="lede reveal">Four labels are small logistic models fitted on NYU train. Each is scored against object annotations, where 0.5 is chance. Hypersim and iBims-1 were never seen while fitting, so they are the clean checks. NYU test shaped this version of the labels, so it is not confirmatory.</p>
+      </div>
+      <div class="label-grid" id="label-grid"></div>
+    </div>
+  </section>
 
-      const width = container.clientWidth || 800;
-      const height = container.clientHeight || 520;
+  <!-- TESTS -->
+  <section class="section tests" id="tests">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">05 · Put to the test</p>
+        <h2 class="reveal">Edit the image. <em>Re-run the model.</em></h2>
+        <p class="lede reveal">If a label names the real cause, fixing that cause should help labelled regions more than matched controls. Each test uses 120 pairs given the same edit. Left of zero means the edit helped labelled regions more.</p>
+      </div>
+      <div class="forest card reveal" id="forest"></div>
+      <div class="callout reveal">
+        <div class="callout-num mono">ρ = −0.26</div>
+        <div>
+          <b>Specular light does raise depth error.</b> Removing it from synthetic Hypersim renders, the more specular light a region had, the more its error fell. Spearman ρ = −0.26, 95% CI [−0.36, −0.14].
+        </div>
+      </div>
+    </div>
+  </section>
 
-      scene3D = new THREE.Scene();
-      scene3D.background = new THREE.Color(0xF6F3EA);
+  <!-- MODELS -->
+  <section class="section models" id="models">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">06 · Eight models</p>
+        <h2 class="reveal">The leaderboard, <em>on three datasets</em></h2>
+        <p class="lede reveal">All models are evaluated after per-image alignment. Switch the metric and watch the order change.</p>
+      </div>
+      <div class="seg metric-seg reveal" id="metric-seg" role="group" aria-label="Metric"></div>
+      <div class="board card reveal" id="board"></div>
+      <p class="foot mono muted">* Trained on NYU, so its NYU row is not a fair comparison. † Diffusion model run with 4 denoising steps and no ensembling, lighter than in its paper. DIODE: 325 indoor frames. iBims-1: 100 indoor images keeping transparent surfaces, so not comparable with published numbers.</p>
+      <div class="findings">
+        <div class="finding card reveal"><b>Size matters</b><p>Larger Depth Anything models reliably reduce AbsRel on NYU and iBims-1. On DIODE, neither step up in size reliably changes it.</p></div>
+        <div class="finding card reveal"><b>Hybrid vs. pure ViT</b><p>No reliable difference on any outcome between DPT-Hybrid and DPT-Large, on any of the three datasets.</p></div>
+        <div class="finding card reveal"><b>Diffusion</b><p>Depth Anything V2 Small has lower AbsRel than Marigold on NYU and DIODE, with no reliable difference on iBims-1.</p></div>
+        <div class="finding card reveal"><b>Family</b><p>DPT-Hybrid fails on about three times as many pixels as Depth Anything V2 Small, largely in regions labelled textureless. Training data differs too, so this is not attributed to architecture.</p></div>
+      </div>
+    </div>
+  </section>
 
-      camera3D = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-      camera3D.position.set(0, -3.8, 4.8);
+  <!-- NULL RESULTS -->
+  <section class="section honest" id="honest">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">07 · What didn't hold up</p>
+        <h2 class="reveal">Two claims, <em>tested and cut</em></h2>
+        <p class="lede reveal">Both rules were written before the results were scored.</p>
+      </div>
+      <div class="honest-grid">
+        <div class="card verdict reveal">
+          <div class="stamp">Cut</div>
+          <h3>A ViT vs. CNN failure “fingerprint”</h3>
+          <p>A label counts only if its share of a model's failing regions differs reliably, in the same direction, on NYU, DIODE and iBims-1.</p>
+          <ul class="mono">
+            <li><span>DPT-Hybrid vs. DPT-Large</span><b>no label passes</b></li>
+            <li><span>DA-V2 Small vs. DPT-Hybrid</span><b>only textureless</b></li>
+          </ul>
+          <div class="fp" id="fp"></div>
+          <p class="muted small">Textureless share, DA-V2 Small minus DPT-Hybrid. That label is close to chance against annotations, so this is a difference in VEO's labels, not an established difference in failure type.</p>
+        </div>
+        <div class="card verdict reveal">
+          <div class="stamp">Not supported</div>
+          <h3>Using the diagnosis to fine-tune</h3>
+          <p>Fine-tuning the decoder on NYU train while up-weighting the regions VEO diagnosed made those targets <b>worse</b>, in all three seeds.</p>
+          <div class="ft" id="ft"></div>
+          <p class="muted small">AbsRel on annotated pixels. Plain fine-tuning with no weighting improved overall AbsRel from 0.051 to 0.046. The weighting did act on its training regions (0.31 → 0.17 at seed 0), so it fitted those regions instead of learning anything general. One weighting strength, one dataset.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      renderer3D = new THREE.WebGLRenderer({ antialias: true });
-      renderer3D.setSize(width, height);
-      renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(renderer3D.domElement);
+  <!-- INSIDE -->
+  <section class="section inside" id="inside">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">08 · Inside the model</p>
+        <h2 class="reveal">What the encoder <em>attends to</em>, layer by layer</h2>
+        <p class="lede reveal">Activation maps from Depth Anything V2 Small's DINOv2 encoder for the selected scene. Scrub through the depth of the network and blend the activations over the photo.</p>
+      </div>
+      <div class="inside-grid">
+        <div class="fm-stage reveal">
+          <img id="fm-photo" alt="Scene photograph">
+          <img id="fm-map" alt="Encoder activation map">
+          <div class="fm-layer mono" id="fm-layer">Layer 3</div>
+        </div>
+        <div class="fm-controls card reveal">
+          <div class="card-k">Transformer block</div>
+          <div class="fm-ticks" id="fm-ticks"></div>
+          <input type="range" id="fm-scrub" min="0" max="3" step="0.01" value="0" aria-label="Encoder layer">
+          <p id="fm-desc" class="fm-desc"></p>
+          <div class="card-k">Blend over photo</div>
+          <input type="range" id="fm-blend" min="0" max="1" step="0.01" value="0.75" aria-label="Blend amount">
+          <div class="fm-meta mono muted" id="fm-meta"></div>
+          <a class="btn btn-ghost" href="model_lab.html">Open the 3D Model Lab <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      controls3D = new THREE.OrbitControls(camera3D, renderer3D.domElement);
-      controls3D.enableDamping = true;
-      controls3D.dampingFactor = 0.05;
-      controls3D.target.set(0, 0, 0);
+  <!-- LIMITS -->
+  <section class="section limits" id="limits">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker reveal">09 · Limits</p>
+        <h2 class="reveal">Read this <em>before you cite it</em></h2>
+      </div>
+      <div class="limit-grid">
+        <div class="limit reveal"><b>Annotations are a proxy.</b> Wall and ceiling stand in for “textureless”, and on average 42% of a region's pixels on NYU have no annotation at all.</div>
+        <div class="limit reveal"><b>Labels describe more than they explain.</b> Only one of four image-edit tests supported its label, and that one is exploratory.</div>
+        <div class="limit reveal"><b>The audit needs ground truth.</b> Finding failure regions and two of the label cues rely on measured depth.</div>
+        <div class="limit reveal"><b>Some failures may be sensor errors.</b> On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.</div>
+        <div class="limit reveal"><b>DIODE labels can't be checked.</b> It has no annotations, and its tests use 10 scans from 3 scenes, which are not independent.</div>
+        <div class="limit reveal"><b>Indoor only.</b> The labels were fitted on indoor data. Outdoor scenes are not covered, and the human study still needs raters.</div>
+      </div>
+    </div>
+  </section>
 
-      // Soft Museum Lighting
-      const ambientLight = new THREE.AmbientLight(0xFFFBF2, 0.85);
-      scene3D.add(ambientLight);
+  <!-- RUN -->
+  <section class="section run" id="run">
+    <div class="wrap run-wrap">
+      <div>
+        <p class="kicker reveal">10 · Run it</p>
+        <h2 class="reveal">Audit <em>your own</em> depth model</h2>
+        <p class="lede reveal">Save one <code>.npy</code> prediction per image, point a config at your data, and VEO does the rest. The whole pipeline also runs on a small synthetic fixture with no downloads or GPU.</p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary magnetic" href="https://github.com/MdZeeshanAli01/VEO_V2" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost magnetic" href="https://github.com/MdZeeshanAli01/VEO_V2/tree/new-version/docs" target="_blank" rel="noopener">Protocols</a>
+        </div>
+      </div>
+      <div class="terminal reveal">
+        <div class="term-bar"><i></i><i></i><i></i><span class="mono">bash</span><button class="copy mono" id="copy-btn">copy</button></div>
+<pre class="mono" id="term-code"><span class="c"># clone and test</span>
+git clone https://github.com/MdZeeshanAli01/VEO_V2.git
+cd VEO_V2 && uv sync --extra dev
+uv run python -m pytest -q
 
-      const dirLight = new THREE.DirectionalLight(0xF5EFE6, 0.8);
-      dirLight.position.set(5, 8, 10);
-      scene3D.add(dirLight);
+<span class="c"># the whole pipeline, no GPU needed</span>
+uv run python -m veo.cli reproduce --fixture --workdir /tmp/veo
 
-      // Subtle Grid Ground
-      const grid = new THREE.GridHelper(10, 20, 0xC4BAA6, 0xE2D9C7);
-      grid.position.z = -1.5;
-      grid.rotation.x = Math.PI / 2;
-      scene3D.add(grid);
+<span class="c"># audit your own predictions</span>
+uv run python -m veo.cli run-precomputed \
+  --config my_config.yaml \
+  --prediction-dir my_predictions \
+  --output-dir outputs/my_model</pre>
+      </div>
+    </div>
+  </section>
+</main>
 
-      errorStemsGroup = new THREE.Group();
-      scene3D.add(errorStemsGroup);
+<footer class="footer">
+  <div class="wrap foot-wrap">
+    <div class="brand"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".35"/><circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".7"/><circle cx="16" cy="16" r="3" fill="var(--hot)"/></svg><span>Vision Error Observatory</span></div>
+    <p class="muted">Scenes from the official NYU Depth V2 test split. Model in the explorer: Depth Anything V2 Small. Result tables match the committed results in the repository; explorer readouts are computed live from the exported depth maps. MIT licence.</p>
+  </div>
+</footer>
 
-      threeInitialized = true;
-      buildThreeMeshes();
+<div class="toast mono" id="toast"></div>
 
-      // Render Loop
-      function animate() {
-        requestAnimationFrame(animate);
-        controls3D.update();
-        renderer3D.render(scene3D, camera3D);
-      }
-      animate();
-    }
-
-    function buildThreeMeshes() {
-      if (!threeInitialized || !currentSceneData || !currentSceneData.mesh_3d) return;
-
-      const m = currentSceneData.mesh_3d;
-      const gw = m.grid_w; // 80
-      const gh = m.grid_h; // 60
-
-      if (gtMesh) scene3D.remove(gtMesh);
-      if (predMesh) scene3D.remove(predMesh);
-      while (errorStemsGroup.children.length > 0) {
-        errorStemsGroup.remove(errorStemsGroup.children[0]);
-      }
-
-      const geomGt = new THREE.PlaneGeometry(4.0, 3.0, gw - 1, gh - 1);
-      const geomPred = new THREE.PlaneGeometry(4.0, 3.0, gw - 1, gh - 1);
-
-      const posGt = geomGt.attributes.position;
-      const posPred = geomPred.attributes.position;
-
-      const centerZ = m.depth_gt[Math.floor(gh / 2)][Math.floor(gw / 2)] || 1.8;
-
-      for (let r = 0; r < gh; r++) {
-        for (let c = 0; c < gw; c++) {
-          const idx = r * gw + c;
-          const dGt = m.depth_gt[r][c];
-          const dPred = m.depth_pred[r][c];
-
-          // Topographic elevation along Z axis (scaled 1.5x)
-          const zGt = -(dGt - centerZ) * 1.5;
-          const zPred = -(dPred - centerZ) * 1.5;
-
-          posGt.setZ(idx, zGt);
-          posPred.setZ(idx, zPred);
-        }
-      }
-      geomGt.computeVertexNormals();
-      geomPred.computeVertexNormals();
-
-      // Materials
-      const matGt = new THREE.MeshStandardMaterial({
-        color: 0x68734D, // Olive Sage
-        roughness: 0.45,
-        wireframe: false,
-        side: THREE.DoubleSide
-      });
-
-      const matPred = new THREE.MeshStandardMaterial({
-        color: 0x8B6849, // Warm Brown
-        roughness: 0.35,
-        transparent: true,
-        opacity: threeMode === 'compare' ? 0.65 : 0.95,
-        wireframe: false,
-        side: THREE.DoubleSide
-      });
-
-      gtMesh = new THREE.Mesh(geomGt, matGt);
-      predMesh = new THREE.Mesh(geomPred, matPred);
-
-      if (threeMode === 'compare' || threeMode === 'gt') {
-        scene3D.add(gtMesh);
-      }
-      if (threeMode === 'compare' || threeMode === 'pred') {
-        scene3D.add(predMesh);
-      }
-
-      // Vertical 3D Error Stems in Selected Region
-      if (threeMode === 'compare' && currentSceneData.regions[currentRegionIdx]) {
-        const reg = currentSceneData.regions[currentRegionIdx];
-        const [rx, ry, rw, rh] = reg.bbox;
-
-        // Map 640x480 bbox to 80x60 grid
-        const cMin = Math.floor((rx / 640) * gw);
-        const cMax = Math.min(gw - 1, Math.ceil(((rx + rw) / 640) * gw));
-        const rMin = Math.floor((ry / 480) * gh);
-        const rMax = Math.min(gh - 1, Math.ceil(((ry + rh) / 480) * gh));
-
-        const stemMat = new THREE.LineBasicMaterial({ color: 0xC8755A, linewidth: 2 });
-        const sphereGeom = new THREE.SphereGeometry(0.025, 8, 8);
-        const sphereMat = new THREE.MeshBasicMaterial({ color: 0xC8755A });
-
-        for (let r = rMin; r <= rMax; r += 2) {
-          for (let c = cMin; c <= cMax; c += 2) {
-            const idx = r * gw + c;
-            const x = posGt.getX(idx);
-            const y = posGt.getY(idx);
-            const z1 = posGt.getZ(idx);
-            const z2 = posPred.getZ(idx);
-
-            if (Math.abs(z1 - z2) > 0.05) {
-              const lineGeom = new THREE.BufferGeometry().setFromPoints([
-                new THREE.Vector3(x, y, z1),
-                new THREE.Vector3(x, y, z2)
-              ]);
-              errorStemsGroup.add(new THREE.Line(lineGeom, stemMat));
-
-              const sp = new THREE.Mesh(sphereGeom, sphereMat);
-              sp.position.set(x, y, z2);
-              errorStemsGroup.add(sp);
-            }
-          }
-        }
-      }
-    }
-
-    function setThreeMode(mode) {
-      threeMode = mode;
-      ['compare', 'gt', 'pred'].forEach(m => {
-        const btn = document.getElementById(`btn-3d-${m}`);
-        if (m === mode) btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-      buildThreeMeshes();
-    }
-
-    function resetThreeCamera() {
-      camera3D.position.set(0, -3.8, 4.8);
-      controls3D.target.set(0, 0, 0);
-      controls3D.update();
-    }
-
-    function focusThreeOnRegion() {
-      if (!currentSceneData || !currentSceneData.regions[currentRegionIdx]) return;
-      const [rx, ry, rw, rh] = currentSceneData.regions[currentRegionIdx].bbox;
-      const normX = ((rx + rw / 2) / 640 - 0.5) * 4.0;
-      const normY = -((ry + rh / 2) / 480 - 0.5) * 3.0;
-
-      // Sample depth elevation at region center from mesh
-      const gw = currentSceneData.mesh_3d.grid_w;
-      const gh = currentSceneData.mesh_3d.grid_h;
-      const rGrid = Math.min(gh - 1, Math.max(0, Math.floor(((ry + rh / 2) / 480) * gh)));
-      const cGrid = Math.min(gw - 1, Math.max(0, Math.floor(((rx + rw / 2) / 640) * gw)));
-      const centerZ = currentSceneData.mesh_3d.depth_gt[Math.floor(gh / 2)][Math.floor(gw / 2)] || 1.8;
-      const regDepth = currentSceneData.mesh_3d.depth_gt[rGrid][cGrid] || centerZ;
-      const targetZ = -(regDepth - centerZ) * 1.5;
-
-      controls3D.target.set(normX, normY, targetZ);
-      camera3D.position.set(normX, normY - 1.8, targetZ + 2.2);
-      controls3D.update();
-    }
-
-    function toggleThreeWireframe() {
-      if (gtMesh) gtMesh.material.wireframe = !gtMesh.material.wireframe;
-      if (predMesh) predMesh.material.wireframe = !predMesh.material.wireframe;
-    }
-
-    function onWindowResize() {
-      const container = document.getElementById('three-viewport');
-      if (!container || !renderer3D || !camera3D) return;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      camera3D.aspect = width / height;
-      camera3D.updateProjectionMatrix();
-      renderer3D.setSize(width, height);
-    }
-
-    window.addEventListener('DOMContentLoaded', initApp);
-  </script>
+<script src="assets/js/three.min.js"></script>
+<script src="assets/js/OrbitControls.js"></script>
+<script src="assets/js/site.js"></script>
 </body>
 </html>
