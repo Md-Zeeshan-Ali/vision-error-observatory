@@ -106,3 +106,24 @@ def compute_ratio_map(prediction: np.ndarray, target: np.ndarray, valid_mask: np
     truth = target[evaluation_mask]
     ratio[evaluation_mask] = np.maximum(pred / truth, truth / pred)
     return ratio
+
+
+def tolerant_failure(prediction: np.ndarray, target: np.ndarray, failing: np.ndarray, radius: int, threshold: float = 1.25) -> np.ndarray:
+    """Failing pixels that still fail when the prediction may be off by up to ``radius`` px.
+
+    A pixel is kept only if no predicted value within the (2r+1)x(2r+1) window matches its measured
+    depth within ``threshold``. Failures that vanish under a 1-3 px tolerance are what slight
+    misregistration between image and sensor would produce at depth edges.
+    """
+    if radius < 0:
+        raise ValueError(f"Radius must be non-negative, got {radius}")
+    height, width = target.shape
+    padded = np.pad(prediction.astype(np.float32), radius, constant_values=np.nan)
+    truth = np.where(failing, target, np.nan).astype(np.float32)
+    matched = np.zeros(target.shape, dtype=bool)
+    for dy in range(2 * radius + 1):
+        for dx in range(2 * radius + 1):
+            shifted = np.clip(padded[dy:dy + height, dx:dx + width], 1e-6, None)
+            with np.errstate(invalid="ignore"):
+                matched |= np.maximum(shifted / truth, truth / shifted) <= threshold
+    return failing & ~matched

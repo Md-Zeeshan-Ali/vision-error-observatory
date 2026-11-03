@@ -1,10 +1,11 @@
 import numpy as np
+import pytest
 from PIL import Image
 
 from veo.data import discover_pairs, load_depth, validate_pairs
 from veo.features import extract_features
 from veo.inference import PrecomputedPredictor
-from veo.metrics import align_scale_only, align_scale_shift, compute_metrics
+from veo.metrics import align_scale_only, align_scale_shift, compute_metrics, tolerant_failure
 from veo.nyu_dataset import create_scene_splits, extract_labeled_mat
 from veo.regions import extract_failure_regions
 from veo.reports import write_summary
@@ -53,6 +54,20 @@ def test_metrics_ignore_nonfinite_predictions():
     target = np.ones((2, 2), dtype=np.float32)
     metrics = compute_metrics(prediction, target, np.ones((2, 2), dtype=bool))
     assert np.isfinite(list(metrics.values())).all()
+
+
+def test_tolerant_failure_forgives_only_small_shifts():
+    # A depth edge predicted 2 px too far right: the band between fails strictly, but not with a 2 px tolerance
+    target = np.where(np.arange(12)[None, :] < 6, 1.0, 4.0).repeat(5, axis=0).astype(np.float32)
+    prediction = np.where(np.arange(12)[None, :] < 8, 1.0, 4.0).repeat(5, axis=0).astype(np.float32)
+    failing = np.maximum(prediction / target, target / prediction) > 1.25
+    assert failing.sum() == 10
+    assert tolerant_failure(prediction, target, failing, 1).sum() == 5
+    assert not tolerant_failure(prediction, target, failing, 2).any()
+    # A wrong value over a whole area is not forgiven
+    assert tolerant_failure(2.0 * target, target, np.ones_like(failing), 3).all()
+    with pytest.raises(ValueError):
+        tolerant_failure(prediction, target, failing, -1)
 
 
 def test_regions_respect_area_and_mask():
