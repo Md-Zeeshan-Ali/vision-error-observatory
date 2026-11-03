@@ -1,0 +1,608 @@
+{
+  "note": "Exploratory: chosen after every result in the paper, in response to review.",
+  "cue_baselines": {
+    "nyu_test": {
+      "reflection": {
+        "positives": 265,
+        "regions": 6325,
+        "label_model": {
+          "auroc": 0.825559499346161,
+          "lower": 0.7861873196216107,
+          "upper": 0.8585787833990851
+        },
+        "sensor_hole_fraction": {
+          "auroc": 0.7571791518774519,
+          "lower": 0.7107154856477501,
+          "upper": 0.7991580031545443
+        },
+        "signed_error": {
+          "auroc": 0.7200180584096144,
+          "lower": 0.6497325195673338,
+          "upper": 0.7821724762307568
+        },
+        "saturation_mean": {
+          "auroc": 0.6369820661311415,
+          "lower": 0.5702212675792738,
+          "upper": 0.6967273712145582
+        },
+        "log_area_alone": {
+          "auroc": 0.6660047325487265,
+          "lower": 0.6106535316166282,
+          "upper": 0.7256849913642822
+        }
+      },
+      "thin_object": {
+        "positives": 779,
+        "regions": 6325,
+        "label_model": {
+          "auroc": 0.7250939394963446,
+          "lower": 0.704693553554801,
+          "upper": 0.745887991127245
+        },
+        "thin_image_fraction": {
+          "auroc": 0.6573653796211126,
+          "lower": 0.6298485473137342,
+          "upper": 0.6889573771700527
+        },
+        "log_area": {
+          "auroc": 0.646113008855334,
+          "lower": 0.6267758708656197,
+          "upper": 0.6666851414770436
+        },
+        "thin_fraction": {
+          "auroc": 0.5780688483807039,
+          "lower": 0.5564115476346511,
+          "upper": 0.6012080618438568
+        },
+        "log_area_alone": {
+          "auroc": 0.3538869911446661,
+          "lower": 0.3333148585229566,
+          "upper": 0.37322412913438036
+        }
+      },
+      "boundary_mixing": {
+        "positives": 2564,
+        "regions": 6325,
+        "label_model": {
+          "auroc": 0.8544925524752975,
+          "lower": 0.839651248544017,
+          "upper": 0.8678805480512654
+        },
+        "depth_edge_fraction": {
+          "auroc": 0.8473810156873172,
+          "lower": 0.8326214887643976,
+          "upper": 0.8607013917619861
+        },
+        "depth_step": {
+          "auroc": 0.7785507285752743,
+          "lower": 0.7608114400911311,
+          "upper": 0.7948254095121806
+        },
+        "log_area_alone": {
+          "auroc": 0.33094617722491404,
+          "lower": 0.3142229874162372,
+          "upper": 0.34737746184688045
+        }
+      },
+      "textureless": {
+        "positives": 322,
+        "regions": 6325,
+        "label_model": {
+          "auroc": 0.5805487525388444,
+          "lower": 0.527113060907323,
+          "upper": 0.6337074262533404
+        },
+        "grad_energy": {
+          "auroc": 0.5451451292987047,
+          "lower": 0.4885382031052255,
+          "upper": 0.6033419126205118
+        },
+        "contrast": {
+          "auroc": 0.5101005397922157,
+          "lower": 0.46231001095396546,
+          "upper": 0.5606482761216829
+        },
+        "corner_strength": {
+          "auroc": 0.5858049236251439,
+          "lower": 0.5332041777553312,
+          "upper": 0.6361075489908307
+        },
+        "log_area_alone": {
+          "auroc": 0.5917046652657109,
+          "lower": 0.55504455349238,
+          "upper": 0.6253098020818847
+        }
+      }
+    },
+    "ibims": {
+      "boundary_mixing": {
+        "positives": 675,
+        "regions": 1376,
+        "label_model": {
+          "auroc": 0.6925196808791674,
+          "lower": 0.6124461914035806,
+          "upper": 0.7836751374026449
+        },
+        "depth_edge_fraction": {
+          "auroc": 0.6407819517091986,
+          "lower": 0.5775804717127372,
+          "upper": 0.7240389697047988
+        },
+        "depth_step": {
+          "auroc": 0.6830474982828763,
+          "lower": 0.6158084297968273,
+          "upper": 0.7585171514659887
+        },
+        "log_area_alone": {
+          "auroc": 0.4811877212447826,
+          "lower": 0.43782563860357054,
+          "upper": 0.5205694271066703
+        }
+      },
+      "reflection": {
+        "positives": 228,
+        "regions": 1635,
+        "label_model": {
+          "auroc": 0.8215220888040998,
+          "lower": 0.7422245883803562,
+          "upper": 0.8832735503121375
+        },
+        "sensor_hole_fraction": {
+          "auroc": 0.8325664908540007,
+          "lower": 0.770315921827425,
+          "upper": 0.8974871378658038
+        },
+        "signed_error": {
+          "auroc": 0.5781805259417199,
+          "lower": 0.393170827665493,
+          "upper": 0.7572508873201502
+        },
+        "saturation_mean": {
+          "auroc": 0.7122033940572825,
+          "lower": 0.6248115554439141,
+          "upper": 0.7799140652707044
+        },
+        "log_area_alone": {
+          "auroc": 0.5454400927692364,
+          "lower": 0.45935491379275945,
+          "upper": 0.6330141164199728
+        }
+      }
+    }
+  },
+  "top_label": {
+    "nyu_test": {
+      "reflection": {
+        "top_label": 212,
+        "silver": 265,
+        "both": 48,
+        "precision": 0.22641509433962265,
+        "recall": 0.1811320754716981
+      },
+      "thin_object": {
+        "top_label": 965,
+        "silver": 779,
+        "both": 235,
+        "precision": 0.24352331606217617,
+        "recall": 0.30166880616174585
+      },
+      "boundary_mixing": {
+        "top_label": 3015,
+        "silver": 2564,
+        "both": 2040,
+        "precision": 0.6766169154228856,
+        "recall": 0.7956318252730109
+      },
+      "textureless": {
+        "top_label": 468,
+        "silver": 322,
+        "both": 66,
+        "precision": 0.14102564102564102,
+        "recall": 0.20496894409937888
+      }
+    },
+    "ibims": {
+      "boundary_mixing": {
+        "top_label": 812,
+        "silver": 675,
+        "both": 527,
+        "precision": 0.6490147783251231,
+        "recall": 0.7807407407407407
+      },
+      "reflection": {
+        "top_label": 6,
+        "silver": 228,
+        "both": 6,
+        "precision": 1.0,
+        "recall": 0.02631578947368421
+      }
+    }
+  },
+  "boundary_area": {
+    "nyu_test": {
+      "models": {
+        "depth-anything-v2-large-hf": {
+          "failing_share": 0.021327795324087476,
+          "boundary_of_valid": 0.0020293067159953696,
+          "boundary_of_regions": 0.1070694600636944
+        },
+        "depthpro-hf": {
+          "failing_share": 0.020957522562668276,
+          "boundary_of_valid": 0.0019637985065751517,
+          "boundary_of_regions": 0.1052169297037674
+        },
+        "depth-anything-v2-base-hf": {
+          "failing_share": 0.023021587209226323,
+          "boundary_of_valid": 0.0020987341575005565,
+          "boundary_of_regions": 0.1014266288983875
+        },
+        "zoedepth-nyu-kitti": {
+          "failing_share": 0.024458024816400387,
+          "boundary_of_valid": 0.0017945622629061098,
+          "boundary_of_regions": 0.08242498942093915
+        },
+        "depth-anything-v2-small-hf": {
+          "failing_share": 0.026973289255469414,
+          "boundary_of_valid": 0.0021368004303258335,
+          "boundary_of_regions": 0.08639685339391291
+        },
+        "marigold-depth-v1-1": {
+          "failing_share": 0.040901304461320086,
+          "boundary_of_valid": 0.0021909019194987535,
+          "boundary_of_regions": 0.05801010309086741
+        },
+        "dpt-hybrid-midas": {
+          "failing_share": 0.08185507600837838,
+          "boundary_of_valid": 0.001821499671490113,
+          "boundary_of_regions": 0.02370668427602498
+        },
+        "dpt-large": {
+          "failing_share": 0.08506843501700646,
+          "boundary_of_valid": 0.0018369133678242818,
+          "boundary_of_regions": 0.022946148494377934
+        }
+      },
+      "spearman_failing_vs_boundary_of_valid": -0.11904761904761905,
+      "spearman_failing_vs_boundary_of_regions": -0.9523809523809524
+    },
+    "diode": {
+      "models": {
+        "depth-anything-v2-large-hf": {
+          "failing_share": 0.05198621159258088,
+          "boundary_of_valid": 0.015306471617241208,
+          "boundary_of_regions": 0.38354256237417034
+        },
+        "depthpro-hf": {
+          "failing_share": 0.05419553934284008,
+          "boundary_of_valid": 0.015507853221180605,
+          "boundary_of_regions": 0.3695402629182146
+        },
+        "depth-anything-v2-base-hf": {
+          "failing_share": 0.05661194968308554,
+          "boundary_of_valid": 0.01524183429086892,
+          "boundary_of_regions": 0.34094397996803677
+        },
+        "zoedepth-nyu-kitti": {
+          "failing_share": 0.08600739796365241,
+          "boundary_of_valid": 0.016323140292522267,
+          "boundary_of_regions": 0.2156243292333736
+        },
+        "depth-anything-v2-small-hf": {
+          "failing_share": 0.06449459905358855,
+          "boundary_of_valid": 0.015154156975894725,
+          "boundary_of_regions": 0.28456718135614145
+        },
+        "marigold-depth-v1-1": {
+          "failing_share": 0.08297906465295023,
+          "boundary_of_valid": 0.016841397386979994,
+          "boundary_of_regions": 0.2141924222453431
+        },
+        "dpt-hybrid-midas": {
+          "failing_share": 0.10481513933822345,
+          "boundary_of_valid": 0.014980055928815858,
+          "boundary_of_regions": 0.154961203133262
+        },
+        "dpt-large": {
+          "failing_share": 0.09490577084311427,
+          "boundary_of_valid": 0.016253121205210132,
+          "boundary_of_regions": 0.1884621919965595
+        }
+      },
+      "spearman_failing_vs_boundary_of_valid": 0.023809523809523815,
+      "spearman_failing_vs_boundary_of_regions": -0.9761904761904763
+    },
+    "ibims": {
+      "models": {
+        "depth-anything-v2-large-hf": {
+          "failing_share": 0.01758023326895747,
+          "boundary_of_valid": 0.005427892676815133,
+          "boundary_of_regions": 0.3681511289754941
+        },
+        "depthpro-hf": {
+          "failing_share": 0.018723588895381213,
+          "boundary_of_valid": 0.004613553451734946,
+          "boundary_of_regions": 0.28848867267631373
+        },
+        "depth-anything-v2-base-hf": {
+          "failing_share": 0.020279728513425473,
+          "boundary_of_valid": 0.005751238773648481,
+          "boundary_of_regions": 0.32699877333002075
+        },
+        "zoedepth-nyu-kitti": {
+          "failing_share": 0.047242063117787565,
+          "boundary_of_valid": 0.007868657307039752,
+          "boundary_of_regions": 0.17318711108372867
+        },
+        "depth-anything-v2-small-hf": {
+          "failing_share": 0.028202459042347815,
+          "boundary_of_valid": 0.006390523228399127,
+          "boundary_of_regions": 0.25137739104746176
+        },
+        "marigold-depth-v1-1": {
+          "failing_share": 0.032674191140655374,
+          "boundary_of_valid": 0.006885066609398359,
+          "boundary_of_regions": 0.22997395690803277
+        },
+        "dpt-hybrid-midas": {
+          "failing_share": 0.054763534136516405,
+          "boundary_of_valid": 0.007537186593330734,
+          "boundary_of_regions": 0.14244204050455211
+        },
+        "dpt-large": {
+          "failing_share": 0.05293148269444527,
+          "boundary_of_valid": 0.008695183457433442,
+          "boundary_of_regions": 0.17216966465599054
+        }
+      },
+      "spearman_failing_vs_boundary_of_valid": 0.9047619047619048,
+      "spearman_failing_vs_boundary_of_regions": -0.9761904761904763
+    }
+  },
+  "specular_partial": {
+    "regions": 3279,
+    "scenes": 28,
+    "plain_spearman": -0.260347094652604,
+    "partial_spearman": -0.23958266511280374,
+    "lower": -0.3453060873106879,
+    "upper": -0.10057955027066441
+  },
+  "pixels": {
+    "depth-anything-v2-small-hf": {
+      "base_rates": {
+        "reflection": {
+          "fail_rate_positive": 0.18771170648348526,
+          "fail_rate_other_annotated": 0.017678919573821672,
+          "rate_ratio": 10.617826824747945,
+          "scene_difference": {
+            "n": 151,
+            "scenes": 151,
+            "mean": 0.15325290510940512,
+            "lower": 0.10730676341153107,
+            "upper": 0.20009914547194926,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 0.5297755898127275
+          }
+        },
+        "thin_object": {
+          "fail_rate_positive": 0.047432438484348284,
+          "fail_rate_other_annotated": 0.021619572404025778,
+          "rate_ratio": 2.1939582151733905,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": 0.022915803591538247,
+            "lower": 0.017679020727905306,
+            "upper": 0.028330078001192412,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 0.5655888924974651
+          }
+        },
+        "boundary_mixing": {
+          "fail_rate_positive": 0.12638109966898367,
+          "fail_rate_other_annotated": 0.02047676108496017,
+          "rate_ratio": 6.171928223639256,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": 0.09363984364089493,
+            "lower": 0.08629573467802816,
+            "upper": 0.10108425030065182,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 1.630606514875705
+          }
+        },
+        "textureless": {
+          "fail_rate_positive": 0.011342229074267907,
+          "fail_rate_other_annotated": 0.025768516445588075,
+          "rate_ratio": 0.44015840408266316,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": -0.01554372152540001,
+            "lower": -0.023496257970513752,
+            "upper": -0.008626671529053732,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": -0.2759883700571412
+          }
+        }
+      },
+      "edge_tolerance": {
+        "boundary_mixing": {
+          "failing_pixels": 292232,
+          "kept_at_1px": 0.6148881710421856,
+          "kept_at_2px": 0.3422280927482274,
+          "kept_at_3px": 0.20522393167072736
+        },
+        "thin_object": {
+          "failing_pixels": 55125,
+          "kept_at_1px": 0.5583854875283447,
+          "kept_at_2px": 0.2921360544217687,
+          "kept_at_3px": 0.1839092970521542
+        },
+        "silver_boundary_band": {
+          "failing_pixels": 378361,
+          "kept_at_1px": 0.5793911106060086,
+          "kept_at_2px": 0.37626499559944077,
+          "kept_at_3px": 0.27885273587922643
+        },
+        "outside_boundary_band": {
+          "failing_pixels": 3207751,
+          "kept_at_1px": 0.9129421205074832,
+          "kept_at_2px": 0.8515586153663424,
+          "kept_at_3px": 0.804958053165598
+        },
+        "poor_lighting": {
+          "failing_pixels": 405788,
+          "kept_at_1px": 0.92257533490394,
+          "kept_at_2px": 0.8538226857373801,
+          "kept_at_3px": 0.7970418050804854
+        },
+        "ambiguous": {
+          "failing_pixels": 374590,
+          "kept_at_1px": 0.8634667236178222,
+          "kept_at_2px": 0.7467097359780026,
+          "kept_at_3px": 0.6557142475773512
+        },
+        "textureless": {
+          "failing_pixels": 2206112,
+          "kept_at_1px": 0.9662718846549948,
+          "kept_at_2px": 0.9320392618325815,
+          "kept_at_3px": 0.8992258779246022
+        },
+        "reflection": {
+          "failing_pixels": 48591,
+          "kept_at_1px": 0.9703443024428392,
+          "kept_at_2px": 0.9390010495770822,
+          "kept_at_3px": 0.9074519972834475
+        }
+      }
+    },
+    "dpt-hybrid-midas": {
+      "base_rates": {
+        "reflection": {
+          "fail_rate_positive": 0.22354177544293116,
+          "fail_rate_other_annotated": 0.07091227175864724,
+          "rate_ratio": 3.152370808310366,
+          "scene_difference": {
+            "n": 151,
+            "scenes": 151,
+            "mean": 0.1730471966406781,
+            "lower": 0.12648073210735256,
+            "upper": 0.22174590939908762,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 0.5630068067312834
+          }
+        },
+        "thin_object": {
+          "fail_rate_positive": 0.1084581089863507,
+          "fail_rate_other_annotated": 0.0691259068204209,
+          "rate_ratio": 1.5689936519474408,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": 0.03208954558413436,
+            "lower": 0.02306444859410045,
+            "upper": 0.04165091028898646,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 0.4563643850724188
+          }
+        },
+        "boundary_mixing": {
+          "fail_rate_positive": 0.20496491093289154,
+          "fail_rate_other_annotated": 0.06760568426311987,
+          "rate_ratio": 3.0317703779932543,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": 0.11962670763222394,
+            "lower": 0.10987445648823377,
+            "upper": 0.1291601460944039,
+            "p_value": 9.999000099990002e-05,
+            "cohens_dz": 1.6405017215678006
+          }
+        },
+        "textureless": {
+          "fail_rate_positive": 0.06271773725358624,
+          "fail_rate_other_annotated": 0.07209932684765873,
+          "rate_ratio": 0.8698796506950033,
+          "scene_difference": {
+            "n": 215,
+            "scenes": 215,
+            "mean": 0.004938252192632556,
+            "lower": -0.007883465510438833,
+            "upper": 0.019957769630250765,
+            "p_value": 0.4981501849815019,
+            "cohens_dz": 0.04827901592378973
+          }
+        }
+      },
+      "edge_tolerance": {
+        "textureless": {
+          "failing_pixels": 7555051,
+          "kept_at_1px": 0.9713843096492665,
+          "kept_at_2px": 0.9417565811269838,
+          "kept_at_3px": 0.912499200865752
+        },
+        "boundary_mixing": {
+          "failing_pixels": 249111,
+          "kept_at_1px": 0.7013620434264244,
+          "kept_at_2px": 0.4894163645924909,
+          "kept_at_3px": 0.37412639345512644
+        },
+        "poor_lighting": {
+          "failing_pixels": 1468947,
+          "kept_at_1px": 0.9644173683597842,
+          "kept_at_2px": 0.9294692048113377,
+          "kept_at_3px": 0.89634615816636
+        },
+        "silver_boundary_band": {
+          "failing_pixels": 613626,
+          "kept_at_1px": 0.7969740525988143,
+          "kept_at_2px": 0.6755189643202864,
+          "kept_at_3px": 0.600817110096378
+        },
+        "outside_boundary_band": {
+          "failing_pixels": 10044552,
+          "kept_at_1px": 0.9593129688611299,
+          "kept_at_2px": 0.9230886554223623,
+          "kept_at_3px": 0.8895797443230917
+        },
+        "thin_object": {
+          "failing_pixels": 43822,
+          "kept_at_1px": 0.7361827392633837,
+          "kept_at_2px": 0.5554744192414769,
+          "kept_at_3px": 0.4477887818903747
+        },
+        "ambiguous": {
+          "failing_pixels": 1119071,
+          "kept_at_1px": 0.9252987522686228,
+          "kept_at_2px": 0.8549037549896298,
+          "kept_at_3px": 0.7923902951644712
+        },
+        "reflection": {
+          "failing_pixels": 72047,
+          "kept_at_1px": 0.9832609268949436,
+          "kept_at_2px": 0.9652726692298084,
+          "kept_at_3px": 0.947326051050009
+        }
+      }
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-03T07:02:29+00:00",
+    "git_commit": "7951f5eda4d4ace4b3f140e21977ffa20b72f616",
+    "git_dirty": false,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    }
+  }
+}
