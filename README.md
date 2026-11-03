@@ -4,7 +4,7 @@
 
 **Find where monocular depth models fail, and test why.**
 
-[![CI](https://github.com/MdZeeshanAli01/VEO_V2/actions/workflows/ci.yml/badge.svg?branch=new-version)](https://github.com/MdZeeshanAli01/VEO_V2/actions/workflows/ci.yml)
+[![CI](https://github.com/Md-Zeeshan-Ali/vision-error-observatory/actions/workflows/ci.yml/badge.svg?branch=new-version)](https://github.com/Md-Zeeshan-Ali/vision-error-observatory/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -100,8 +100,8 @@ Both VEO-guided conditions were worse on their targets and overall, in all three
 Requires [uv](https://github.com/astral-sh/uv).
 
 ```bash
-git clone https://github.com/MdZeeshanAli01/VEO_V2.git
-cd VEO_V2
+git clone https://github.com/Md-Zeeshan-Ali/vision-error-observatory.git
+cd vision-error-observatory
 uv sync --extra dev
 python web_app/fetch_assets.py    # video and scene data used by the web tests
 uv run python -m pytest -q

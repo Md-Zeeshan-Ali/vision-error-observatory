@@ -13,7 +13,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-RELEASE = "https://github.com/MdZeeshanAli01/VEO_V2/releases/download/site-assets-v2"
+RELEASE = "https://github.com/Md-Zeeshan-Ali/vision-error-observatory/releases/download/site-assets-v2"
 WEB_ROOT = Path(__file__).resolve().parent
 ASSETS = {
     "veo_explainer.mp4": "a4decc3920ded3e2116f8232a7872544d2c479ff1fc2c0320c8f2510da5cf58d",
