@@ -5,6 +5,7 @@ then scores every model on the official test split. Runs resume from their last 
 
     python experiments/guided_finetune.py --pilot          # train split only: compares learning rates
     python experiments/guided_finetune.py                  # all runs, then the analysis
+    python experiments/guided_finetune.py --sweep          # amendment: weaker weights and a hard-example baseline
 """
 
 import argparse
@@ -17,7 +18,14 @@ import numpy as np
 from veo.checkpoint import JsonlLog, atomic_write_text, resumed
 from veo.config import Config, config_from_dict
 from veo.data import RGBDepthPair
-from veo.finetune import contrast, derangement, image_outcomes, scale_shift_loss, target_weight
+from veo.finetune import (
+    LOSS_SHARE,
+    contrast,
+    derangement,
+    image_outcomes,
+    scale_shift_loss,
+    target_weight,
+)
 from veo.interventions import holm
 from veo.metrics import compute_metrics
 from veo.pipeline import compute_regions
@@ -29,6 +37,7 @@ from veo.silver import class_ids, silver_maps
 MODEL_ID = "depth-anything/Depth-Anything-V2-Small-hf"
 ROOT = Path("outputs/nyu_test/depth-anything-v2-small-hf")
 TARGETS = ("boundary_mixing", "textureless")
+ANY_FAILURE = "any_failure"  # every failure region, whatever its label: the diagnosis-free baseline
 SEEDS = (0, 1, 2)
 BATCH_SIZE = 4
 LEARNING_RATE = 3e-5
@@ -40,6 +49,7 @@ class Condition:
     name: str
     target: str | None = None  # which regions are up-weighted
     shuffled: bool = False  # True: masks come from other images, so they match in size but not place
+    share: float = LOSS_SHARE  # share of the training loss the up-weighted pixels carry
 
 
 CONDITIONS = (
@@ -48,6 +58,14 @@ CONDITIONS = (
     Condition("random_boundary", "boundary_mixing", True),
     Condition("veo_textureless", "textureless"),
     Condition("random_textureless", "textureless", True),
+)
+
+# Amendment of 2026-11-03 (docs/FINETUNE_PROTOCOL.md): weaker weights, and up-weighting every failure region
+SWEEP_SHARES = (0.05, 0.10)
+SWEEP_CONDITIONS = (
+    *(Condition(f"{kind}_{short}_share{round(share * 100):02d}", target, kind == "random", share)
+      for share in SWEEP_SHARES for short, target in (("boundary", "boundary_mixing"), ("textureless", "textureless")) for kind in ("veo", "random")),
+    Condition("failure_weighted", ANY_FAILURE),
 )
 
 
@@ -68,26 +86,32 @@ def build_masks(config: Config, ids: list[str], folder: Path) -> dict[str, float
     folder.mkdir(parents=True, exist_ok=True)
     payload = json.loads((ROOT / "train" / "model_results.json").read_text(encoding="utf-8"))
     records = {record["sample_id"]: record for record in payload["records"]}
-    pixels = dict.fromkeys(TARGETS, 0)
+    keys = (*TARGETS, ANY_FAILURE)
+    pixels = dict.fromkeys(keys, 0)
     valid_pixels = 0
     for sample_id in ids:
         path = folder / f"{sample_id}.npz"
         _, target, _, valid = load_sample(pair_of(config, sample_id), config)
-        if not path.exists():
+        complete = False
+        if path.exists():
+            with np.load(path) as stored:
+                complete = all(key in stored.files for key in keys)
+        if not complete:
             computed = compute_regions(target, np.load(ROOT / "train" / "predictions" / f"{sample_id}.npy"), valid, config.experiment)
             masks = {region["region_id"]: region["mask"] for region in computed["regions"]}
-            combined = {label: np.zeros(target.shape, dtype=bool) for label in TARGETS}
+            combined = {label: np.zeros(target.shape, dtype=bool) for label in keys}
             for region in records[sample_id]["regions"]:
+                combined[ANY_FAILURE] |= masks[region["region_id"]]
                 if region["top_cause"] in combined:
                     combined[region["top_cause"]] |= masks[region["region_id"]]
             temporary = folder / f"{sample_id}.tmp.npz"
             np.savez_compressed(temporary, **combined)
             temporary.replace(path)
         with np.load(path) as stored:
-            for label in TARGETS:
+            for label in keys:
                 pixels[label] += int(stored[label].sum())
         valid_pixels += int(valid.sum())
-    return {label: pixels[label] / valid_pixels for label in TARGETS}
+    return {label: pixels[label] / valid_pixels for label in keys}
 
 
 def load_model(device: str):
@@ -139,7 +163,7 @@ def train_run(condition: Condition, seed: int, config: Config, ids: list[str], m
             scaler.load_state_dict(state["scaler"])
             first_epoch = state["epoch"] + 1
     source = derangement(len(ids), seed) if condition.shuffled else np.arange(len(ids))
-    weight = target_weight(prevalence[condition.target]) if condition.target else None
+    weight = target_weight(prevalence[condition.target], condition.share) if condition.target else None
     for epoch in range(first_epoch, epochs):
         # The order and flips depend only on seed and epoch, so paired conditions see the same batches
         rng = np.random.default_rng([seed, epoch])
@@ -278,6 +302,37 @@ def analyse(runs: dict[str, dict[int, dict[str, dict]]], baseline: dict[str, dic
     return {"primary": primary, "secondary": secondary, "context": context, "condition_means": means}
 
 
+def analyse_sweep(runs: dict[str, dict[int, dict[str, dict]]], scene_of: dict[str, str]) -> dict:
+    """The amendment's contrasts, each first minus second, with the claim rule of the primary test."""
+    outcome = {"boundary": "abs_rel_boundary_mixing", "textureless": "abs_rel_textureless"}
+
+    def judged(family: dict) -> dict:
+        for name, value in holm({name: row["p_value"] for name, row in family.items()}).items():
+            row = family[name]
+            row["p_holm"] = value
+            row["supported"] = bool(value < 0.05 and row["upper"] < 0 and row["seeds_agree"])
+        return family
+
+    sweep = judged({
+        f"{short}_share{round(share * 100):02d}": contrast(runs[f"veo_{short}_share{round(share * 100):02d}"], runs[f"random_{short}_share{round(share * 100):02d}"], outcome[short], scene_of)
+        for share in SWEEP_SHARES for short in outcome
+    })
+    hard_example = judged({
+        "boundary_vs_failure_weighted": contrast(runs["veo_boundary"], runs["failure_weighted"], outcome["boundary"], scene_of),
+        "textureless_vs_failure_weighted": contrast(runs["veo_textureless"], runs["failure_weighted"], outcome["textureless"], scene_of),
+    })
+    descriptive = {
+        f"failure_weighted_vs_uniform_{name}": contrast(runs["failure_weighted"], runs["uniform"], key, scene_of)
+        for name, key in (("boundary", outcome["boundary"]), ("textureless", outcome["textureless"]), ("overall", "abs_rel"))
+    }
+    means = {
+        name: {key: float(np.mean([np.mean([row[key] for row in records.values() if row[key] is not None]) for records in seeds.values()]))
+               for key in ("abs_rel", "delta1", "failing_pixels", *outcome.values())}
+        for name, seeds in runs.items()
+    }
+    return {"sweep": sweep, "hard_example": hard_example, "descriptive": descriptive, "condition_means": means}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--outputs", type=Path, default=Path("outputs/finetune"))
@@ -286,6 +341,8 @@ def main() -> None:
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--pilot-rates", type=float, nargs="+", default=[1e-5, 3e-5])
     parser.add_argument("--pilot-epochs", type=int, default=6)
+    parser.add_argument("--sweep", action="store_true", help="run the amendment's conditions and write --sweep-output")
+    parser.add_argument("--sweep-output", type=Path, default=Path("results/finetune/weight_sweep.json"))
     args = parser.parse_args()
     if args.pilot:
         pilot(args)
@@ -314,14 +371,27 @@ def main() -> None:
 
     (args.outputs / "scores").mkdir(parents=True, exist_ok=True)
     baseline = scored("pretrained", None)
-    runs: dict[str, dict[int, dict[str, dict]]] = {condition.name: {} for condition in CONDITIONS}
+    conditions = (*CONDITIONS, *SWEEP_CONDITIONS) if args.sweep else CONDITIONS
+    runs: dict[str, dict[int, dict[str, dict]]] = {condition.name: {} for condition in conditions}
     for seed in SEEDS:  # one full set of conditions per seed, so an early stop leaves complete pairs
-        for condition in CONDITIONS:
+        for condition in conditions:
             name = f"{condition.name}_seed{seed}"
             print(name, flush=True)
             weights = train_run(condition, seed, train_config, train_ids, mask_dir, prevalence, args.outputs / "runs" / name, device=args.device)
             torch.cuda.empty_cache()
             runs[condition.name][seed] = scored(name, weights)
+    if args.sweep:
+        sweep_report = {
+            "model": MODEL_ID, "seeds": list(SEEDS), "learning_rate": LEARNING_RATE, "epochs": EPOCHS, "batch_size": BATCH_SIZE, "prevalence": prevalence,
+            "weights": {condition.name: target_weight(prevalence[condition.target], condition.share) for condition in conditions if condition.target},
+            "conditions": [condition.name for condition in conditions], **analyse_sweep(runs, test_scenes),
+        }
+        write_result(args.sweep_output, sweep_report)
+        for family in ("sweep", "hard_example"):
+            for name, row in sweep_report[family].items():
+                print(f"{name}: {row['mean']:+.5f} [{row['lower']:+.5f}, {row['upper']:+.5f}] p_holm {row['p_holm']:.4f} seeds {row['per_seed']} supported {row['supported']}")
+        print(f"Saved {args.sweep_output}")
+        return
     report = {
         "model": MODEL_ID, "seeds": list(SEEDS), "learning_rate": LEARNING_RATE, "epochs": EPOCHS, "batch_size": BATCH_SIZE,
         "prevalence": prevalence, "weights": {label: target_weight(value) for label, value in prevalence.items()},

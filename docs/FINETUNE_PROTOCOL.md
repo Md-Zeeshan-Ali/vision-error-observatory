@@ -79,3 +79,17 @@ The direction is the opposite of the claim: the VEO-guided models were reliably 
 `veo_textureless` had slightly fewer failing pixels than `uniform` (0.0219 against 0.0225), despite its worse AbsRel. This is an observation and was not a registered test.
 
 **Consequence.** As the blueprint's fallback states, no downstream benefit is claimed. No other weighting strength was tried after seeing these results, because choosing one that way would not be a fair test.
+
+### 2026-11-03: weaker weights and a hard-example baseline (fixed before these runs)
+
+Two reviewers of the paper draft raised two points. The primary test used one, very strong weighting (118.8 per boundary pixel). It also lacked the comparison that isolates the diagnosis from the failure mask itself. Both are added here, with every rule fixed before any of these runs started. Every result will be reported, whatever it shows, and none of them replaces the primary test above.
+
+- **Weaker weights.** The four targeted conditions are repeated with the targeted pixels carrying 5% and 10% of the loss, instead of 20%: `veo_boundary_share05`, `random_boundary_share05`, `veo_textureless_share05`, `random_textureless_share05`, and the same with `share10`. Everything else is unchanged: seeds 0 to 2, settings, masks and outcomes.
+- **Hard-example baseline.** `failure_weighted` up-weights every failure region of the pretrained model on the train split, whatever its label, so those pixels carry 20% of the loss. It asks whether the label adds anything beyond "this region failed".
+- **Tests (Holm within each family, same claim rule as the primary test).**
+  - Sweep family (4 tests): VEO minus random at each weaker share, on the matching outcome (boundary pixels or wall and ceiling pixels).
+  - Hard-example family (2 tests): `veo_boundary` minus `failure_weighted` on boundary pixels, and `veo_textureless` minus `failure_weighted` on wall and ceiling pixels, all at 20%.
+  - Descriptive only: `failure_weighted` minus `uniform` on both outcomes and on overall AbsRel.
+- **Reading.** A supported sweep test would show that a weaker weight helps where the strong one did not. Since the strengths were chosen after the primary result, that would be evidence for a dose effect, not a replacement for the failed primary claim. A supported hard-example test would show that the label adds value beyond the failure mask.
+
+Command: `python experiments/guided_finetune.py --sweep`, which writes `results/finetune/weight_sweep.json`.
