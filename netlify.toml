@@ -1,0 +1,7 @@
+# The video and scene data are GitHub release assets, so the build only downloads them
+[build]
+  command = "python web_app/fetch_assets.py"
+  publish = "web_app"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
