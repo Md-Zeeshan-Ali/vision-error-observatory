@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depth Failure Rating</title>
+<style>
+  :root { --bg: #f7f7f5; --card: #ffffff; --ink: #1d1d1b; --muted: #6b6b66; --line: #dcdcd6; --accent: #2457c5; --good: #1f7a3a; --warn: #9a5b00; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #161615; --card: #20201e; --ink: #ecece7; --muted: #a2a29a; --line: #3a3a36; --accent: #7aa2ff; --good: #6fcf8a; --warn: #f0b75a; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.45 system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+  main { max-width: 1180px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .muted { color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 14px; }
+  .images { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .images img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); }
+  @media (min-width: 900px) { .images { grid-template-columns: 2fr 3fr; align-items: start; } }
+  fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 10px 0; padding: 8px 12px; }
+  legend { font-weight: 600; padding: 0 4px; }
+  label.option { display: inline-flex; align-items: center; gap: 6px; margin: 4px 14px 4px 0; cursor: pointer; }
+  .hint { font-size: 13px; }
+  textarea { width: 100%; min-height: 48px; font: inherit; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 6px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+  progress { width: 100%; height: 10px; }
+  .feedback { margin-top: 10px; padding: 10px; border-radius: 6px; border: 1px solid var(--line); }
+  .feedback.match { border-color: var(--good); color: var(--good); }
+  .feedback.miss { border-color: var(--warn); color: var(--warn); }
+  input[type=text] { font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Depth failure rating</h1>
+  <p class="muted">Each item shows a region where a depth model's prediction was wrong. Choose the most likely cause, based only on what you see. Read RATER_GUIDELINE.md first.</p>
+
+  <section id="start" class="card">
+    <label>Your rater ID (given to you by the study team): <input id="rater" type="text" autocomplete="off"></label>
+    <button id="begin" class="primary">Start</button>
+    <p class="hint muted">Progress is saved in this browser. Use the same browser to continue; export when you finish.</p>
+  </section>
+
+  <section id="task" class="card" hidden>
+    <div class="row"><strong id="phase"></strong><span id="counter" class="muted"></span></div>
+    <progress id="progress" max="1" value="0"></progress>
+    <div class="images">
+      <figure><img id="context" alt="Whole image with the failure region outlined"><figcaption class="hint muted">Whole image; the failure region is outlined.</figcaption></figure>
+      <figure><img id="detail" alt="Close-up: colour image, true depth, predicted depth and error"><figcaption class="hint muted">Close-up: colour image · true depth · predicted depth · error (brighter = worse). Near = bright in the depth panels.</figcaption></figure>
+    </div>
+    <form id="form">
+      <fieldset><legend>Primary cause (pick one)</legend><div id="primary"></div></fieldset>
+      <fieldset><legend>All causes that apply</legend><div id="all"></div></fieldset>
+      <fieldset><legend>Confidence</legend>
+        <label class="option"><input type="radio" name="confidence" value="high">High</label>
+        <label class="option"><input type="radio" name="confidence" value="medium">Medium</label>
+        <label class="option"><input type="radio" name="confidence" value="low">Low</label>
+      </fieldset>
+      <textarea id="notes" placeholder="Notes (optional)"></textarea>
+    </form>
+    <div id="feedback" class="feedback" hidden></div>
+    <div class="row" style="margin-top:10px">
+      <button id="back">Back</button>
+      <span class="hint muted">Keys: 1–6 primary cause · H/M/L confidence · Enter next</span>
+      <button id="next" class="primary">Save and next</button>
+    </div>
+  </section>
+
+  <section id="done" class="card" hidden>
+    <p>All items are rated. Export your ratings and send the file to the study team.</p>
+    <button id="export" class="primary">Export ratings (JSON)</button>
+    <button id="review">Review answers</button>
+  </section>
+</main>
+<script id="study-data" type="application/json">/*STUDY_DATA*/</script>
+<script>
+const STUDY = JSON.parse(document.getElementById("study-data").textContent);
+const CATEGORIES = STUDY.categories;
+const $ = (id) => document.getElementById(id);
+let state = null;
+let position = 0;
+let showingFeedback = false;
+
+function seededOrder(items, seedText) {
+  let seed = 0;
+  for (const ch of seedText) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+  const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  const order = items.map((item) => item.id);
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  return order;
+}
+
+function storageKey(rater) { return `veo-study-${STUDY.study_id}-${rater}`; }
+function save() { try { localStorage.setItem(storageKey(state.rater_id), JSON.stringify(state)); } catch (error) { /* storage can be unavailable; export still works */ } }
+function load(rater) { try { return JSON.parse(localStorage.getItem(storageKey(rater))); } catch (error) { return null; } }
+
+function sequence() { return [...state.practice_order, ...state.order]; }
+function itemById(id) { return STUDY.practice.find((item) => item.id === id) || STUDY.items.find((item) => item.id === id); }
+function isPractice(id) { return state.practice_order.includes(id); }
+function answers(id) { return isPractice(id) ? state.practice : state.ratings; }
+
+function buildOptions() {
+  $("primary").innerHTML = CATEGORIES.map((c, i) => `<label class="option"><input type="radio" name="primary" value="${c.value}">${i + 1}. ${c.label}</label>`).join("");
+  $("all").innerHTML = CATEGORIES.filter((c) => c.value !== "ambiguous").map((c) => `<label class="option"><input type="checkbox" name="all" value="${c.value}">${c.label}</label>`).join("");
+}
+
+function show() {
+  const ids = sequence();
+  if (position >= ids.length) { $("task").hidden = true; $("done").hidden = false; return; }
+  $("task").hidden = false; $("done").hidden = true;
+  const id = ids[position];
+  const item = itemById(id);
+  const practice = isPractice(id);
+  $("phase").textContent = practice ? "Practice (not counted)" : "Rating";
+  const index = practice ? position + 1 : position - state.practice_order.length + 1;
+  const total = practice ? state.practice_order.length : state.order.length;
+  $("counter").textContent = `${index} / ${total}`;
+  $("progress").value = position / ids.length;
+  $("context").src = item.context; $("detail").src = item.detail;
+  const saved = answers(id)[id];
+  document.querySelectorAll("input[name=primary]").forEach((el) => { el.checked = saved ? saved.primary === el.value : false; });
+  document.querySelectorAll("input[name=all]").forEach((el) => { el.checked = saved ? saved.labels.includes(el.value) : false; });
+  document.querySelectorAll("input[name=confidence]").forEach((el) => { el.checked = saved ? saved.confidence === el.value : false; });
+  $("notes").value = saved ? saved.notes : "";
+  $("feedback").hidden = true; showingFeedback = false;
+  $("back").disabled = position === 0;
+}
+
+function collect() {
+  const primary = document.querySelector("input[name=primary]:checked");
+  const confidence = document.querySelector("input[name=confidence]:checked");
+  if (!primary || !confidence) { alert("Choose a primary cause and a confidence."); return null; }
+  const labels = [...document.querySelectorAll("input[name=all]:checked")].map((el) => el.value);
+  if (primary.value !== "ambiguous" && !labels.includes(primary.value)) labels.push(primary.value);
+  return { primary: primary.value, labels, confidence: confidence.value, notes: $("notes").value.trim(), saved_at: new Date().toISOString() };
+}
+
+function next() {
+  const id = sequence()[position];
+  if (showingFeedback) { position += 1; save(); show(); return; }
+  const answer = collect();
+  if (!answer) return;
+  answers(id)[id] = answer; save();
+  const item = itemById(id);
+  if (isPractice(id) && item.reference) {
+    const match = item.reference === answer.primary;
+    const name = CATEGORIES.find((c) => c.value === item.reference).label;
+    $("feedback").className = `feedback ${match ? "match" : "miss"}`;
+    $("feedback").textContent = `${match ? "Matches" : "Differs from"} the annotation-based reference: ${name}. ${item.explanation || ""}`;
+    $("feedback").hidden = false; showingFeedback = true; return;
+  }
+  position += 1; save(); show();
+}
+
+function exportRatings() {
+  state.finished = new Date().toISOString(); save();
+  const blob = new Blob([JSON.stringify({ ...state, study_id: STUDY.study_id, tool_version: STUDY.tool_version }, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob); link.download = `ratings_${state.rater_id}.json`; link.click();
+}
+
+$("begin").addEventListener("click", () => {
+  const rater = $("rater").value.trim().replace(/[^A-Za-z0-9_-]/g, "");
+  if (!rater) { alert("Enter your rater ID."); return; }
+  state = load(rater) || {
+    rater_id: rater, started: new Date().toISOString(),
+    practice_order: seededOrder(STUDY.practice, rater + "-practice"), order: seededOrder(STUDY.items, rater),
+    practice: {}, ratings: {},
+  };
+  const ids = sequence();
+  position = ids.findIndex((id) => !answers(id)[id]);
+  if (position < 0) position = ids.length;
+  $("start").hidden = true; buildOptions(); show();
+});
+$("next").addEventListener("click", next);
+$("back").addEventListener("click", () => { if (position > 0) { position -= 1; show(); } });
+$("export").addEventListener("click", exportRatings);
+$("review").addEventListener("click", () => { position = 0; show(); });
+document.addEventListener("keydown", (event) => {
+  if ($("task").hidden || event.target.tagName === "TEXTAREA" || event.target.tagName === "INPUT" && event.target.type === "text") return;
+  const number = Number(event.key);
+  if (number >= 1 && number <= CATEGORIES.length) { document.querySelectorAll("input[name=primary]")[number - 1].checked = true; }
+  const confidence = { h: "high", m: "medium", l: "low" }[event.key.toLowerCase()];
+  if (confidence) document.querySelector(`input[name=confidence][value=${confidence}]`).checked = true;
+  if (event.key === "Enter") { event.preventDefault(); next(); }
+});
+</script>
+</body>
+</html>

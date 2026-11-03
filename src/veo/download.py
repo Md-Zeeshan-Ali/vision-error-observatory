@@ -1,5 +1,6 @@
 """Resumable HTTP downloads for the public datasets (standard library only)."""
 
+import io
 import time
 import urllib.error
 import urllib.request
@@ -53,3 +54,51 @@ def download_file(url: str, destination: Path, retries: int = 20, chunk_size: in
         raise RuntimeError(f"Incomplete download of {url}: {size} of {total} bytes")
     partial.replace(destination)
     return destination
+
+
+class HttpRangeFile(io.RawIOBase):
+    """Read-only, seekable view of a remote file using HTTP range requests.
+
+    Wrap it in ``io.BufferedReader`` and pass it to ``zipfile.ZipFile`` to read single members of a
+    large remote archive without downloading the whole archive.
+    """
+
+    def __init__(self, url: str, retries: int = 5):
+        super().__init__()
+        self.url, self.retries = url, retries
+        size = _remote_size(url)
+        if size is None:
+            raise OSError(f"Server did not report a size for {url}")
+        self.size, self.position = size, 0
+
+    def readable(self) -> bool:
+        return True
+
+    def seekable(self) -> bool:
+        return True
+
+    def tell(self) -> int:
+        return self.position
+
+    def seek(self, offset: int, whence: int = io.SEEK_SET) -> int:
+        base = {io.SEEK_SET: 0, io.SEEK_CUR: self.position, io.SEEK_END: self.size}[whence]
+        self.position = max(0, base + offset)
+        return self.position
+
+    def readinto(self, buffer) -> int:
+        if self.position >= self.size or len(buffer) == 0:
+            return 0
+        end = min(self.position + len(buffer), self.size) - 1
+        request = urllib.request.Request(self.url, headers={"User-Agent": USER_AGENT, "Range": f"bytes={self.position}-{end}"})
+        for attempt in range(1, self.retries + 1):
+            try:
+                with urllib.request.urlopen(request, timeout=120) as response:
+                    data = response.read()
+                break
+            except (urllib.error.URLError, ConnectionError, TimeoutError, OSError):
+                if attempt == self.retries:
+                    raise
+                time.sleep(2 * attempt)
+        buffer[: len(data)] = data
+        self.position += len(data)
+        return len(data)

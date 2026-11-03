@@ -1,0 +1,64 @@
+{
+  "train_regions": 8209,
+  "test_regions": 6325,
+  "epochs": 12,
+  "categories": {
+    "reflection": {
+      "positives": 265,
+      "auroc": 0.7277651161342549,
+      "lower": 0.66446835574449,
+      "upper": 0.7821126845940539,
+      "assigned": 717,
+      "precision": 0.14783821478382148,
+      "recall": 0.4,
+      "f1": 0.21588594704684322
+    },
+    "thin_object": {
+      "positives": 779,
+      "auroc": 0.6451961815915158,
+      "lower": 0.623138053373757,
+      "upper": 0.669678783562877,
+      "assigned": 3858,
+      "precision": 0.16044582685329187,
+      "recall": 0.7946084724005135,
+      "f1": 0.26698296312270864
+    },
+    "boundary_mixing": {
+      "positives": 2564,
+      "auroc": 0.68017040809258,
+      "lower": 0.6583942899127285,
+      "upper": 0.7010829749911144,
+      "assigned": 4012,
+      "precision": 0.5009970089730807,
+      "recall": 0.7839313572542902,
+      "f1": 0.6113138686131387
+    },
+    "textureless": {
+      "positives": 322,
+      "auroc": 0.7238668450453862,
+      "lower": 0.6772140684663212,
+      "upper": 0.7632806649968439,
+      "assigned": 1184,
+      "precision": 0.125,
+      "recall": 0.45962732919254656,
+      "f1": 0.19654714475431606
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T13:33:44+00:00",
+    "git_commit": "bec803b827600b3964be73289d8f695e036167bb",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    }
+  }
+}

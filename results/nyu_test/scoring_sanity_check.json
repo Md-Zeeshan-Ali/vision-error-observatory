@@ -1,0 +1,38 @@
+{
+  "sample_id": "scene_0029",
+  "region_id": 59,
+  "edit": "uniform integer noise [0, 100) added inside the bounding box",
+  "model_rerun": false,
+  "before": {
+    "textureless_score": 0.0,
+    "top_cause": "boundary_mixing"
+  },
+  "after": {
+    "textureless_score": 0.0,
+    "top_cause": "boundary_mixing"
+  },
+  "score_decreased": false,
+  "provenance": {
+    "created_utc": "2026-11-02T11:50:12+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "inputs": {
+      "veo_results": {
+        "path": "outputs\\nyu_test\\depth-anything-v2-small-hf\\model_results.json",
+        "sha256": "9c0851f8342e6a5afead164b9cd5118a3cc20797c50736eee7c63e2d0f7ce379"
+      }
+    }
+  }
+}

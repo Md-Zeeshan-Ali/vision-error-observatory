@@ -1,0 +1,50 @@
+{
+  "regions": 6325,
+  "top_cause_agreement": 0.7848221343873518,
+  "top_cause_kappa": 0.6842817451650591,
+  "per_label": {
+    "boundary_mixing": {
+      "audit": 3565,
+      "prediction_only": 4016,
+      "both": 3086
+    },
+    "poor_lighting": {
+      "audit": 1256,
+      "prediction_only": 1256,
+      "both": 1256
+    },
+    "reflection": {
+      "audit": 282,
+      "prediction_only": 282,
+      "both": 282
+    },
+    "textureless": {
+      "audit": 1023,
+      "prediction_only": 1023,
+      "both": 1023
+    },
+    "thin_object": {
+      "audit": 2171,
+      "prediction_only": 1890,
+      "both": 1738
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T11:58:35+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "config_hash": "a945c2bc63b52907"
+  }
+}

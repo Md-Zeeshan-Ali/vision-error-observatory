@@ -18,11 +18,20 @@ DEFAULTS = {
     "min_score": 0.4,
     "ambiguity_margin": 0.10,
     "label_threshold": 0.5,
+    "geometry_source": "ground_truth",
 }
 
 
 def clip01(value: float) -> float:
     return float(np.clip(value, 0.0, 1.0))
+
+
+def thin_evidence(features: dict[str, float], geometry_source: str) -> float:
+    """Thin structures from depth; with predicted geometry also from image lines, since a model that
+    misses a thin object usually removes it from its own depth map as well."""
+    if geometry_source == "prediction":
+        return max(features["thin_fraction"], features.get("thin_image_fraction", 0.0))
+    return features["thin_fraction"]
 
 
 def score_categories(features: dict[str, float], include_reflection: bool = True, thresholds: dict | None = None) -> dict[str, float]:
@@ -31,7 +40,7 @@ def score_categories(features: dict[str, float], include_reflection: bool = True
     scores = {
         "textureless": clip01(1.0 - features["grad_energy"] / settings["texture_grad_scale"]),
         "boundary_mixing": clip01(features["depth_edge_fraction"] / settings["boundary_fraction_scale"]),
-        "thin_object": clip01(features["thin_fraction"] / settings["thin_fraction_scale"]),
+        "thin_object": clip01(thin_evidence(features, settings["geometry_source"]) / settings["thin_fraction_scale"]),
         "poor_lighting": max(dark, clip01(2.0 * features["clipped_fraction"])),
     }
     if include_reflection:

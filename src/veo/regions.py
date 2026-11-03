@@ -33,10 +33,12 @@ def extract_failure_regions(
     for region_id, box in enumerate(ndimage.find_objects(labels), start=1):
         if box is None:
             continue
-        mask = labels == region_id
-        area = int(mask.sum())
+        local = labels[box] == region_id  # compare inside the region's box only
+        area = int(local.sum())
         if area < min_area:
             continue
+        mask = np.zeros(labels.shape, dtype=bool)
+        mask[box] = local
         y_slice, x_slice = box
         regions.append({
             "region_id": region_id,

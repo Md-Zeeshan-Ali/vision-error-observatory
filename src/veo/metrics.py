@@ -8,11 +8,24 @@ def _evaluation_mask(prediction: np.ndarray, target: np.ndarray, valid_mask: np.
     return valid_mask & np.isfinite(prediction) & np.isfinite(target) & (target > 0.0)
 
 
+def _to_depth(aligned: np.ndarray, prediction_space: str, max_depth: float | None) -> np.ndarray:
+    """Aligned values as depth, capped at ``max_depth``.
+
+    An affine fit in disparity can go to zero or below for some pixels; without a cap those pixels
+    become arbitrarily deep and dominate mean errors.
+    """
+    if prediction_space == "inverse_depth":
+        floor = 1.0 / max_depth if max_depth else 1e-6
+        return 1.0 / np.clip(aligned, floor, None)
+    return np.clip(aligned, 1e-3, max_depth) if max_depth else aligned
+
+
 def align_scale_shift(
     prediction: np.ndarray,
     target: np.ndarray,
     valid_mask: np.ndarray,
     prediction_space: str = "depth",
+    max_depth: float | None = None,
 ) -> tuple[np.ndarray, float, float]:
     if prediction_space not in {"depth", "inverse_depth"}:
         raise ValueError(f"Unsupported prediction space: {prediction_space}")
@@ -25,9 +38,7 @@ def align_scale_shift(
         t = 1.0 / t
     design = np.stack([p, np.ones_like(p)], axis=1)
     scale, shift = np.linalg.lstsq(design, t, rcond=None)[0]
-    aligned = prediction * scale + shift
-    if prediction_space == "inverse_depth":
-        aligned = 1.0 / np.clip(aligned, 1e-6, None)
+    aligned = _to_depth(prediction * scale + shift, prediction_space, max_depth)
     return aligned.astype(np.float32), float(scale), float(shift)
 
 
@@ -36,6 +47,7 @@ def align_scale_only(
     target: np.ndarray,
     valid_mask: np.ndarray,
     prediction_space: str = "inverse_depth",
+    max_depth: float | None = None,
 ) -> tuple[np.ndarray, float]:
     if prediction_space not in {"depth", "inverse_depth"}:
         raise ValueError(f"Unsupported prediction space: {prediction_space}")
@@ -50,9 +62,7 @@ def align_scale_only(
     if denominator <= 1e-12:
         return prediction.astype(np.float32), 1.0
     scale = float(np.dot(p, t) / denominator)
-    aligned = prediction * scale
-    if prediction_space == "inverse_depth":
-        aligned = 1.0 / np.clip(aligned, 1e-6, None)
+    aligned = _to_depth(prediction * scale, prediction_space, max_depth)
     return aligned.astype(np.float32), scale
 
 
@@ -96,3 +106,24 @@ def compute_ratio_map(prediction: np.ndarray, target: np.ndarray, valid_mask: np
     truth = target[evaluation_mask]
     ratio[evaluation_mask] = np.maximum(pred / truth, truth / pred)
     return ratio
+
+
+def tolerant_failure(prediction: np.ndarray, target: np.ndarray, failing: np.ndarray, radius: int, threshold: float = 1.25) -> np.ndarray:
+    """Failing pixels that still fail when the prediction may be off by up to ``radius`` px.
+
+    A pixel is kept only if no predicted value within the (2r+1)x(2r+1) window matches its measured
+    depth within ``threshold``. Failures that vanish under a 1-3 px tolerance are what slight
+    misregistration between image and sensor would produce at depth edges.
+    """
+    if radius < 0:
+        raise ValueError(f"Radius must be non-negative, got {radius}")
+    height, width = target.shape
+    padded = np.pad(prediction.astype(np.float32), radius, constant_values=np.nan)
+    truth = np.where(failing, target, np.nan).astype(np.float32)
+    matched = np.zeros(target.shape, dtype=bool)
+    for dy in range(2 * radius + 1):
+        for dx in range(2 * radius + 1):
+            shifted = np.clip(padded[dy:dy + height, dx:dx + width], 1e-6, None)
+            with np.errstate(invalid="ignore"):
+                matched |= np.maximum(shifted / truth, truth / shifted) <= threshold
+    return failing & ~matched

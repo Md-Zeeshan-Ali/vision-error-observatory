@@ -1,0 +1,125 @@
+{
+  "model": "depth-anything/Depth-Anything-V2-Small-hf",
+  "models": {
+    "pretrained": {
+      "boundary_mixing": {
+        "abs_rel": 0.5545864504426894,
+        "failing_share": 0.9984776281329655,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.35866848855737743,
+        "failing_share": 0.9981864430078425,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.04486161238668277,
+        "failing_share": 0.009124520427921954,
+        "pixels": 160353633
+      }
+    },
+    "uniform_seed0": {
+      "boundary_mixing": {
+        "abs_rel": 0.31244863540019857,
+        "failing_share": 0.5582263492822688,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.3151707221908665,
+        "failing_share": 0.7594339230232605,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.03877600535428536,
+        "failing_share": 0.008473821107626543,
+        "pixels": 160353633
+      }
+    },
+    "veo_boundary_seed0": {
+      "boundary_mixing": {
+        "abs_rel": 0.1727738160011967,
+        "failing_share": 0.29845196362639476,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.31706199557424325,
+        "failing_share": 0.7579765014037438,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.04272243635951407,
+        "failing_share": 0.013947741364861998,
+        "pixels": 160353633
+      }
+    },
+    "random_boundary_seed0": {
+      "boundary_mixing": {
+        "abs_rel": 0.3196512518490458,
+        "failing_share": 0.5725051474834202,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.3175160034881424,
+        "failing_share": 0.7659441885560513,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.03927842984127453,
+        "failing_share": 0.008701998039545508,
+        "pixels": 160353633
+      }
+    },
+    "veo_textureless_seed0": {
+      "boundary_mixing": {
+        "abs_rel": 0.2778875879532214,
+        "failing_share": 0.49288976511143645,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.24222713009190544,
+        "failing_share": 0.5072564067723558,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.04319133902599591,
+        "failing_share": 0.011305238092111078,
+        "pixels": 160353633
+      }
+    },
+    "random_textureless_seed0": {
+      "boundary_mixing": {
+        "abs_rel": 0.31637694282069706,
+        "failing_share": 0.5651761810047654,
+        "pixels": 342886
+      },
+      "textureless": {
+        "abs_rel": 0.32045570532865786,
+        "failing_share": 0.7803983724732314,
+        "pixels": 2524321
+      },
+      "other": {
+        "abs_rel": 0.03930542725759788,
+        "failing_share": 0.008682372665669508,
+        "pixels": 160353633
+      }
+    }
+  },
+  "note": "\"exploratory; added after seeing the results\"",
+  "provenance": {
+    "created_utc": "2026-11-02T19:25:42+00:00",
+    "git_commit": "ba0a1ad938c2342bec0e6ccbafc7a3e6fd43cc72",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    }
+  }
+}

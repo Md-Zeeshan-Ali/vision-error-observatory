@@ -1,0 +1,122 @@
+{
+  "rules": {
+    "delta_1.25 (primary)": {
+      "num_regions": 6325,
+      "mean_failure_pixel_fraction": 0.026973289255469414,
+      "region_pixel_fraction": 0.024732387192198155,
+      "cause_counts": {
+        "boundary_mixing": 3015,
+        "thin_object": 965,
+        "poor_lighting": 744,
+        "ambiguous": 921,
+        "textureless": 468,
+        "reflection": 212
+      },
+      "label_pixel_fraction": {
+        "boundary_mixing": 0.002423840308548858,
+        "thin_object": 0.0009145922918283608,
+        "poor_lighting": 0.0038806612841327365,
+        "textureless": 0.018858065192842853,
+        "reflection": 0.0004797183944002948
+      }
+    },
+    "delta_1.10": {
+      "num_regions": 17036,
+      "mean_failure_pixel_fraction": 0.12732100900266066,
+      "region_pixel_fraction": 0.12077852181847835,
+      "cause_counts": {
+        "ambiguous": 4020,
+        "textureless": 2339,
+        "boundary_mixing": 4952,
+        "thin_object": 2518,
+        "poor_lighting": 2870,
+        "reflection": 337
+      },
+      "label_pixel_fraction": {
+        "textureless": 0.10033552940727428,
+        "boundary_mixing": 0.004085185240566816,
+        "thin_object": 0.0017593111101418648,
+        "poor_lighting": 0.020531635789125865,
+        "reflection": 0.0007538891523443168
+      }
+    },
+    "delta_1.5625": {
+      "num_regions": 1952,
+      "mean_failure_pixel_fraction": 0.007459643010375926,
+      "region_pixel_fraction": 0.006620358063529363,
+      "cause_counts": {
+        "boundary_mixing": 1039,
+        "thin_object": 345,
+        "ambiguous": 208,
+        "poor_lighting": 131,
+        "textureless": 128,
+        "reflection": 101
+      },
+      "label_pixel_fraction": {
+        "boundary_mixing": 0.0008359371061231165,
+        "thin_object": 0.0003552023437007868,
+        "poor_lighting": 0.000548173339884398,
+        "reflection": 0.00021399299663936815,
+        "textureless": 0.004878720057770651
+      }
+    },
+    "percentile_85": {
+      "num_regions": 26298,
+      "mean_failure_pixel_fraction": 0.15000151141511492,
+      "region_pixel_fraction": 0.1449011393814567,
+      "cause_counts": {
+        "textureless": 5525,
+        "thin_object": 3641,
+        "ambiguous": 7628,
+        "boundary_mixing": 4568,
+        "poor_lighting": 4535,
+        "reflection": 401
+      },
+      "label_pixel_fraction": {
+        "textureless": 0.11448817625810366,
+        "thin_object": 0.00226528689711142,
+        "boundary_mixing": 0.0037761069938659995,
+        "poor_lighting": 0.027205210589808966,
+        "reflection": 0.0007823474569612929
+      }
+    },
+    "delta_1.25_opening_1": {
+      "num_regions": 5107,
+      "mean_failure_pixel_fraction": 0.026973289255469414,
+      "region_pixel_fraction": 0.02328377028079214,
+      "cause_counts": {
+        "boundary_mixing": 2020,
+        "thin_object": 788,
+        "textureless": 487,
+        "poor_lighting": 727,
+        "ambiguous": 873,
+        "reflection": 212
+      },
+      "label_pixel_fraction": {
+        "boundary_mixing": 0.0015294218251578652,
+        "textureless": 0.01835787319799869,
+        "thin_object": 0.0007044819672731691,
+        "poor_lighting": 0.00370376937629772,
+        "reflection": 0.0004099692248881328
+      }
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T11:58:34+00:00",
+    "git_commit": "d3527ab9918b22759b74fd21e2518fede513e63c",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "config_hash": "a945c2bc63b52907"
+  }
+}

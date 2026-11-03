@@ -1,0 +1,48 @@
+{
+  "num_samples": 100,
+  "num_regions": 1718,
+  "mean_metrics": {
+    "mae": 0.14444442455839104,
+    "rmse": 0.26934410511800405,
+    "abs_rel": 0.041392002708746184,
+    "sq_rel": 0.02946096565746453,
+    "delta1": 0.9797202714865746,
+    "delta2": 0.9948303137726324,
+    "delta3": 0.9981060061735988,
+    "spearman": 0.9742334798680855
+  },
+  "cause_counts": {
+    "boundary_mixing": 1038,
+    "textureless": 31,
+    "poor_lighting": 74,
+    "thin_object": 482,
+    "ambiguous": 87,
+    "reflection": 6
+  },
+  "valid_pixels": 29293689,
+  "mean_failure_pixel_fraction": 0.020279728513425473,
+  "region_pixel_fraction": 0.017587952135355845,
+  "top_cause_pixel_fraction": {
+    "boundary_mixing": 0.005751238773648481,
+    "textureless": 0.006581144491566084,
+    "poor_lighting": 0.002541844422530737,
+    "thin_object": 0.0009354916002556045,
+    "ambiguous": 0.001734127784315591,
+    "reflection": 4.410506303934612e-05
+  },
+  "label_pixel_fraction": {
+    "boundary_mixing": 0.006563529775986903,
+    "textureless": 0.009456064068953555,
+    "thin_object": 0.002513339989374503,
+    "poor_lighting": 0.0030985855007882417,
+    "reflection": 9.53447686291747e-05
+  },
+  "label_counts": {
+    "boundary_mixing": 1436,
+    "textureless": 101,
+    "thin_object": 998,
+    "poor_lighting": 238,
+    "reflection": 11
+  },
+  "multi_label_regions": 1040
+}

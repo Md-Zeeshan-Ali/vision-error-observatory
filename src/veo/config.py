@@ -25,6 +25,8 @@ class ExperimentConfig:
     align_scale_shift: bool = False
     prediction_space: str = "depth"
     primary_protocol: str = "inverse_depth_scale_shift"
+    # Aligned predictions are capped at this depth (metres), as in standard NYU evaluation; None = no cap
+    max_prediction_m: float | None = None
     # Failure regions: "delta" marks pixels with max(pred/gt, gt/pred) > delta_threshold;
     # "percentile" marks the image's top (100 - error_percentile)% relative errors (v1 behaviour)
     region_mode: str = "delta"
@@ -35,6 +37,7 @@ class ExperimentConfig:
     # Depth used for geometry features: "ground_truth" (audit) or "prediction" (no ground truth needed)
     geometry_source: str = "ground_truth"
     include_reflection: bool = True
+    label_model: str | None = None  # fitted label model (docs/LABEL_MODEL_V3.md); None = the hand-set v2 rules
     texture_grad_scale: float = 8.0
     edge_log_threshold: float = 0.05
     edge_radius: int = 3
@@ -42,6 +45,7 @@ class ExperimentConfig:
     thin_kernel: int = 9
     thin_relative_threshold: float = 0.1
     thin_fraction_scale: float = 0.3
+    thin_image_delta: int = 25
     highlight_value: int = 200
     highlight_saturation: int = 50
     highlight_local_delta: int = 25
@@ -87,6 +91,15 @@ def _build(cls, values: dict, section: str):
         else:
             converted[name] = value
     return cls(**converted)
+
+
+def config_from_dict(values: dict) -> Config:
+    """Rebuild a Config from its dict form, e.g. the ``config`` block stored in a results file."""
+    return Config(
+        dataset=_build(DatasetConfig, values.get("dataset", {}), "dataset"),
+        experiment=_build(ExperimentConfig, values.get("experiment", {}), "experiment"),
+        outputs=_build(OutputConfig, values.get("outputs", {}), "outputs"),
+    )
 
 
 def load_config(path: Path) -> Config:

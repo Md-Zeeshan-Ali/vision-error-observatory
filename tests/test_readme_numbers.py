@@ -1,4 +1,4 @@
-"""The README's v1 numbers must match the committed result files."""
+"""The v1 record's numbers must match the committed result files."""
 
 import json
 from pathlib import Path
@@ -7,7 +7,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[1]
 V1 = REPO / "results" / "v1"
-README = (REPO / "README.md").read_text(encoding="utf-8")
+V1_RECORD = (REPO / "docs" / "V1_RESULTS.md").read_text(encoding="utf-8")
 
 
 def _json(name: str) -> dict:
@@ -48,5 +48,76 @@ def _expected() -> list[str]:
 
 
 @pytest.mark.parametrize("text", _expected())
-def test_readme_states_result_file_numbers(text):
-    assert text in README
+def test_v1_record_states_result_file_numbers(text):
+    assert text in V1_RECORD
+
+
+README = (REPO / "README.md").read_text(encoding="utf-8")
+RESULTS = REPO / "results"
+MODELS = {
+    "Depth Anything V2 Large": "depth-anything-v2-large-hf", "Depth Pro": "depthpro-hf", "Depth Anything V2 Base": "depth-anything-v2-base-hf",
+    "ZoeDepth NYU+KITTI*": "zoedepth-nyu-kitti", "Depth Anything V2 Small": "depth-anything-v2-small-hf", "Marigold\u2020": "marigold-depth-v1-1",
+    "DPT-Hybrid": "dpt-hybrid-midas", "DPT-Large": "dpt-large",
+}
+
+
+MIN_POSITIVES = 10  # below this an AUROC isn't reported (docs/MODEL_COMPARISON_PROTOCOL.md)
+
+
+def _results(*parts: str) -> dict:
+    return json.loads(RESULTS.joinpath(*parts).read_text(encoding="utf-8"))
+
+
+def _readme_rows() -> list[str]:
+    nyu = _results("nyu_test", "depth-anything-v2-small-hf", "silver_calibration.json")["test"]["evaluation"]["categories"]
+    hypersim = _results("hypersim", "hypersim_reflection.json")
+    ibims = _results("ibims", "label_check.json")
+
+    def ibims_cell(label: str) -> str:
+        entry = ibims["categories"].get(label)
+        return f"{entry['label_model']['auroc']:.2f}" if entry and entry["positives"] >= MIN_POSITIVES else "\u2014"
+
+    rows = [f"| `{label}` | {nyu[label]['label_model']['auroc']:.2f} | {hypersim['external_label_check']['categories'][label]['label_model']['auroc']:.2f} | {ibims_cell(label)} |"
+            for label in ("boundary_mixing", "thin_object", "reflection", "textureless")]
+    rows.append(f"which alone score {ibims['reflection_sensor_holes_only']['auroc']:.2f} on iBims-1")
+    rows.append(f"only {ibims['categories']['textureless']['positives']} regions fall on its wall masks")
+    decision = _results("fingerprint_decision.json")["contrasts"]
+    assert decision["backbone_hybrid_vs_large"]["verdict"] == "cut"
+    family = decision["family_dav2_small_vs_dpt_hybrid"]["labels"]
+    assert [label for label, entry in family.items() if entry["passes"]] == ["textureless"] and not family["textureless"]["failure_type_difference"]
+    shift = {name: f"{family['textureless']['datasets'][name]['mean']:.2f}".replace("-", "\u2212") for name in ("nyu_test", "diode", "ibims")}
+    rows.append(f"({shift['nyu_test']} on NYU, {shift['diode']} on DIODE, {shift['ibims']} on iBims-1)")
+    for name, slug in MODELS.items():
+        summary, diode, ibims_summary = (_results(name, slug, "summary.json") for name in ("nyu_test", "diode", "ibims"))
+        rows.append(f"| {name} | {summary['mean_metrics']['abs_rel']:.3f} | {summary['mean_metrics']['delta1']:.3f} | "
+                    f"{100 * summary['mean_failure_pixel_fraction']:.1f}% | {diode['mean_metrics']['abs_rel']:.3f} | {ibims_summary['mean_metrics']['abs_rel']:.3f} |")
+    tests = _results("nyu_test", "depth-anything-v2-small-hf", "interventions.json")["tests"]
+    for name, title in (("resolution_boundary", "Higher resolution, `boundary_mixing`"), ("resolution_thin", "Higher resolution, `thin_object`"),
+                        ("exposure", "Brighten, `poor_lighting`"), ("texture", "Add texture, `textureless`")):
+        d = tests[name]["difference"]
+        signed = lambda value, plus=True: f"{value:+.3f}".replace("-", "\u2212") if plus else f"{value:.3f}".replace("-", "\u2212")  # noqa: E731
+        p_value = f"{d['p_holm']:.3f}" if d["p_holm"] < 0.01 else f"{d['p_holm']:.2f}"
+        rows.append(f"| {title} | {signed(d['mean'])} [{signed(d['lower'])}, {signed(d['upper'])}] | {p_value} |")
+    finetune = _results("finetune", "guided_finetune.json")
+    means = finetune["condition_means"]
+    for name, outcome, veo, control in (("boundary", "abs_rel_boundary_mixing", "veo_boundary", "random_boundary"),
+                                               ("textureless", "abs_rel_textureless", "veo_textureless", "random_textureless")):
+        row = finetune["primary"][name]
+        assert not row["supported"]
+        rows.append(f"| {means[veo][outcome]:.3f} | {means[control][outcome]:.3f} | {row['mean']:+.3f} [{row['lower']:+.3f}, {row['upper']:+.3f}] | No |")
+    rows.append(f"improved AbsRel from {means['pretrained']['abs_rel']:.3f} to {means['uniform']['abs_rel']:.3f}")
+    check = _results("finetune", "training_pixel_check.json")["models"]
+    rows.append(f"from {check['uniform_seed0']['boundary_mixing']['abs_rel']:.2f} to {check['veo_boundary_seed0']['boundary_mixing']['abs_rel']:.2f}")
+    dose = hypersim["dose_response_spearman"]
+    rows.append(f"\u03c1 = {dose['estimate']:.2f}".replace("-", "\u2212"))
+    rows.append(f"[{dose['lower']:.2f}, {dose['upper']:.2f}]".replace("-", "\u2212"))
+    return rows
+
+
+@pytest.mark.parametrize("row", _readme_rows())
+def test_readme_states_current_results(row):
+    assert row in README
+
+
+def test_study_size_in_readme_matches_the_protocol():
+    assert "A blinded study of 300 regions" in README

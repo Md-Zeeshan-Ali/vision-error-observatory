@@ -1,0 +1,101 @@
+{
+  "split": "24 held-out NYU train scenes (76 images)",
+  "condition": "uniform, seed 0, 719 fitting images",
+  "rows": {
+    "pretrained": {
+      "abs_rel": 0.0525,
+      "delta1": 0.9739,
+      "abs_rel_boundary_mixing": 0.1267,
+      "abs_rel_textureless": 0.0597
+    },
+    "lr 1e-05 epoch 1": {
+      "abs_rel": 0.0483,
+      "delta1": 0.9759,
+      "abs_rel_boundary_mixing": 0.1051,
+      "abs_rel_textureless": 0.057
+    },
+    "lr 1e-05 epoch 2": {
+      "abs_rel": 0.0476,
+      "delta1": 0.9764,
+      "abs_rel_boundary_mixing": 0.1013,
+      "abs_rel_textureless": 0.0559
+    },
+    "lr 1e-05 epoch 3": {
+      "abs_rel": 0.0476,
+      "delta1": 0.9765,
+      "abs_rel_boundary_mixing": 0.1018,
+      "abs_rel_textureless": 0.0562
+    },
+    "lr 1e-05 epoch 4": {
+      "abs_rel": 0.0473,
+      "delta1": 0.9767,
+      "abs_rel_boundary_mixing": 0.1006,
+      "abs_rel_textureless": 0.056
+    },
+    "lr 1e-05 epoch 5": {
+      "abs_rel": 0.0474,
+      "delta1": 0.9766,
+      "abs_rel_boundary_mixing": 0.1005,
+      "abs_rel_textureless": 0.0561
+    },
+    "lr 1e-05 epoch 6": {
+      "abs_rel": 0.0474,
+      "delta1": 0.9766,
+      "abs_rel_boundary_mixing": 0.1004,
+      "abs_rel_textureless": 0.0561
+    },
+    "lr 3e-05 epoch 1": {
+      "abs_rel": 0.0491,
+      "delta1": 0.9753,
+      "abs_rel_boundary_mixing": 0.1062,
+      "abs_rel_textureless": 0.0593
+    },
+    "lr 3e-05 epoch 2": {
+      "abs_rel": 0.0465,
+      "delta1": 0.9773,
+      "abs_rel_boundary_mixing": 0.0967,
+      "abs_rel_textureless": 0.055
+    },
+    "lr 3e-05 epoch 3": {
+      "abs_rel": 0.0474,
+      "delta1": 0.9772,
+      "abs_rel_boundary_mixing": 0.1006,
+      "abs_rel_textureless": 0.0556
+    },
+    "lr 3e-05 epoch 4": {
+      "abs_rel": 0.0464,
+      "delta1": 0.9772,
+      "abs_rel_boundary_mixing": 0.0971,
+      "abs_rel_textureless": 0.0553
+    },
+    "lr 3e-05 epoch 5": {
+      "abs_rel": 0.0466,
+      "delta1": 0.9774,
+      "abs_rel_boundary_mixing": 0.0989,
+      "abs_rel_textureless": 0.055
+    },
+    "lr 3e-05 epoch 6": {
+      "abs_rel": 0.0465,
+      "delta1": 0.9774,
+      "abs_rel_boundary_mixing": 0.0987,
+      "abs_rel_textureless": 0.0549
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T19:26:36+00:00",
+    "git_commit": "ba0a1ad938c2342bec0e6ccbafc7a3e6fd43cc72",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    }
+  }
+}

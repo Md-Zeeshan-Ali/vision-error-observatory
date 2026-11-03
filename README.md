@@ -1,126 +1,204 @@
 <div align="center">
 
-# Vision Error Observatory (VEO)
-### A Model-Agnostic Diagnostic and Observability Framework for Failure Analysis in Monocular Depth Estimation
+# Vision Error Observatory
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
+**Find where monocular depth models fail, and test why.**
+
 [![CI](https://github.com/MdZeeshanAli01/VEO_V2/actions/workflows/ci.yml/badge.svg?branch=new-version)](https://github.com/MdZeeshanAli01/VEO_V2/actions/workflows/ci.yml)
-[![Dataset](https://img.shields.io/badge/Dataset-NYU%20Depth%20V2%20%7C%20Hypersim-blueviolet.svg)]()
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 </div>
 
----
+A depth model can score well on average and still fail badly in specific places. VEO audits any monocular depth model: it locates the regions where predictions fail, describes each one with measurable cues, names a likely cause or abstains, and tests those explanations by editing images and re-running the model.
 
-## Overview
+## How it works
 
-Monocular Depth Estimation (MDE) foundation models have reached impressive global benchmark scores, yet standard evaluation protocols rely almost exclusively on dataset-wide scalar summaries (RMSE, MAE, AbsRel, $\delta_1$). These global metrics collapse thousands of 3D spatial predictions into monolithic averages, concealing severe, localized failure clusters (such as reflective glass doors, featureless walls, and slender furniture legs) while offering little insight into the physical or visual mechanisms that triggered the failure.
-
-**Vision Error Observatory (VEO)** is a model-agnostic post-hoc diagnostic framework that aims to move depth evaluation from scalar scoring toward region-level failure attribution. Decoupled from model weights and training gradients, VEO ingests standard prediction arrays, performs inverse-depth scale-shift alignment, isolates high-error regions via connected-components analysis, extracts 7 hand-designed visual evidence features, and assigns each region a failure hypothesis using rule-based scores with a fixed-threshold ambiguity gate (abstains when the top score is < 0.40 or the margin is < 0.10).
-
-> **Status: under revision (v2).** The v1 results below are reported in full, including the unfavourable ones. Several v1 claims were overstated and have been corrected here; the original state is preserved at the git tag `v1-archive`, and every correction is listed in [`docs/ERRATA_V1.md`](docs/ERRATA_V1.md). Known limitations of v1 are listed at the end of the findings.
-
-<div align="center">
-  <img src="web_app/assets/fig1_veo_architecture.png" alt="VEO Architecture" width="95%"/>
-  <p><em><b>Fig. 1:</b> Modular diagnostic architecture of the Vision Error Observatory (VEO) framework across Modules M1 to M5. [Note: Architecture diagram generated using AI visualization tools].</em></p>
-</div>
-
----
-
-## v1 Empirical Results
-
-All v1 results use 244 NYU Depth V2 images from a custom scene-disjoint test split (1,449 labeled samples partitioned with seed `42`; this is **not** the official NYU 654-image test split, so numbers are not directly comparable with published results). Result files are in [`results/v1/`](results/v1/).
-
-1. **Alignment space (implementation note, not a contribution):**
-   * Depth Anything V2 (relative) outputs inverse depth. Fitting it in depth space ($d = s \cdot p + b$) gives a negative scale ($s < 0$) in 244 / 244 test scenes, which is the expected consequence of fitting disparity to depth.
-   * Fitting in inverse-depth space ($1/D \approx s \cdot P + b$), the standard practice since MiDaS, gives $s > 0$ in 244 / 244 scenes (observed, not guaranteed) with AbsRel = 0.1040 and $\delta_1$ = 0.8965.
-2. **Failure-label distribution across two models (exploratory):**
-   * **Depth Anything V2 Small** (5,236 regions): 19.5% `textureless`, 18.0% `boundary_mixing`, 39.3% `ambiguous`.
-   * **DPT-Hybrid-MiDaS** (3,689 regions): 17.4% `reflection` vs 13.1% for Depth Anything V2.
-   * Caveats: regions are the top 15% of errors *within each image*, so these are shares of each model's relative worst pixels, not absolute vulnerability. No significance test was run. The `reflection` label scored 0/7 against human raters (below), so the reflection difference is not established.
-3. **Blinded human agreement (N = 50 test regions, 2 raters):**
-   * Inter-rater agreement: Cohen's $\kappa$ = 0.348.
-   * **VEO vs. rater 1: $\kappa$ = 0.259, accuracy 36% (18/50), macro-F1 = 0.262. VEO vs. rater 2: $\kappa$ = 0.138.**
-   * VEO abstained (`ambiguous`) on 21 / 50 regions. On the 29 regions where it committed to a label, accuracy vs. rater 1 was 58.6% ($\kappa$ = 0.472). The majority-class baseline on that subset is 41.4%.
-   * Per-class precision vs. rater 1: `textureless` 7/8, `thin_object` 5/7, `boundary_mixing` 5/7, `reflection` 0/7. VEO never predicted `occlusion` or `poor_lighting`.
-4. **Scoring-function sanity check (not a faithfulness result):**
-   * Adding noise to the bounding box of `scene_0049` region 8 dropped its `textureless` score from 0.646 to 0.000. Because that score is defined as $1 - \text{variance}/500$, this confirms the implementation behaves as written; it says nothing about the depth model. Tests that re-run the model on edited images are planned for v2.
-5. **Oracle boundary-refinement experiment (not deployable):**
-   * Bilateral smoothing inside `boundary_mixing` regions across 207 test scenes changed regional RMSE from 0.6629 m to 0.6618 m (−0.16%) and regional AbsRel from 0.2348 to 0.2340 (−0.35%); global RMSE was unchanged (0.4658 m).
-   * The pixels to smooth were selected using the **ground-truth** error map, so this cannot run without ground truth. There is no control condition and no significance test.
-
-### Known v1 limitations (being addressed in v2)
-* Ground truth is NYU's in-painted `depths`; values in sensor-failure areas (glass, mirrors, dark regions) are filled in, which inflates apparent `reflection` / `poor_lighting` errors.
-* Feature thresholds are hand-set, not calibrated against labels. The `occlusion` scale effectively disables that category (22 / 5,236 regions), even though depth discontinuity is the feature most correlated with error (r = 0.45).
-* Some features do not isolate their category: `reflection` also fires on bright white walls, and `thin_object` uses bounding-box aspect ratio.
-* The human study is small (50 regions, 2 raters) and the raw rating files are not in the repository.
-
----
-
-## Repository Layout
-
-```text
-VEO_V2/
-├── src/veo/                # Library: alignment, regions, features, scoring, pipeline, CLI
-│   ├── reproduce.py        # `veo reproduce`: splits -> predictions -> analysis -> experiments -> summary
-│   ├── provenance.py       # git commit, config hash and package versions stamped on every result
-│   ├── summary.py          # renders results/<run>/SUMMARY.md from the result JSON files
-│   └── fixtures.py         # synthetic NYU-format dataset and predictor for offline end-to-end runs
-├── experiments/            # One script per reported result, each writing one JSON with provenance
-│   ├── human_agreement.py  # VEO vs. raters: all-region and selective metrics, majority baseline
-│   ├── signal_ablation.py  # labels changed when each feature is neutralised
-│   ├── scoring_sanity_check.py   # formula check: added texture lowers the textureless score
-│   └── oracle_boundary_filter.py # bilateral filtering in ground-truth-selected masks (oracle)
-├── results/                # Committed results; v1/ holds the original study's summaries
-├── configs/                # nyu.yaml, hypersim.yaml
-├── tests/                  # unit, behaviour, golden-output, pipeline and web-server tests
-├── scripts/                # generate_figures.py; site/ builds the web app, its data and video
-├── web_app/                # static explorer site, serve.py, fetch_assets.py (deployed with the Dockerfile)
-├── docs/                   # protocol, specification, errata
-├── data/, outputs/         # local datasets and large run outputs (git-ignored)
-└── .github/workflows/      # CI: lint, tests, fixture reproduction
+```mermaid
+flowchart LR
+    A[Image and<br/>prediction] --> B[Align in<br/>disparity space]
+    B --> C[Find regions failing δ1<br/>on measured pixels]
+    C --> D[Measure image and<br/>geometry cues]
+    D --> E[Label a likely cause<br/>or abstain]
+    E --> F[Validate against annotations,<br/>re-runs and humans]
 ```
 
----
+**Labels:** `boundary_mixing`, `thin_object`, `textureless`, `reflection`, `poor_lighting`, or `ambiguous` when the evidence is weak. A region can carry several labels. The first four come from small logistic models fitted on the NYU train split; `poor_lighting` is a hand-set rule because no annotation exists to fit it against.
 
-## Quickstart
+## Results
 
-This project uses [`uv`](https://github.com/astral-sh/uv) for reproducible environments.
+All results are from the official NYU Depth V2 test split (654 images, errors on sensor-measured pixels only) unless noted. Every number below comes from the files in [`results/`](results/), and a test checks the tables against them.
+
+### Do the labels work?
+
+AUROC against object annotations, where 0.5 is chance. The label model was fitted on NYU train and never saw Hypersim or iBims-1, which makes them the clean checks. NYU test results motivated this version of the labels, so they are not confirmatory.
+
+| Label | NYU test | Hypersim | iBims-1 | Verdict |
+|---|---|---|---|---|
+| `boundary_mixing` | 0.85 | 0.81 | 0.69 | Holds up, though weaker on iBims-1 |
+| `thin_object` | 0.73 | 0.81 | — | Holds up where it can be tested |
+| `reflection` | 0.83 | 0.39 | 0.82 | Depends on sensor holes, which alone score 0.83 on iBims-1 |
+| `textureless` | 0.58 | 0.50 | — | Close to chance |
+
+<sub>— means iBims-1 can't test the label: it has no thin-object annotation, and only 3 regions fall on its wall masks. It uses transparent surfaces for `reflection` and annotated depth edges for `boundary_mixing`.</sub>
+
+### Do the explanations hold when the model is re-run?
+
+Each labelled region is paired with a matched control and both get the same edit (120 pairs). A negative difference means the edit helped labelled regions more.
+
+| Test | Difference in AbsRel [95% CI] | Holm p | Supports the label |
+|---|---|---|---|
+| Higher resolution, `boundary_mixing` | −0.009 [−0.016, −0.004] | 0.003 | Yes (exploratory) |
+| Higher resolution, `thin_object` | −0.004 [−0.011, +0.003] | 0.63 | No |
+| Brighten, `poor_lighting` | −0.007 [−0.020, +0.007] | 0.72 | No |
+| Add texture, `textureless` | +0.014 [−0.019, +0.050] | 0.72 | No |
+
+Separately, removing specular light from synthetic Hypersim renders shows that it does raise depth error: the more a region has, the more its error falls without it (Spearman ρ = −0.26, 95% CI [−0.36, −0.14]).
+
+### How do models compare?
+
+| Model | NYU AbsRel | NYU δ1 | NYU failing pixels | DIODE AbsRel | iBims-1 AbsRel |
+|---|---|---|---|---|---|
+| Depth Anything V2 Large | 0.043 | 0.979 | 2.1% | 0.065 | 0.038 |
+| Depth Pro | 0.043 | 0.979 | 2.1% | 0.064 | 0.037 |
+| Depth Anything V2 Base | 0.046 | 0.977 | 2.3% | 0.068 | 0.041 |
+| ZoeDepth NYU+KITTI* | 0.050 | 0.976 | 2.4% | 0.089 | 0.066 |
+| Depth Anything V2 Small | 0.051 | 0.973 | 2.7% | 0.073 | 0.047 |
+| Marigold† | 0.059 | 0.959 | 4.1% | 0.086 | 0.053 |
+| DPT-Hybrid | 0.091 | 0.918 | 8.2% | 0.098 | 0.075 |
+| DPT-Large | 0.092 | 0.915 | 8.5% | 0.096 | 0.071 |
+
+<sub>*Trained on NYU, so its NYU row is not a fair comparison. †Diffusion model, run with 4 denoising steps and no ensembling, which is lighter than in its paper. It is aligned in depth space, and its fitted scale came out negative on 1 NYU and 13 DIODE frames. All models are evaluated after per-image alignment. DIODE: 325 indoor frames. iBims-1: 100 indoor images, keeping transparent surfaces, so its numbers can't be compared with published ones.</sub>
+
+Paired tests with Holm correction, on NYU unless noted:
+
+- **Size matters:** larger Depth Anything models reliably reduce AbsRel on NYU and iBims-1. On DIODE, neither step up in size reliably changes AbsRel.
+- **Hybrid vs. pure ViT:** no reliable difference on any outcome between DPT-Hybrid and DPT-Large, on any of the three datasets.
+- **Diffusion:** Depth Anything V2 Small has lower AbsRel than Marigold on NYU and DIODE, with no reliable difference on iBims-1.
+- **Family:** DPT-Hybrid fails on about three times as many pixels as Depth Anything V2 Small, largely in regions labelled `textureless`. Training data differs too, so this can't be attributed to architecture.
+
+### Do models have a failure "fingerprint"?
+
+The original study claimed that ViT and convolutional models have distinct failure fingerprints. The rule was set before these results: a label counts only if its share of a model's failing regions differs reliably, in the same direction, on NYU, DIODE and iBims-1 ([decision](results/fingerprint_decision.json)).
+
+- **Backbone (DPT-Hybrid vs. DPT-Large):** no label passes, so the architecture claim is **cut**.
+- **Family (Depth Anything V2 Small vs. DPT-Hybrid):** only `textureless` passes, with a larger share for DPT-Hybrid (−0.29 on NYU, −0.12 on DIODE, −0.25 on iBims-1). That label scores close to chance against annotations, so this is a difference in VEO's labels, not an established difference in failure type.
+
+### Can the diagnosis improve a model?
+
+Fine-tuning Depth Anything V2 Small's decoder on NYU train, up-weighting the regions VEO diagnosed, does **not** help. Rules were written before test scoring, with three seeds per condition. Error is measured on annotated pixels rather than VEO's labels, and a negative difference would mean the diagnosis helped.
+
+| Up-weighted regions | Measured on | VEO-guided | Random control | Difference [95% CI] | Supported |
+|---|---|---|---|---|---|
+| `boundary_mixing` | Occluding boundaries | 0.113 | 0.093 | +0.020 [+0.018, +0.022] | No |
+| `textureless` | Walls and ceilings | 0.048 | 0.044 | +0.003 [+0.002, +0.005] | No |
+
+Both VEO-guided conditions were worse on their targets and overall, in all three seeds. Plain fine-tuning with no weighting improved AbsRel from 0.051 to 0.046, and random up-weighting changed it little. The weighting did act on the training images: at seed 0, `boundary_mixing` up-weighting cut error on its targeted training regions from 0.31 to 0.17, so the failure is best explained by fitting those specific regions rather than learning anything general. This is one weighting strength, on one dataset.
+
+## Quick start
+
+Requires [uv](https://github.com/astral-sh/uv).
 
 ```bash
 git clone https://github.com/MdZeeshanAli01/VEO_V2.git
 cd VEO_V2
-uv sync --extra dev            # add --extra model for real depth models (PyTorch, transformers)
-python web_app/fetch_assets.py # site video and scene data (GitHub release assets, checksum-verified)
-uv run pytest -q               # unit, behaviour, golden and pipeline tests
-uv run veo reproduce --fixture --workdir /tmp/veo   # full pipeline on synthetic data, no downloads
+uv sync --extra dev
+python web_app/fetch_assets.py    # video and scene data used by the web tests
+uv run python -m pytest -q
+
+# The whole pipeline on a small synthetic dataset: no downloads or GPU
+uv run python -m veo.cli reproduce --fixture --workdir /tmp/veo
 ```
 
-The fixture run writes `results/fixture/SUMMARY.md` under the work directory. CI runs the same three steps on every push.
+## Reproduce the results
 
----
-
-## Reproducing Results on NYU Depth V2
+Needs a GPU for reasonable speed, about 25 GB of disk space, and the `model` extra.
 
 ```bash
 uv sync --extra dev --extra model
-uv run veo download-nyu                       # ~2.8 GB official labelled set -> data/nyu/; prints its SHA-256
-uv run veo reproduce --models depth-anything/Depth-Anything-V2-Small-hf Intel/dpt-hybrid-midas
+uv run python -m veo.cli download-nyu
+
+uv run python -m veo.cli reproduce --device cuda \
+  --models depth-anything/Depth-Anything-V2-Small-hf Intel/dpt-hybrid-midas \
+  --extra-models depth-anything/Depth-Anything-V2-Base-hf depth-anything/Depth-Anything-V2-Large-hf \
+                 Intel/dpt-large Intel/zoedepth-nyu-kitti apple/DepthPro-hf prs-eth/marigold-depth-v1-1
+
+uv run python experiments/hypersim_reflection.py --device cuda --output results/hypersim/hypersim_reflection.json
+uv run python experiments/external_diode.py --device cuda
+uv run python experiments/external_ibims.py --device cuda
+
+uv run python experiments/compare_models.py --root outputs/diode --output results/diode/model_comparison.json --scan-units
+uv run python experiments/compare_models.py --root outputs/ibims --output results/ibims/model_comparison.json
+uv run python experiments/fingerprint_decision.py
+uv run python experiments/guided_finetune.py --device cuda
 ```
 
-This extracts the scene-disjoint test split, runs each model, compares alignment protocols, runs the signal ablation, scoring sanity check and oracle filter on the first model, and writes `results/nyu_test/SUMMARY.md`. Every result JSON records the git commit, configuration hash and package versions. Add `--rater1 <csv> --rater2 <csv>` to include a human-agreement study on a rating set exported with `veo prepare-rating`.
+Summaries are written to `results/<dataset>/SUMMARY.md`. Runs resume after an interruption: run the same command again and it continues from its checkpoints. After changing code, add `--fresh`.
 
-The v1 human-agreement figures above can be recomputed from the stored confusion matrix:
+## Audit your own predictions
+
+Save one `<image_id>.npy` per image, with the same height and width as the image, and write a config pointing at your images and depth (see [`configs/nyu.yaml`](configs/nyu.yaml)):
 
 ```bash
-uv run python experiments/human_agreement.py --from-confusion results/v1/human_validation_results.json
+uv run python -m veo.cli run-precomputed --config my_config.yaml --prediction-dir my_predictions --output-dir outputs/my_model
 ```
 
-Raw rater CSVs and per-region v1 outputs are not in the repository, so the other v1 numbers can be re-derived only by re-running the pipeline.
+The fitted labels expect indoor scenes. The `reflection` label also expects a Kinect-style depth sensor with missing readings.
 
----
+## Explore in the browser
+
+An interactive explorer of real test images and failure regions, plus a 3D walkthrough of how the model works.
+
+```bash
+python web_app/fetch_assets.py    # checksum-verified download
+python web_app/serve.py           # or: docker compose up --build
+```
+
+## Human study
+
+A blinded study of 300 regions is built and pre-registered, and **still needs raters**.
+
+```bash
+uv run python -m veo.cli prepare-study --results-path outputs/nyu_test/depth-anything-v2-small-hf/model_results.json \
+  --train-results outputs/nyu_test/depth-anything-v2-small-hf/train/model_results.json --output-dir study
+# Share study/ with raters; keep study_manifest.json private. Then:
+uv run python experiments/human_study.py --manifest study_manifest.json --ratings ratings/*.json --output results/nyu_test/human_study.json
+```
+
+## Limitations
+
+- **Annotations are a proxy.** Wall and ceiling stand in for "textureless", and on average 42% of a region's pixels on NYU have no annotation at all.
+- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse.
+- **The audit needs ground truth.** Finding failure regions and two of the label cues rely on measured depth.
+- **Some failures may be sensor errors.** On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.
+- **DIODE labels can't be checked.** It has no annotations, so it supports metrics and the fingerprint test only. Its tests use 10 scans from 3 scenes, which are not independent.
+- **Not covered:** outdoor scenes. The labels were fitted on indoor data only.
+
+## Repository
+
+```text
+src/veo/       library and CLI
+experiments/   one script per reported result
+configs/       settings and the fitted label model
+results/       committed results, each with provenance
+docs/          protocols and rater guideline
+tests/         test suite
+web_app/       browser explorer
+scripts/site/  builders for the web app and video
+```
+
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [Research protocol](docs/RESEARCH_PROTOCOL_V2.md) | Data, splits, failure rule and amendments |
+| [Label model](docs/LABEL_MODEL_V3.md) | How the labels were fitted, and amendments |
+| [Intervention tests](docs/INTERVENTION_PROTOCOL.md) | Image-edit and Hypersim test designs |
+| [Model comparison](docs/MODEL_COMPARISON_PROTOCOL.md) | Contrasts, statistics and external checks |
+| [Guided fine-tuning](docs/FINETUNE_PROTOCOL.md) | Whether the diagnosis can improve a model |
+| [Human study](docs/HUMAN_STUDY_PROTOCOL.md) · [Rater guideline](docs/RATER_GUIDELINE.md) | Pre-registered analysis and rater instructions |
+| [v1 results](docs/V1_RESULTS.md) · [v1 errata](docs/ERRATA_V1.md) | The original study and what was corrected |
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+[MIT](LICENSE)

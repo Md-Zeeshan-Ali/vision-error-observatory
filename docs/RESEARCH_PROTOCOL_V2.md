@@ -1,6 +1,6 @@
 # VEO Research Protocol v2
 
-Frozen on 2026-10-28, before any v2 result on the NYU official test split was computed. Changes after this point must be listed under "Amendments" with a date and a reason. v1 (`RESEARCH_PROTOCOL_V1.md`) is superseded; its corrections are in `ERRATA_V1.md`.
+Frozen on 2026-10-28, before any v2 result on the NYU official test split was computed. Changes after this point must be listed under "Amendments" with a date and a reason. The v1 protocol is superseded (available at the `v1-archive` tag); its corrections are in `ERRATA_V1.md`.
 
 ## Data
 
@@ -24,7 +24,7 @@ Frozen on 2026-10-28, before any v2 result on the NYU official test split was co
 ## Failure regions
 
 - **Failing pixel:** `max(pred / gt, gt / pred) > 1.25` (fails δ1), inside the evaluation mask.
-- **Regions:** 8-connected components of failing pixels with area ≥ 25 px. No morphological opening, because it erases thin failure bands at edges and on thin objects.
+- **Regions:** 4-connected components (amendment 4; this line first said 8-connected) of failing pixels with area ≥ 25 px. No morphological opening, because it erases thin failure bands at edges and on thin objects.
 - **Sensitivity analysis:** δ thresholds 1.10, 1.25 (primary) and 1.5625, plus v1's per-image 85th-percentile rule for comparison.
 
 ## Features and hypotheses
@@ -54,4 +54,15 @@ Frozen on 2026-10-28, before any v2 result on the NYU official test split was co
 
 ## Amendments
 
-None yet.
+**2026-10-28, before any NYU v2 result was computed:**
+
+1. *Speckle-cleanup sensitivity.* Added a fifth failure rule, δ 1.25 with a 1 px morphological opening, to the sensitivity table. It measures how many thin failure regions an opening would erase. The primary rule is unchanged (no opening).
+2. *Thin structures without ground truth.* Added `thin_image_fraction`, the share of region pixels on or next to a thin bright or dark image line (top-hat / black-hat of grey level, 9 px window, > 25 grey levels). When `geometry_source` is `prediction`, the thin-object evidence is the larger of the depth cue and this image cue, because a model that misses a thin object usually removes it from its own depth map too. Audit mode (ground-truth geometry) is unchanged.
+
+**2026-10-28, after the first NYU v2 run (post-hoc, disclosed):**
+
+3. *Cap on aligned predictions.* The first run showed DPT-Hybrid with mean AbsRel 12.5 and RMSE 421 m although δ1 was 0.918. In 2 of 654 images the inverse-depth fit maps some pixels to zero or negative disparity, which then became depths of up to 10^6 m. Aligned predictions are now capped at the evaluation range (`max_prediction_m: 10` for NYU; 20 m in the Hypersim test), as in standard NYU evaluation, and all v2 results were regenerated. This changes only pixels whose aligned depth exceeded the cap. It was decided after seeing results, so it is recorded here as a post-hoc correction of a numerical defect, not a pre-registered choice.
+
+**2026-11-03, found while writing up (no result changes):**
+
+4. *Region connectivity.* The "Failure regions" section said 8-connected components, but `src/veo/regions.py` calls `scipy.ndimage.label` with its default structure, which is 4-connected. Every v2 and v3 result was computed with 4-connectivity. The code is kept as it is so that published numbers stay reproducible, and this document now records what was actually done.

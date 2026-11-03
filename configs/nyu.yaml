@@ -15,6 +15,7 @@ experiment:
   align_scale_shift: true
   prediction_space: inverse_depth
   primary_protocol: inverse_depth_scale_shift
+  max_prediction_m: 10.0
   region_mode: delta
   delta_threshold: 1.25
   error_percentile: 85.0
@@ -22,6 +23,7 @@ experiment:
   opening_radius: 0
   geometry_source: ground_truth
   include_reflection: true
+  label_model: configs/label_model_v3.json  # fitted on the train split (docs/LABEL_MODEL_V3.md)
   random_seed: 42
 
 outputs:

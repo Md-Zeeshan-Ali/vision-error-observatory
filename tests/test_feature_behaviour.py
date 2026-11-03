@@ -93,6 +93,23 @@ def test_local_highlight_is_reflection():
     assert _scores(rgb, depth, _box(top=22, left=22, height=20, width=20))["reflection"] > 0.5
 
 
+def _thin_line_in_image_only():
+    rgb, depth = _canvas(150.0)
+    mask = np.zeros((64, 64), dtype=bool)
+    mask[8:56, 30:33] = True
+    rgb[:, 31] = 40  # a dark 1 px pole that the depth map does not contain
+    return rgb, depth, mask
+
+
+def test_image_line_counts_as_thin_only_without_ground_truth_geometry():
+    rgb, depth, mask = _thin_line_in_image_only()
+    region = {"bbox": [30, 8, 3, 48], "mask": mask}
+    features = extract_features(rgb, depth, region)
+    assert features["thin_image_fraction"] > 0.9 and features["thin_fraction"] == 0.0
+    assert score_categories(features)["thin_object"] == 0.0
+    assert score_categories(features, thresholds={"geometry_source": "prediction"})["thin_object"] > 0.5
+
+
 def test_dark_region_is_poor_lighting():
     rgb, depth = _canvas(12.0)
     assert _scores(rgb, depth, _box())["poor_lighting"] > 0.5

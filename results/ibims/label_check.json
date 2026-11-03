@@ -1,0 +1,106 @@
+{
+  "regions": 1635,
+  "images": 94,
+  "categories": {
+    "boundary_mixing": {
+      "prevalence": 0.49055232558139533,
+      "positives": 675,
+      "hand_set": {
+        "auroc": 0.6007703281027104,
+        "lower": 0.5539979305507102,
+        "upper": 0.6690963531099181,
+        "assigned": 1250,
+        "precision": 0.532,
+        "recall": 0.9851851851851852,
+        "f1": 0.6909090909090909
+      },
+      "label_model": {
+        "auroc": 0.6925196808791674,
+        "lower": 0.6124461914035806,
+        "upper": 0.7836751374026449,
+        "assigned": 1120,
+        "precision": 0.5633928571428571,
+        "recall": 0.9348148148148148,
+        "f1": 0.7030640668523677
+      },
+      "regions": 1376
+    },
+    "textureless": {
+      "prevalence": 0.001834862385321101,
+      "positives": 3,
+      "hand_set": {
+        "auroc": 0.650735294117647,
+        "lower": 0.2774785428743479,
+        "upper": 0.9682102492782199,
+        "assigned": 273,
+        "precision": 0.003663003663003663,
+        "recall": 0.3333333333333333,
+        "f1": 0.007246376811594204
+      },
+      "label_model": {
+        "auroc": 0.8776552287581699,
+        "lower": 0.6260164336015603,
+        "upper": 0.9952425681378928,
+        "assigned": 137,
+        "precision": 0.014598540145985401,
+        "recall": 0.6666666666666666,
+        "f1": 0.02857142857142857
+      }
+    },
+    "reflection": {
+      "prevalence": 0.13944954128440368,
+      "positives": 228,
+      "hand_set": {
+        "auroc": 0.6500205738226162,
+        "lower": 0.5392754655266496,
+        "upper": 0.7441764435845316,
+        "assigned": 108,
+        "precision": 0.46296296296296297,
+        "recall": 0.21929824561403508,
+        "f1": 0.2976190476190476
+      },
+      "label_model": {
+        "auroc": 0.8215220888040998,
+        "lower": 0.7422245883803562,
+        "upper": 0.8832735503121375,
+        "assigned": 12,
+        "precision": 1.0,
+        "recall": 0.05263157894736842,
+        "f1": 0.1
+      }
+    }
+  },
+  "textureless_any_plane": {
+    "auroc": 0.9150920245398773,
+    "lower": 0.6641388627157272,
+    "upper": 0.9912894020867876
+  },
+  "reflection_sensor_holes_only": {
+    "auroc": 0.8325664908540007,
+    "lower": 0.770315921827425,
+    "upper": 0.8974871378658038
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T14:44:16+00:00",
+    "git_commit": "cdbaf9521ebe88173a0a4c7507be0d624bdb3bed",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    },
+    "inputs": {
+      "results": {
+        "path": "outputs\\ibims\\depth-anything-v2-small-hf\\model_results.json",
+        "sha256": "53821fbdeeabad7dab646928efc4c3517591631cb9c86c399c42729fe06056e2"
+      }
+    }
+  }
+}

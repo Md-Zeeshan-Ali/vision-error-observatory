@@ -39,6 +39,20 @@ def test_delta_regions_are_absolute_but_percentile_regions_are_not():
     assert percentile["failure_pixel_fraction"] > 0.1  # always flags ~15% of pixels, however good the prediction
 
 
+def test_aligned_depth_is_capped_when_the_disparity_fit_goes_negative():
+    from veo.metrics import align_scale_shift
+
+    target = np.linspace(1.0, 9.0, 400, dtype=np.float32).reshape(20, 20)
+    prediction = 1.0 / target
+    prediction[0, :5] = -2.0  # pixels the fit maps below zero disparity
+    valid = np.ones_like(target, dtype=bool)
+    uncapped, _, _ = align_scale_shift(prediction, target, valid, "inverse_depth")
+    capped, _, _ = align_scale_shift(prediction, target, valid, "inverse_depth", max_depth=10.0)
+    assert uncapped.max() > 10.0
+    assert capped.max() <= 10.0 + 1e-4
+    assert np.allclose(capped[5:], uncapped[5:])  # ordinary pixels are unchanged
+
+
 def test_eigen_crop():
     depth = np.ones((480, 640), dtype=np.float32)
     mask = make_valid_mask(depth, crop="eigen")

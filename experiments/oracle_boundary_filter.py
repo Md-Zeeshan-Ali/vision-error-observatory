@@ -20,7 +20,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--results-path", type=Path, default=Path("outputs/nyu_final/test/model_results.json"))
     parser.add_argument("--prediction-dir", type=Path, default=Path("outputs/alignment_ablation_full/test/predictions"))
-    parser.add_argument("--depth-dir", type=Path, default=Path("data/nyu/splits/test/depth"))
+    parser.add_argument("--depth-dir", type=Path, default=Path("data/nyu/splits/test/depth"), help="error target: use sensor depth under protocol v2")
+    parser.add_argument("--crop", default=None, help="evaluation crop, e.g. eigen")
     parser.add_argument("--max-depth", type=float, default=10.0)
     parser.add_argument("--percentile", type=float, default=85.0)
     parser.add_argument("--min-pixels", type=int, default=25)
@@ -37,8 +38,8 @@ def main() -> None:
             continue
         sample_id = record["sample_id"]
         target = np.load(args.depth_dir / f"{sample_id}.npy")
-        valid = make_valid_mask(target, args.max_depth)
-        aligned, _, _ = align_scale_shift(np.load(args.prediction_dir / f"{sample_id}.npy"), target, valid, "inverse_depth")
+        valid = make_valid_mask(target, args.max_depth, args.crop)
+        aligned, _, _ = align_scale_shift(np.load(args.prediction_dir / f"{sample_id}.npy"), target, valid, "inverse_depth", args.max_depth)
         error = compute_error_map(aligned, target, valid)
         threshold = float(np.percentile(error[valid], args.percentile))
         mask = np.zeros_like(valid)
@@ -67,6 +68,7 @@ def main() -> None:
     summary = {key: mean(key) for key in samples[0] if key not in ("sample_id", "pixels")} if samples else {}
     payload = {
         "oracle": True,
+        "target": str(args.depth_dir),
         "selection": f"pixels in boxes of regions labelled boundary_mixing with ground-truth relative error above the image's {args.percentile:g}th percentile",
         "filter": {"method": "cv2.bilateralFilter", **filter_params},
         "evaluated_scenes": len(samples),

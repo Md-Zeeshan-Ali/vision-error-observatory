@@ -32,10 +32,9 @@ def _status(port: int, path: str, method: str = "HEAD") -> int:
     "/index.html",
     "/model_lab.html",
     "/data/app_data_v2.js",
-    "/assets/fontawesome/all.min.css",
-    "/assets/webfonts/fa-solid-900.woff2",
+    "/assets/css/site.css",
+    "/assets/js/core.js",
     "/favicon.ico",
-    "/figures/fig1_veo_architecture.png",
 ])
 def test_site_files_are_served(port, path):
     assert _status(port, path) == 200
@@ -43,8 +42,8 @@ def test_site_files_are_served(port, path):
 
 @pytest.mark.parametrize("path", [
     "/../README.md",
-    "/figures/..%2f..%2fREADME.md",
-    "/figures/..%2f..%2fpyproject.toml",
+    "/assets/..%2f..%2fREADME.md",
+    "/assets/..%2f..%2fpyproject.toml",
     "/%2e%2e/%2e%2e/pyproject.toml",
 ])
 def test_paths_outside_web_root_are_refused(port, path):

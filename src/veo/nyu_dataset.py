@@ -5,6 +5,8 @@ import h5py
 import numpy as np
 from PIL import Image
 
+from .checkpoint import atomic_save_npy
+
 # Optional per-frame layers of the labelled .mat, saved next to rgb/ and depth/ when present.
 # rawDepths: sensor depth projected to the RGB frame (0 = not measured); labels: NYU class ids.
 OPTIONAL_LAYERS = {"rawDepths": ("raw_depth", np.float32), "labels": ("labels", np.uint16), "instances": ("instances", np.uint8)}
@@ -80,7 +82,11 @@ def official_splits(mat_path: Path, splits_path: Path) -> dict[str, list[dict]]:
 
 
 def extract_split(mat_path: Path, split_records: list[dict], output_dir: Path) -> int:
-    """Write rgb/, depth/ (dense) and, when the file has them, raw_depth/, labels/ and instances/."""
+    """Write rgb/, depth/ (dense) and, when the file has them, raw_depth/, labels/ and instances/.
+
+    Frames whose files all exist are skipped, so an interrupted extraction continues where it stopped.
+    Each file is written to a temporary name first, so a cut-off write is never mistaken for a finished one.
+    """
     rgb_dir = output_dir / "rgb"
     depth_dir = output_dir / "depth"
     rgb_dir.mkdir(parents=True, exist_ok=True)
@@ -92,11 +98,16 @@ def extract_split(mat_path: Path, split_records: list[dict], output_dir: Path) -
         if "names" in handle:
             (output_dir / "label_names.json").write_text(json.dumps(_cell_strings(handle, "names")), encoding="utf-8")
         for record in split_records:
-            index = record["index"]
+            index, sample_id = record["index"], record["sample_id"]
+            targets = [rgb_dir / f"{sample_id}.png", depth_dir / f"{sample_id}.npy"]
+            targets += [output_dir / directory / f"{sample_id}.npy" for directory, _ in layers.values()]
+            if all(path.exists() for path in targets):
+                continue
             image = np.asarray(handle["images"][index], dtype=np.uint8).transpose(2, 1, 0)
-            depth = np.asarray(handle["depths"][index], dtype=np.float32).transpose(1, 0)
-            Image.fromarray(image, mode="RGB").save(rgb_dir / f"{record['sample_id']}.png")
-            np.save(depth_dir / f"{record['sample_id']}.npy", depth)
+            temporary = rgb_dir / f".{sample_id}.tmp.png"
+            Image.fromarray(image, mode="RGB").save(temporary)
+            temporary.replace(rgb_dir / f"{sample_id}.png")
+            atomic_save_npy(depth_dir / f"{sample_id}.npy", np.asarray(handle["depths"][index], dtype=np.float32).transpose(1, 0))
             for key, (directory, dtype) in layers.items():
-                np.save(output_dir / directory / f"{record['sample_id']}.npy", np.asarray(handle[key][index], dtype=dtype).transpose(1, 0))
+                atomic_save_npy(output_dir / directory / f"{sample_id}.npy", np.asarray(handle[key][index], dtype=dtype).transpose(1, 0))
     return len(split_records)

@@ -24,8 +24,15 @@ class PrecomputedPredictor:
         return prediction
 
 
+# These checkpoints output metric depth; every other supported model outputs relative disparity
+METRIC_DEPTH_MODELS = {"Intel/zoedepth-nyu-kitti", "apple/DepthPro-hf"}
+
+
 class TransformersDepthPredictor:
+    """Hugging Face depth pipeline; always returns disparity-like values, inverting metric-depth models."""
+
     def __init__(self, model_id: str, device: str = "auto"):
+        self.inverts_output = model_id in METRIC_DEPTH_MODELS
         try:
             import torch
             from transformers import pipeline
@@ -40,7 +47,10 @@ class TransformersDepthPredictor:
         from PIL import Image
 
         result = self._pipe(Image.fromarray(rgb))
-        return self._prediction_from_result(result, rgb.shape[:2])
+        return self._as_disparity(self._prediction_from_result(result, rgb.shape[:2]))
+
+    def _as_disparity(self, prediction: np.ndarray) -> np.ndarray:
+        return 1.0 / np.clip(prediction, 1e-3, None) if self.inverts_output else prediction
 
     @staticmethod
     def _prediction_from_result(result, expected_shape: tuple[int, int]) -> np.ndarray:
@@ -56,9 +66,44 @@ class TransformersDepthPredictor:
 
         results = self._pipe([Image.fromarray(rgb) for rgb in rgb_images], batch_size=batch_size)
         return [
-            self._prediction_from_result(result, rgb.shape[:2])
+            self._as_disparity(self._prediction_from_result(result, rgb.shape[:2]))
             for result, rgb in zip(results, rgb_images, strict=True)
         ]
+
+
+# This checkpoint outputs affine-invariant depth, so it is aligned in depth space and never inverted
+AFFINE_DEPTH_MODELS = {"prs-eth/marigold-depth-v1-1"}
+
+
+class MarigoldDepthPredictor:
+    """Diffusion depth model with the settings in docs/MODEL_COMPARISON_PROTOCOL.md; returns affine-invariant depth."""
+
+    def __init__(self, model_id: str, device: str = "auto", seed: int = 42):
+        try:
+            import torch
+            from diffusers import MarigoldDepthPipeline
+        except ImportError as exc:
+            raise ImportError("Install the model extra with: pip install -e '.[model]'") from exc
+        if device == "auto":
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        half = device == "cuda"
+        self._torch, self._device, self._seed = torch, device, seed
+        self._pipe = MarigoldDepthPipeline.from_pretrained(model_id, variant="fp16" if half else None, torch_dtype=torch.float16 if half else torch.float32).to(device)
+        self._pipe.set_progress_bar_config(disable=True)
+
+    def predict(self, rgb: np.ndarray) -> np.ndarray:
+        from PIL import Image
+
+        # A new generator per image, so a resumed run gives the same result as an uninterrupted one
+        generator = self._torch.Generator(device=self._device).manual_seed(self._seed)
+        output = self._pipe(Image.fromarray(rgb), num_inference_steps=4, ensemble_size=1, processing_resolution=768, match_input_resolution=True, generator=generator)
+        return np.asarray(output.prediction, dtype=np.float32).squeeze()
+
+
+def load_predictor(model_id: str, device: str = "auto") -> DepthPredictor:
+    if model_id in AFFINE_DEPTH_MODELS:
+        return MarigoldDepthPredictor(model_id, device)
+    return TransformersDepthPredictor(model_id, device)
 
 
 class OfficialMetricDepthPredictor:

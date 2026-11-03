@@ -1,0 +1,268 @@
+{
+  "train_regions": 8209,
+  "train_scenes": 246,
+  "categories": {
+    "reflection": {
+      "selection": [
+        {
+          "added": "sensor_hole_fraction",
+          "cv_auroc": 0.7457287729474834
+        },
+        {
+          "added": "signed_error",
+          "cv_auroc": 0.7741410955091305
+        },
+        {
+          "added": "saturation_mean",
+          "cv_auroc": 0.7867218226483745
+        }
+      ],
+      "cv_auroc_v2_rules": 0.5058508771575979,
+      "cv_auroc_v3": 0.7867218226483745,
+      "cv_auroc_learned": 0.8124520477767515,
+      "cv_label_metrics_v2_rules": {
+        "assigned": 614,
+        "precision": 0.02280130293159609,
+        "recall": 0.044585987261146494,
+        "f1": 0.03017241379310345
+      },
+      "cv_label_metrics_v3": {
+        "assigned": 420,
+        "precision": 0.21904761904761905,
+        "recall": 0.2929936305732484,
+        "f1": 0.25068119891008167
+      }
+    },
+    "thin_object": {
+      "selection": [
+        {
+          "added": "thin_image_fraction",
+          "cv_auroc": 0.6433570843955572
+        },
+        {
+          "added": "log_area",
+          "cv_auroc": 0.6824376602966795
+        },
+        {
+          "added": "thin_fraction",
+          "cv_auroc": 0.6966574779185459
+        }
+      ],
+      "cv_auroc_v2_rules": 0.5813205451410611,
+      "cv_auroc_v3": 0.6966574779185459,
+      "cv_auroc_learned": 0.7191684195378087,
+      "cv_label_metrics_v2_rules": {
+        "assigned": 2297,
+        "precision": 0.21158032215933828,
+        "recall": 0.4270650263620387,
+        "f1": 0.2829694323144105
+      },
+      "cv_label_metrics_v3": {
+        "assigned": 3048,
+        "precision": 0.23195538057742782,
+        "recall": 0.6212653778558875,
+        "f1": 0.3377926421404682
+      }
+    },
+    "boundary_mixing": {
+      "selection": [
+        {
+          "added": "depth_edge_fraction",
+          "cv_auroc": 0.8376821254277839
+        },
+        {
+          "added": "depth_step",
+          "cv_auroc": 0.8455445838002408
+        }
+      ],
+      "cv_auroc_v2_rules": 0.7879681975344766,
+      "cv_auroc_v3": 0.8455445838002408,
+      "cv_auroc_learned": 0.8582069241242057,
+      "cv_label_metrics_v2_rules": {
+        "assigned": 5893,
+        "precision": 0.5263872390972341,
+        "recall": 0.997427652733119,
+        "f1": 0.6891036321226258
+      },
+      "cv_label_metrics_v3": {
+        "assigned": 4437,
+        "precision": 0.6344376831192247,
+        "recall": 0.905144694533762,
+        "f1": 0.7459917848151584
+      }
+    },
+    "textureless": {
+      "selection": [
+        {
+          "added": "grad_energy",
+          "cv_auroc": 0.6482447924640448
+        },
+        {
+          "added": "contrast",
+          "cv_auroc": 0.6611274214029053
+        },
+        {
+          "added": "corner_strength",
+          "cv_auroc": 0.6722488469171416
+        }
+      ],
+      "cv_auroc_v2_rules": 0.6431850208007569,
+      "cv_auroc_v3": 0.6722488469171416,
+      "cv_auroc_learned": 0.7584794426335649,
+      "cv_label_metrics_v2_rules": {
+        "assigned": 1962,
+        "precision": 0.12028542303771661,
+        "recall": 0.4283121597096189,
+        "f1": 0.1878233187425388
+      },
+      "cv_label_metrics_v3": {
+        "assigned": 1160,
+        "precision": 0.175,
+        "recall": 0.3684210526315789,
+        "f1": 0.23728813559322032
+      }
+    }
+  },
+  "cv_top_label": {
+    "reflection": {
+      "predicted": 332,
+      "confirmed": 79,
+      "precision": 0.23795180722891565,
+      "base_rate": 0.03825070045072482
+    },
+    "thin_object": {
+      "predicted": 1517,
+      "confirmed": 354,
+      "precision": 0.23335530652603823,
+      "base_rate": 0.1386283347545377
+    },
+    "boundary_mixing": {
+      "predicted": 3885,
+      "confirmed": 2501,
+      "precision": 0.6437580437580438,
+      "base_rate": 0.3788524789864783
+    },
+    "textureless": {
+      "predicted": 832,
+      "confirmed": 168,
+      "precision": 0.20192307692307693,
+      "base_rate": 0.06712145206480692
+    }
+  },
+  "cv_coverage": 0.7998538189791692,
+  "model": {
+    "reflection": {
+      "features": [
+        "sensor_hole_fraction",
+        "signed_error",
+        "saturation_mean"
+      ],
+      "mean": [
+        0.26713505448131636,
+        0.20485458665416562,
+        98.8288461388455
+      ],
+      "std": [
+        0.2008853826217731,
+        0.46781113089432946,
+        62.216641065720786
+      ],
+      "coef": [
+        0.7362618958587248,
+        -0.5961750308493644,
+        -0.4234646063470754
+      ],
+      "intercept": -3.8077884676958274,
+      "threshold": 0.143,
+      "train_prevalence": 0.03825070045072482
+    },
+    "thin_object": {
+      "features": [
+        "thin_image_fraction",
+        "log_area",
+        "thin_fraction"
+      ],
+      "mean": [
+        0.3453900529421615,
+        4.568221535204231,
+        0.1262355099770262
+      ],
+      "std": [
+        0.37758150499476645,
+        1.3183667741267222,
+        0.20434162228991887
+      ],
+      "coef": [
+        0.43815077803366403,
+        -0.4866853184235885,
+        0.22572314867346197
+      ],
+      "intercept": -2.0250978024656523,
+      "threshold": 0.143,
+      "train_prevalence": 0.1386283347545377
+    },
+    "boundary_mixing": {
+      "features": [
+        "depth_edge_fraction",
+        "depth_step"
+      ],
+      "mean": [
+        0.6155210503655902,
+        0.10898011602194274
+      ],
+      "std": [
+        0.40591094518940823,
+        0.0832128946898077
+      ],
+      "coef": [
+        1.9109534091261295,
+        0.20501844386669113
+      ],
+      "intercept": -1.1308845351947656,
+      "threshold": 0.33,
+      "train_prevalence": 0.3788524789864783
+    },
+    "textureless": {
+      "features": [
+        "grad_energy",
+        "contrast",
+        "corner_strength"
+      ],
+      "mean": [
+        11.13965080384605,
+        20.473878806524315,
+        57.31610292396704
+      ],
+      "std": [
+        9.467685715741814,
+        16.492601130509623,
+        109.565866334119
+      ],
+      "coef": [
+        -0.630529758644713,
+        0.26598586384875206,
+        -0.5226335491122038
+      ],
+      "intercept": -2.831967109534762,
+      "threshold": 0.1,
+      "train_prevalence": 0.06712145206480692
+    }
+  },
+  "provenance": {
+    "created_utc": "2026-11-02T11:19:32+00:00",
+    "git_commit": "04af5c4dd7b99a03ec6d00e09172a63ae87a0c27",
+    "git_dirty": true,
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "veo": "0.1.0",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "opencv-python": "5.0.0.93",
+      "pillow": "12.3.0",
+      "h5py": "3.16.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0"
+    }
+  }
+}

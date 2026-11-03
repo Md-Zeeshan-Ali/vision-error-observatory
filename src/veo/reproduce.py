@@ -9,14 +9,17 @@ import os
 import shutil
 import subprocess
 import sys
-from dataclasses import replace
+from dataclasses import asdict, replace
 from pathlib import Path
 
+from .checkpoint import mark_done, stage_done
 from .config import Config, DatasetConfig, OutputConfig, load_config
 from .data import discover_manifest, load_depth
 from .fixtures import SyntheticDisparityPredictor, write_fixture_mat, write_fixture_splits
 from .inference import PrecomputedPredictor
+from .label_model import model_fingerprint
 from .nyu_dataset import create_scene_splits, extract_split, official_splits
+from .provenance import config_hash
 from .reports import write_result
 from .runner import run_alignment_ablation, run_model, run_pairs
 from .summary import write_summary_markdown
@@ -30,6 +33,8 @@ FAILURE_RULES = {
     "delta_1.10": {"region_mode": "delta", "delta_threshold": 1.10},
     "delta_1.5625": {"region_mode": "delta", "delta_threshold": 1.5625},
     "percentile_85": {"region_mode": "percentile", "error_percentile": 85.0},
+    # Speckle cleanup: does a 1 px opening erase thin failure bands (edges, thin objects)?
+    "delta_1.25_opening_1": {"region_mode": "delta", "delta_threshold": 1.25, "opening_radius": 1},
 }
 
 
@@ -45,11 +50,11 @@ def split_records(mat_path: Path, seed: int) -> tuple[str, dict[str, list[dict]]
     return f"scene_seed_{seed}", create_scene_splits(mat_path, seed)
 
 
-def prepare_test_split(mat_path: Path, split_root: Path, seed: int) -> tuple[Path, str]:
-    """Extract the test split with its manifest and scene metadata; returns its folder and split name."""
+def prepare_split(mat_path: Path, split_root: Path, seed: int, which: str = "test") -> tuple[Path, str]:
+    """Extract one split (``test`` or ``train``) with its manifest and scene metadata; returns its folder and split name."""
     split_name, splits = split_records(mat_path, seed)
-    records = splits["test"]
-    split_dir = split_root / "test"
+    records = splits[which] if which in splits else splits["development"]  # seeded splits call train "development"
+    split_dir = split_root / which
     extract_split(mat_path, records, split_dir)
     (split_dir / "metadata.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     lines = [f"{split_dir / 'rgb' / record['sample_id']}.png {split_dir / 'depth' / record['sample_id']}.npy" for record in records]
@@ -57,7 +62,7 @@ def prepare_test_split(mat_path: Path, split_root: Path, seed: int) -> tuple[Pat
     return split_dir, split_name
 
 
-def _split_config(base: Config, split_dir: Path, output_dir: Path, split_name: str, eval_crop: str | None) -> Config:
+def _split_config(base: Config, split_dir: Path, output_dir: Path, split_name: str, eval_crop: str | None, which: str = "test") -> Config:
     raw_dir = split_dir / "raw_depth"
     dataset = DatasetConfig(
         name=base.dataset.name,
@@ -66,12 +71,30 @@ def _split_config(base: Config, split_dir: Path, output_dir: Path, split_name: s
         manifest=split_dir / "manifest.txt",
         depth_scale=base.dataset.depth_scale,
         max_depth_m=base.dataset.max_depth_m,
-        split=f"{split_name}_test",
+        split=f"{split_name}_{which}",
         # Errors on sensor depth when the config asks for it and the dataset provides it
         raw_depth_dir=raw_dir if base.dataset.raw_depth_dir is not None and raw_dir.exists() else None,
         eval_crop=eval_crop,
     )
     return replace(base, dataset=dataset, outputs=OutputConfig(directory=output_dir))
+
+
+def _predict(config: Config, model_id: str, fixture: bool, seed: int, device: str, save_panels: bool = True) -> Path:
+    """Predict and analyze every pair of the configured split; returns the results file."""
+    if fixture:
+        predictor = SyntheticDisparityPredictor(seed)
+        run_pairs(
+            config,
+            discover_manifest(config.dataset.manifest),
+            lambda pair, rgb, shape: predictor.predict(rgb, load_depth(pair.depth_path, config.dataset.depth_scale)),
+            "model_results.json",
+            {"model_id": model_id},
+            save_predictions=True,
+            save_panels=save_panels,
+        )
+    else:
+        run_model(config, model_id, device, save_panels=save_panels)
+    return config.outputs.directory / "model_results.json"
 
 
 def _run_experiment(script: str, *args: str | Path) -> None:
@@ -156,6 +179,15 @@ def _slim_alignment(payload: dict) -> dict:
     return {"model_id": payload["model_id"], "summary": payload["summary"], "region_comparison": payload["region_comparison"], "per_scene_scales": scales}
 
 
+def _experiment_stage(stages: Path, key: str, output: Path, script: str, *args: str | Path) -> None:
+    """Run an experiment script unless it already finished with these settings and its output exists."""
+    if output.exists() and stage_done(stages, output.stem + "_" + output.parent.name, key):
+        print(f"      (resumed) {script} already done")
+        return
+    _run_experiment(script, *args, "--output", output)
+    mark_done(stages, output.stem + "_" + output.parent.name, key)
+
+
 def reproduce(
     workdir: Path,
     config_path: Path,
@@ -166,74 +198,118 @@ def reproduce(
     rater2: Path | None = None,
     device: str = "auto",
     seed: int = 42,
+    fresh: bool = False,
+    extra_models: tuple[str, ...] = (),
 ) -> Path:
+    """Run every stage; an interrupted run resumes from its checkpoints when called again.
+
+    Per-image work (predictions, analysis records, alignment comparisons, interventions) is
+    checkpointed as it finishes, and finished stages are skipped. ``fresh`` discards the results and
+    analysis checkpoints (extracted splits and model predictions are kept, since they do not depend
+    on VEO's settings). Checkpoints are keyed by settings, not by code version: after changing VEO's
+    code, use ``fresh`` to recompute.
+    """
     run_name = "fixture" if fixture else "nyu_test"
     outputs = workdir / "outputs" / run_name
     results = workdir / "results" / run_name
-    if results.exists():
-        shutil.rmtree(results)
-    results.mkdir(parents=True)
+    stages = outputs / "stages"
+    if fresh:
+        shutil.rmtree(results, ignore_errors=True)
+        shutil.rmtree(stages, ignore_errors=True)
+        for checkpoints in outputs.glob("**/checkpoints"):
+            shutil.rmtree(checkpoints, ignore_errors=True)
+        for log in outputs.glob("**/*.checkpoint.jsonl"):
+            log.unlink()
+    results.mkdir(parents=True, exist_ok=True)
 
     if fixture:
-        mat_path = write_fixture_mat(outputs / "nyu_fixture.mat", scenes=12)
-        write_fixture_splits(mat_path.with_name("splits.mat"), scenes=12)
+        mat_path = outputs / "nyu_fixture.mat"
+        if not mat_path.exists():
+            write_fixture_mat(mat_path, scenes=12)
+            write_fixture_splits(mat_path.with_name("splits.mat"), scenes=12)
         model_ids = (FIXTURE_MODEL,)
     elif mat_path is None or not mat_path.exists():
         raise FileNotFoundError(f"NYU labelled .mat not found at {mat_path}. Download it with: veo download-nyu")
-    print(f"[1/4] Extracting the test split from {mat_path}")
-    split_dir, split_name = prepare_test_split(mat_path, outputs / "splits", seed)
-
     base = load_config(config_path)
+    key = config_hash({"config": asdict(base), "primary_model": model_ids[0], "seed": seed, "fixture": fixture,
+                       "label_model": model_fingerprint(base.experiment.label_model),
+                       "data": [mat_path.name, mat_path.stat().st_size]})
+
+    print(f"[1/5] Extracting the test split from {mat_path}", flush=True)
+    split_dir, split_name = prepare_split(mat_path, outputs / "splits", seed)
+
     eval_crop = None if fixture else base.dataset.eval_crop  # the eigen crop is defined for 480x640 frames only
     primary_results = None
     for model_id in model_ids:
         slug = _slug(model_id)
         config = _split_config(base, split_dir, outputs / slug, split_name, eval_crop)
-        print(f"[2/4] Predicting and analyzing with {model_id}")
-        if fixture:
-            predictor = SyntheticDisparityPredictor(seed)
-            pairs = discover_manifest(config.dataset.manifest)
-            run_pairs(
-                config,
-                pairs,
-                lambda pair, rgb, shape, predictor=predictor, scale=config.dataset.depth_scale: predictor.predict(rgb, load_depth(pair.depth_path, scale)),
-                "model_results.json",
-                {"model_id": model_id},
-                save_predictions=True,
-            )
-        else:
-            run_model(config, model_id, device)
+        print(f"[2/5] Predicting and analyzing with {model_id}", flush=True)
+        _predict(config, model_id, fixture, seed, device)
         alignment = run_alignment_ablation(config, model_id, device)  # reuses the cached predictions
         model_results = results / slug
-        model_results.mkdir()
+        model_results.mkdir(exist_ok=True)
         shutil.copyfile(config.outputs.directory / "summary.json", model_results / "summary.json")
         write_result(model_results / "alignment_ablation.json", _slim_alignment(alignment), config)
         if primary_results is None:
-            print("      failure-rule sensitivity on cached predictions")
+            print("      failure-rule sensitivity on cached predictions", flush=True)
             primary_summary = json.loads((model_results / "summary.json").read_text(encoding="utf-8"))
             sensitivity = failure_rule_sensitivity(config, discover_manifest(config.dataset.manifest), primary_summary)
             write_result(model_results / "failure_rules.json", sensitivity, config)
-            print("      ground-truth-free geometry on cached predictions")
+            print("      ground-truth-free geometry on cached predictions", flush=True)
             agreement = geometry_source_agreement(config, discover_manifest(config.dataset.manifest))
             write_result(model_results / "geometry_agreement.json", agreement, config)
             primary_results = config.outputs.directory / "model_results.json"
+            primary_model, primary_slug, primary_config = model_id, slug, config
 
-    print("[3/4] Running experiments on the primary model")
+    for model_id in extra_models:
+        # Analysis only: enough for the model comparison, and it keeps predictions off the disk
+        slug = _slug(model_id)
+        config = _split_config(base, split_dir, outputs / slug, split_name, eval_crop)
+        print(f"[2/5] Predicting and analyzing with {model_id} (no panels or saved predictions)", flush=True)
+        run_model(config, model_id, device, save_panels=False, save_predictions=False)
+        (results / slug).mkdir(exist_ok=True)
+        shutil.copyfile(config.outputs.directory / "summary.json", results / slug / "summary.json")
+    if len(model_ids) + len(extra_models) > 1:
+        comparison_key = config_hash({"key": key, "models": sorted((*model_ids, *extra_models))})
+        _experiment_stage(stages, comparison_key, results / "model_comparison.json", "compare_models.py", "--root", outputs)
+
+    print("[3/5] Running experiments on the primary model", flush=True)
     primary_predictions = primary_results.parent / "predictions"
-    _run_experiment("signal_ablation.py", "--results-path", primary_results, "--output", results / "signal_ablation.json")
-    _run_experiment(
-        "scoring_sanity_check.py", "--results-path", primary_results, "--rgb-dir", split_dir / "rgb",
-        "--depth-dir", split_dir / "depth", "--output", results / "scoring_sanity_check.json",
+    _experiment_stage(stages, key, results / "signal_ablation.json", "signal_ablation.py", "--results-path", primary_results)
+    _experiment_stage(
+        stages, key, results / "scoring_sanity_check.json", "scoring_sanity_check.py", "--results-path", primary_results,
+        "--rgb-dir", split_dir / "rgb", "--depth-dir", split_dir / "depth",
     )
-    _run_experiment(
-        "oracle_boundary_filter.py", "--results-path", primary_results, "--prediction-dir", primary_predictions,
-        "--depth-dir", split_dir / "depth", "--output", results / "oracle_boundary_filter.json",
+    _experiment_stage(
+        stages, key, results / "oracle_boundary_filter.json", "oracle_boundary_filter.py", "--results-path", primary_results,
+        "--prediction-dir", primary_predictions, "--depth-dir", primary_config.dataset.raw_depth_dir or primary_config.dataset.depth_dir,
+        *(["--crop", eval_crop] if eval_crop else []),
+    )
+    print("      model-in-the-loop interventions (texture, exposure, resolution)", flush=True)
+    _experiment_stage(
+        stages, key, results / primary_slug / "interventions.json", "causal_interventions.py",
+        "--results-path", primary_results, "--model-id", primary_model, "--device", device,
     )
     if rater1:
-        args = ["--rater1", rater1, "--results-path", primary_results, "--output", results / "human_agreement.json"]
-        _run_experiment("human_agreement.py", *args, *(["--rater2", rater2] if rater2 else []))
+        args = ["--rater1", rater1, "--results-path", primary_results, *(["--rater2", rater2] if rater2 else [])]
+        _experiment_stage(stages, key, results / "human_agreement.json", "human_agreement.py", *args)
 
-    print("[4/4] Writing summary")
+    if (split_dir / "labels").exists():
+        print(f"[4/5] Objective-label calibration: fit on the train split with {primary_model}, score on test", flush=True)
+        train_dir, _ = prepare_split(mat_path, outputs / "splits", seed, "train")
+        train_config = _split_config(base, train_dir, outputs / primary_slug / "train", split_name, eval_crop, "train")
+        train_results = _predict(train_config, primary_model, fixture, seed, device, save_panels=False)
+        _experiment_stage(
+            stages, key, results / primary_slug / "silver_calibration.json", "silver_calibration.py",
+            "--train-results", train_results, "--test-results", primary_results,
+        )
+        _experiment_stage(
+            stages, key, results / primary_slug / "patch_cnn.json", "patch_cnn_baseline.py",
+            "--train-results", train_results, "--test-results", primary_results,
+            "--checkpoints", results / primary_slug / "silver_calibration", "--device", device, *(["--epochs", "2"] if fixture else []),
+        )
+
+    print("[5/5] Writing summary", flush=True)
     summary = write_summary_markdown(results)
-    print(f"Done: {summary}")
+    print(f"Done: {summary}", flush=True)
     return summary

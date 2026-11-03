@@ -109,3 +109,15 @@ scratch_*
 # Large site files are GitHub release assets; fetch with: python web_app/fetch_assets.py
 web_app/veo_explainer.mp4
 web_app/data/app_data_v2.js
+
+# Human study packages (built per run with veo prepare-study)
+study/
+study_manifest.json
+ratings/
+study*.zip
+
+# Resume logs of long experiments
+*.checkpoint.jsonl
+
+# Paper drafts carry author names and stay local
+/paper/
