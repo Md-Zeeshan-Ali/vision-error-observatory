@@ -114,6 +114,7 @@ web_app/data/app_data_v2.js
 study/
 study_manifest.json
 ratings/
+study_raters_results/
 study*.zip
 
 # Resume logs of long experiments
