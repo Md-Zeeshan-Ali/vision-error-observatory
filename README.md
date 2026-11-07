@@ -61,6 +61,18 @@ These checks were added after the results above, in response to review, so they 
 - **Most boundary failures are an edge placed a pixel or two off.** With a 2 px tolerance, 34% of boundary-labelled failing pixels remain, against 85% of failing pixels away from silver boundaries (49% against 92% for DPT-Hybrid). The offset may be in the model or in the registration of image and sensor.
 - **The rising boundary share is mostly mechanical.** Better models have a larger boundary share of failure-region pixels, but boundary failure as a share of all valid pixels barely moves with overall failure on NYU and DIODE (Spearman ρ = −0.12 and 0.02): other errors shrink around a nearly constant boundary floor. On iBims-1 it does move (ρ = 0.90).
 
+### Do people agree with the labels?
+
+Five raters labelled 300 test regions blind to VEO's output, using the [pre-registered protocol](docs/HUMAN_STUDY_PROTOCOL.md). Three are co-authors, and two (R4 and R5) are from outside the project. R4 and R5 were added after the first analysis, and every set is reported ([results](results/nyu_test/depth-anything-v2-small-hf/human_study.json), [ratings](results/nyu_test/depth-anything-v2-small-hf/human_study/)).
+
+| Rater set | Rater agreement (Krippendorff's α) | VEO vs. human consensus (Cohen's κ) [95% CI] | Labels above chance |
+|---|---|---|---|
+| All five (primary) | 0.32 | 0.05 [−0.00, 0.11] | `textureless` |
+| R3, R4, R5 | 0.48 | 0.04 [−0.01, 0.09] | `textureless` |
+| R1, R2, R3 | 0.19 | 0.06 [0.02, 0.11] | `textureless` |
+
+All three pre-registered checks fail in the primary analysis: raters agree only modestly (α below 0.4), VEO's labels do not beat always guessing the most common answer, and only one label is above chance. In the most consistent set, raters agree well enough (α 0.48), yet VEO still matches them at chance level. People find these causes hard to name, and VEO's labels do not capture what they see. `textureless`, the label that did worst against annotations, is the only one above chance against people.
+
 ### Do the explanations hold when the model is re-run?
 
 Each labelled region is paired with a matched control and both get the same edit (120 pairs). A negative difference means the edit helped labelled regions more.
@@ -188,22 +200,23 @@ python web_app/serve.py           # or: docker compose up --build
 
 ## Human study
 
-A blinded study of 300 regions is built and pre-registered, and **still needs raters**.
+A blinded study of 300 regions is pre-registered and done; the results are [above](#do-people-agree-with-the-labels). To rebuild the package and rerun the analysis:
 
 ```bash
 uv run python -m veo.cli prepare-study --results-path outputs/nyu_test/depth-anything-v2-small-hf/model_results.json \
   --train-results outputs/nyu_test/depth-anything-v2-small-hf/train/model_results.json --output-dir study
 # Share study/ with raters; keep study_manifest.json private. Then:
-uv run python experiments/human_study.py --manifest study_manifest.json --ratings ratings/*.json --output results/nyu_test/human_study.json
+uv run python experiments/human_study.py --manifest study_manifest.json --ratings ratings/*.json \n  --calibration results/nyu_test/depth-anything-v2-small-hf/silver_calibration.json --output results/nyu_test/depth-anything-v2-small-hf/human_study.json
 ```
 
 ## Limitations
 
 - **Annotations are a proxy.** Wall and ceiling stand in for "textureless", and on average 42% of a region's pixels on NYU have no annotation at all.
-- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse at every weight tried. Each label model does little better than its best single cue, and most boundary failures are an edge placed a pixel or two off.
+- **Labels describe more than they explain.** Only one of four image-edit tests supported its label, and that one is exploratory. Up-weighting diagnosed regions in training made the model worse at every weight tried. Each label model does little better than its best single cue, and most boundary failures are an edge placed a pixel or two off. Against five human raters, VEO's labels agree at chance level.
 - **The audit needs ground truth.** Finding failure regions and two of the label cues rely on measured depth.
 - **Some failures may be sensor errors.** On reflective surfaces, predictions tend to be nearer than the sensor's reading, which may mean the sensor is wrong.
 - **DIODE labels can't be checked.** It has no annotations, so it supports metrics and the fingerprint test only. Its tests use 10 scans from 3 scenes, which are not independent.
+- **The human study has caveats.** Three of the five raters are co-authors, two raters were added after the first analysis, and the two outside raters rated quickly (about 4 seconds per region).
 - **Not covered:** outdoor scenes. The labels were fitted on indoor data only.
 
 ## Repository

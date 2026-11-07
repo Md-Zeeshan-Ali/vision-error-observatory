@@ -127,6 +127,15 @@ def _readme_rows() -> list[str]:
                     + f" {100 * small['edge_tolerance'][label]['kept_at_2px']:.0f}% |")
     partial = review["specular_partial"]
     rows.append(f"partial ρ = {partial['partial_spearman']:.2f}, 95% CI [{partial['lower']:.2f}, {partial['upper']:.2f}]".replace("-", "−"))
+    human = REPO / "results" / "nyu_test" / "depth-anything-v2-small-hf"
+    for path, name in ((human / "human_study.json", "All five (primary)"), (human / "human_study" / "analysis_r3_r4_r5.json", "R3, R4, R5"),
+                       (human / "human_study" / "analysis_r1_r2_r3.json", "R1, R2, R3")):
+        study = json.loads(path.read_text(encoding="utf-8"))
+        kappa = study["veo_vs_consensus"]["bootstrap"]["kappa"]
+        above = [label for label, entry in study["veo_vs_consensus"]["per_class_bootstrap"].items() if entry["precision"]["lower"] > entry["base_rate"]["upper"]]
+        assert above == ["textureless"] and not study["preregistered_checks"]["at_least_three_classes_above_base_rate"]
+        rows.append((f"| {name} | {study['inter_rater']['krippendorff_alpha']:.2f} | {kappa['estimate']:.2f} [{kappa['lower']:.2f}, {kappa['upper']:.2f}] | `textureless` |")
+                    .replace("-", "−"))
     dose = hypersim["dose_response_spearman"]
     rows.append(f"\u03c1 = {dose['estimate']:.2f}".replace("-", "\u2212"))
     rows.append(f"[{dose['lower']:.2f}, {dose['upper']:.2f}]".replace("-", "\u2212"))
