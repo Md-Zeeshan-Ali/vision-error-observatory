@@ -86,3 +86,23 @@ Adding raters after seeing results is a deviation in itself. It is reported here
   - R3, R4 and R5, the set the team chose on 2026-11-04;
   - R1, R2 and R3, the roster as originally planned.
 - The pre-registered checks are reported as pass or fail for every set, and a check that passes in one set but fails in the primary analysis is described as such.
+
+### 2026-11-07: results
+
+R5 rated on 2026-11-06 (18:58 to 19:30 UTC), after the plan above was committed (b6d9229). R5 is from another university, was not involved in building VEO, did not see any material beyond the standard study package, and rated alone. R5's file has rater ID `r2` inside; it is released as `ratings_R5.json` (SHA-256 `4bbde0b12c3e75c2127611d0fa65e83fd83d5c0c79462f1839f538440ba68ce1`). Every rater passed the practice threshold (R1 0.50, R2 0.55, R3 0.65, R4 0.65, R5 0.80), so none was excluded.
+
+The rating files, the manifest and the analyses are now released in [`results/nyu_test/depth-anything-v2-small-hf/human_study/`](../results/nyu_test/depth-anything-v2-small-hf/human_study/), with the primary analysis in [`human_study.json`](../results/nyu_test/depth-anything-v2-small-hf/human_study.json). All files match the hashes recorded above.
+
+| Rater set | Krippendorff's α | VEO accuracy [95% CI] | VEO κ [95% CI] | Selective accuracy vs. majority baseline | Classes above base rate |
+|---|---|---|---|---|---|
+| **R1 to R5 (primary)** | 0.32 | 0.22 [0.17, 0.27] | 0.05 [−0.00, 0.11] | 0.25 [0.20, 0.30] vs. 0.33 [0.27, 0.39] | `textureless` |
+| R3, R4 and R5 | 0.48 | 0.22 [0.18, 0.27] | 0.04 [−0.01, 0.09] | 0.26 [0.21, 0.31] vs. 0.33 [0.27, 0.40] | `textureless` |
+| R1, R2 and R3 | 0.19 | 0.21 [0.17, 0.26] | 0.06 [0.02, 0.11] | 0.24 [0.18, 0.29] vs. 0.45 [0.38, 0.52] | `textureless` |
+
+**Pre-registered checks, primary analysis: all three fail.** Rater agreement is below 0.4, VEO's selective accuracy does not beat the majority-class baseline, and only one class, not three, has precision above its base rate.
+
+**In the set R3, R4 and R5 only,** rater agreement passes (α 0.48), while the other two checks still fail. This pass holds in that set alone, and that set was chosen after the first results were seen.
+
+**Reading.** As the protocol states for low agreement, the main finding is how hard this attribution task is: five raters agreed only modestly. Where raters agreed well, VEO's labels still matched their consensus at chance level. `textureless` is the only label above chance against people (precision 0.50 [0.35, 0.65] against a base rate of 0.23), although it was close to chance against the wall-and-ceiling annotations. That suggests the annotation proxy, rather than the label, may be the weak point for this class; this was not a registered test.
+
+**Rater quality, reported as observed.** R4 and R5 rated quickly, with medians of 4.3 and 4.0 seconds per item and about 90 items each under 3 seconds. R4 marked every item "medium" confidence. R1's per-item times were lost to a review pass.

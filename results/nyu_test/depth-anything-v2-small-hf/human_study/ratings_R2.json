@@ -1,0 +1,3301 @@
+{
+  "rater_id": "R2",
+  "started": "2026-11-03T12:11:04.113Z",
+  "practice_order": [
+    "5dbfb9c540e9",
+    "24e4a9c413b6",
+    "04bb74f01e83",
+    "7d2c6231a9a2",
+    "7e262e267000",
+    "765c9fcda20f",
+    "47195e8b9c68",
+    "56706a32f73d",
+    "5fff75e7fc34",
+    "637ffac7410c",
+    "063bc064fa00",
+    "659760700979",
+    "7c22e6d8b55b",
+    "6ef3597abaf9",
+    "7b4a81602472",
+    "3d1ee9977083",
+    "73a03f69d350",
+    "630947825419",
+    "0fdaf6fc009a",
+    "46cc1afb5328"
+  ],
+  "order": [
+    "48504d38108e",
+    "59db351ccb7b",
+    "7d7759b342e3",
+    "0d3c4ef656be",
+    "3f400891b124",
+    "513b86e4334c",
+    "253ccbb45142",
+    "3ba566c83ceb",
+    "63b6270d4ee2",
+    "0d9f27bc8588",
+    "0ac44a9181c7",
+    "5e10faa9169e",
+    "2562333c18a5",
+    "4ba31e6b4e64",
+    "66835f6815ae",
+    "5ad376143abe",
+    "7f9ed4e83209",
+    "391ba61a3f70",
+    "5535284d8311",
+    "5c76456d62c2",
+    "13bfc21145f5",
+    "75e25c45f527",
+    "4b879b605c65",
+    "46c87a0d1687",
+    "00b1ecc000b3",
+    "3c12e7acbd67",
+    "537279d10e8e",
+    "6430aafd3bca",
+    "077676d8692c",
+    "49464d328c30",
+    "0d6ff9af422c",
+    "46fca2618bcb",
+    "4cb89347af00",
+    "0f98351f7c12",
+    "03b64176ee85",
+    "4d91ed2961f0",
+    "2a70da57fa15",
+    "3a194b042314",
+    "0f428518108e",
+    "510371e36215",
+    "17289ac32736",
+    "61a6ce5e65b0",
+    "05539cfde4b8",
+    "449de09d69bc",
+    "610904e19526",
+    "3bbd838bae94",
+    "071cd978e933",
+    "2471b52913f3",
+    "5d0e28d65d7a",
+    "6da35d9a5a63",
+    "776d4e0f973a",
+    "6d0ed82e5836",
+    "401849853fe9",
+    "58ef25244c79",
+    "75e533c6106b",
+    "3bd3290ab74e",
+    "1d77a6ecfcd1",
+    "220806e2ba8c",
+    "26000c5e9e23",
+    "7aadceb1c039",
+    "7d7187d6b02d",
+    "5a42dbefbc5c",
+    "550839e0ff80",
+    "15d5fd8a6590",
+    "142c9e562810",
+    "05b70fb47869",
+    "31109fbb5e66",
+    "756b52237fc5",
+    "3cb06126bd17",
+    "72227b0c9365",
+    "38c1cbe545d0",
+    "6de68961376d",
+    "3d2b151fb780",
+    "42985ffd5ddf",
+    "11969542dc98",
+    "7dabd139db53",
+    "2eed0607dccb",
+    "6dc4ec8c7bc6",
+    "323fd29febe5",
+    "69c3ef0bae8d",
+    "26a58e88018c",
+    "31a4cbf26064",
+    "01e1209e738e",
+    "5f96cd4ede49",
+    "16b88923321c",
+    "11e4de3784c5",
+    "6aaec5178bf1",
+    "25947af1f575",
+    "4ede848542a1",
+    "77e97e4a00ad",
+    "2fe543428f37",
+    "558e3a6eb845",
+    "76b70638cdd1",
+    "7ab2117c1364",
+    "433617f060d5",
+    "518ba3147060",
+    "049d9bd075d1",
+    "1066070b41b1",
+    "221b78511ff9",
+    "700029755e35",
+    "124e8a723a05",
+    "1b7782b3fdca",
+    "3984ad7de4fe",
+    "5f6253184519",
+    "4b4d9e80797d",
+    "27b90beda8cb",
+    "121fd0675352",
+    "024879c9ec69",
+    "6cd5c9c90f61",
+    "2697f2b91e8f",
+    "62d14daa02d4",
+    "10c6801a69b8",
+    "63c5eb88ca28",
+    "1e4af3caa264",
+    "7e9be904f5ce",
+    "4b10a2ab7f70",
+    "11f6a5dddc95",
+    "7917544c9fc7",
+    "5f545dc77615",
+    "275d4f2b35cb",
+    "6a368ce0a7ac",
+    "10a144943b41",
+    "6c9da14dfaf1",
+    "58dd976bf6b8",
+    "05909740c4ac",
+    "2ee5f2a2c0a5",
+    "3ab1b41b7bf1",
+    "7d6292729eb4",
+    "13000c7f9436",
+    "28b3eea8ea03",
+    "59a2496fd09c",
+    "470567dd1214",
+    "0f1ad1412bda",
+    "531750ea4730",
+    "619aa744e897",
+    "575c033e9ea9",
+    "195ec190e778",
+    "62d45544b98b",
+    "1924c56885bb",
+    "11f3aea1457b",
+    "0ad0ac7dca57",
+    "0acf124ed07a",
+    "01c8aa0df799",
+    "6d3c4fd8ff0f",
+    "69a6b0f15c7d",
+    "4d329d86606d",
+    "3fd93bedca9d",
+    "24aa451c42b0",
+    "76c2002afbed",
+    "63e0eb5aae2e",
+    "02e83aadaaca",
+    "66f64fb919e6",
+    "2fd40436b482",
+    "0c0e00da99c9",
+    "302c8c1711e9",
+    "780ab280b878",
+    "4ac3b8e511f2",
+    "1996978bea97",
+    "064df5812421",
+    "6b66a30e99a9",
+    "61172aff027f",
+    "0efd3fe8e49a",
+    "0ffd7fc68e8e",
+    "3453014313a4",
+    "4a60361ffead",
+    "595c0597ec4d",
+    "531a1270a0f5",
+    "2f764f45c00b",
+    "3e4ad1f7a34e",
+    "0de5cf54a868",
+    "10e8beeaf59f",
+    "37f49815785b",
+    "5721a753420c",
+    "20c376ce73e8",
+    "0f516e28d58f",
+    "1511de749721",
+    "1d0b5d94aa43",
+    "29b4a534b496",
+    "0c2c18f4516f",
+    "7bad7cbf80d5",
+    "16a07d94c601",
+    "0717325f5ac1",
+    "430a562cf681",
+    "6831d1e9357f",
+    "59fd002795cb",
+    "6a877d3a6248",
+    "26857c9a7c8f",
+    "526a2c18e40a",
+    "5b9275f88336",
+    "4d8ef4cae8f5",
+    "3efee066c244",
+    "63a21207d6c6",
+    "63ae1c1021bb",
+    "06d5381b6a5e",
+    "754ae453d5de",
+    "1e88e6197b49",
+    "12b5ce0badce",
+    "479419a98b97",
+    "139ed20b722a",
+    "645cc3b74581",
+    "4859a81fed73",
+    "282da86edd8a",
+    "0bbd83902f82",
+    "68855342eba1",
+    "374ed32154e6",
+    "0dca748fa90c",
+    "0fb6882c8415",
+    "77d306540b0a",
+    "6cf1dd270b02",
+    "36c588524eae",
+    "0ec860df3a52",
+    "314a9cd3e45e",
+    "2ac4c5ee485b",
+    "5e4c5f3b6776",
+    "0c5689ff0a24",
+    "2a38e4679817",
+    "6bfa43966b27",
+    "5382ed284b27",
+    "3a56e0a19054",
+    "14a48dbc5bc8",
+    "7c3fd53688b1",
+    "63820071ffbf",
+    "746c353ab726",
+    "5bdf914200a0",
+    "49fc77d7358d",
+    "1dc4da104d55",
+    "2e9dd812e5c9",
+    "08850028f0d9",
+    "0753604f9f58",
+    "766137e6b3b9",
+    "5805688862a3",
+    "3c1a67a289c5",
+    "2e4fe028cdb8",
+    "3738b61f9936",
+    "19923fa13561",
+    "01932268c5b2",
+    "283feb969f7a",
+    "616d0697de2d",
+    "33b7661f586e",
+    "137ef685f812",
+    "642d06d338fb",
+    "5e08105e681b",
+    "2ab4a45e5d82",
+    "03f1d6bbcd29",
+    "015f86022ab4",
+    "1886728a2882",
+    "153c6faddb12",
+    "2e2a05004360",
+    "0b938fce4fc8",
+    "3092476a3789",
+    "23ff77f80f37",
+    "4269f3648ed8",
+    "1e4da7eb71ce",
+    "3198e43aebbc",
+    "0523ad833928",
+    "1dc72bfd3b43",
+    "032e98873fe4",
+    "69efd1786ddc",
+    "6310fde68b6c",
+    "056bbe2d008f",
+    "6bfab445eb98",
+    "4b4c09c3bd34",
+    "54009fb6a4fa",
+    "06f9ddc74131",
+    "10df8ce923c0",
+    "13a99664dac6",
+    "474cd45e9029",
+    "382e402fecc5",
+    "64b9f020e5fe",
+    "54d8bc09c112",
+    "2729962f5c5d",
+    "2a07bd6e6298",
+    "3dc4ef9b2a61",
+    "60aea8baeaf0",
+    "6a2ab783a4da",
+    "289801da7b4a",
+    "513e732d498c",
+    "61c83ddc5d26",
+    "76ba5ea2c89c",
+    "4944d5876fb4",
+    "744c5f402ee1",
+    "37b142ada63f",
+    "640171655e7e",
+    "0f2a4e57363f",
+    "7732bfbc91cf",
+    "2397fabf7953",
+    "2b528ac370ca",
+    "631cf6d375f7",
+    "22a839070204",
+    "64ca943c9f86",
+    "491e26cad23f",
+    "3abdc08bc71f",
+    "72057d03ec3e",
+    "00efae1b4883",
+    "24571c97d79d",
+    "09393bf00729",
+    "5434dd373e7d",
+    "79176a2ff737",
+    "512618b192f8",
+    "3c9b4cfa4568"
+  ],
+  "practice": {
+    "5dbfb9c540e9": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:17:26.641Z"
+    },
+    "24e4a9c413b6": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "thin_object",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:19:41.035Z"
+    },
+    "04bb74f01e83": {
+      "primary": "textureless",
+      "labels": [
+        "thin_object",
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:20:18.629Z"
+    },
+    "7d2c6231a9a2": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:25:04.278Z"
+    },
+    "7e262e267000": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:27:10.924Z"
+    },
+    "765c9fcda20f": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:27:52.554Z"
+    },
+    "47195e8b9c68": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:28:17.274Z"
+    },
+    "56706a32f73d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:30:54.215Z"
+    },
+    "5fff75e7fc34": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:31:40.299Z"
+    },
+    "637ffac7410c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:32:27.570Z"
+    },
+    "063bc064fa00": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:33:34.961Z"
+    },
+    "659760700979": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:33:59.596Z"
+    },
+    "7c22e6d8b55b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T12:35:48.616Z"
+    },
+    "6ef3597abaf9": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:36:03.320Z"
+    },
+    "7b4a81602472": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:36:29.707Z"
+    },
+    "3d1ee9977083": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:37:55.490Z"
+    },
+    "73a03f69d350": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:38:37.285Z"
+    },
+    "630947825419": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:38:48.777Z"
+    },
+    "0fdaf6fc009a": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:39:07.006Z"
+    },
+    "46cc1afb5328": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:39:43.899Z"
+    }
+  },
+  "ratings": {
+    "48504d38108e": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:40:18.809Z"
+    },
+    "59db351ccb7b": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:40:31.853Z"
+    },
+    "7d7759b342e3": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:40:49.120Z"
+    },
+    "0d3c4ef656be": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:41:03.577Z"
+    },
+    "3f400891b124": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:41:15.206Z"
+    },
+    "513b86e4334c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:41:26.498Z"
+    },
+    "253ccbb45142": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:41:50.070Z"
+    },
+    "3ba566c83ceb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:41:59.396Z"
+    },
+    "63b6270d4ee2": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:42:24.048Z"
+    },
+    "0d9f27bc8588": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:42:33.343Z"
+    },
+    "0ac44a9181c7": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:42:41.745Z"
+    },
+    "5e10faa9169e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:42:48.247Z"
+    },
+    "2562333c18a5": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:43:06.701Z"
+    },
+    "4ba31e6b4e64": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:43:16.958Z"
+    },
+    "66835f6815ae": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:44:12.576Z"
+    },
+    "5ad376143abe": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:44:22.136Z"
+    },
+    "7f9ed4e83209": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:44:36.384Z"
+    },
+    "391ba61a3f70": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:44:43.187Z"
+    },
+    "5535284d8311": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:44:51.840Z"
+    },
+    "5c76456d62c2": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:45:11.272Z"
+    },
+    "13bfc21145f5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:45:25.441Z"
+    },
+    "75e25c45f527": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:45:47.665Z"
+    },
+    "4b879b605c65": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:45:58.418Z"
+    },
+    "46c87a0d1687": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:46:10.865Z"
+    },
+    "00b1ecc000b3": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:46:19.929Z"
+    },
+    "3c12e7acbd67": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:46:52.362Z"
+    },
+    "537279d10e8e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:00.425Z"
+    },
+    "6430aafd3bca": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:07.001Z"
+    },
+    "077676d8692c": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:17.432Z"
+    },
+    "49464d328c30": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:27.202Z"
+    },
+    "0d6ff9af422c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:37.312Z"
+    },
+    "46fca2618bcb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:47:45.193Z"
+    },
+    "4cb89347af00": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:48:13.568Z"
+    },
+    "0f98351f7c12": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:48:25.665Z"
+    },
+    "03b64176ee85": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:48:35.624Z"
+    },
+    "4d91ed2961f0": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:48:41.993Z"
+    },
+    "2a70da57fa15": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:49:09.642Z"
+    },
+    "3a194b042314": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:49:20.793Z"
+    },
+    "0f428518108e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:49:27.035Z"
+    },
+    "510371e36215": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:49:39.744Z"
+    },
+    "17289ac32736": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:49:56.897Z"
+    },
+    "61a6ce5e65b0": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:50:08.258Z"
+    },
+    "05539cfde4b8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:50:26.921Z"
+    },
+    "449de09d69bc": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:50:42.769Z"
+    },
+    "610904e19526": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:50:54.176Z"
+    },
+    "3bbd838bae94": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:02.729Z"
+    },
+    "071cd978e933": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:11.520Z"
+    },
+    "2471b52913f3": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:20.896Z"
+    },
+    "5d0e28d65d7a": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:34.170Z"
+    },
+    "6da35d9a5a63": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:43.913Z"
+    },
+    "776d4e0f973a": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:51:55.865Z"
+    },
+    "6d0ed82e5836": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:52:06.673Z"
+    },
+    "401849853fe9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:52:26.817Z"
+    },
+    "58ef25244c79": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:52:37.665Z"
+    },
+    "75e533c6106b": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:02.737Z"
+    },
+    "3bd3290ab74e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:13.779Z"
+    },
+    "1d77a6ecfcd1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:20.848Z"
+    },
+    "220806e2ba8c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:26.491Z"
+    },
+    "26000c5e9e23": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:32.912Z"
+    },
+    "7aadceb1c039": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:39.970Z"
+    },
+    "7d7187d6b02d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:47.472Z"
+    },
+    "5a42dbefbc5c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:53:54.344Z"
+    },
+    "550839e0ff80": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:01.770Z"
+    },
+    "15d5fd8a6590": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:07.528Z"
+    },
+    "142c9e562810": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:12.152Z"
+    },
+    "05b70fb47869": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:17.633Z"
+    },
+    "31109fbb5e66": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:25.633Z"
+    },
+    "756b52237fc5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:30.040Z"
+    },
+    "3cb06126bd17": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:37.426Z"
+    },
+    "72227b0c9365": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:44.905Z"
+    },
+    "38c1cbe545d0": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:51.921Z"
+    },
+    "6de68961376d": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:54:58.985Z"
+    },
+    "3d2b151fb780": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:04.985Z"
+    },
+    "42985ffd5ddf": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:11.225Z"
+    },
+    "11969542dc98": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:18.400Z"
+    },
+    "7dabd139db53": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:34.185Z"
+    },
+    "2eed0607dccb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:38.457Z"
+    },
+    "6dc4ec8c7bc6": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:48.440Z"
+    },
+    "323fd29febe5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:55:58.624Z"
+    },
+    "69c3ef0bae8d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:03.577Z"
+    },
+    "26a58e88018c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:10.184Z"
+    },
+    "31a4cbf26064": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:19.601Z"
+    },
+    "01e1209e738e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:25.832Z"
+    },
+    "5f96cd4ede49": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:35.490Z"
+    },
+    "16b88923321c": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:42.689Z"
+    },
+    "11e4de3784c5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:56:50.704Z"
+    },
+    "6aaec5178bf1": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:02.744Z"
+    },
+    "25947af1f575": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:09.641Z"
+    },
+    "4ede848542a1": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:18.650Z"
+    },
+    "77e97e4a00ad": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:24.312Z"
+    },
+    "2fe543428f37": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:32.516Z"
+    },
+    "558e3a6eb845": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:45.129Z"
+    },
+    "76b70638cdd1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:51.041Z"
+    },
+    "7ab2117c1364": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:57:56.594Z"
+    },
+    "433617f060d5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:03.105Z"
+    },
+    "518ba3147060": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:08.193Z"
+    },
+    "049d9bd075d1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:15.497Z"
+    },
+    "1066070b41b1": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:32.641Z"
+    },
+    "221b78511ff9": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:46.056Z"
+    },
+    "700029755e35": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:58:54.481Z"
+    },
+    "124e8a723a05": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:00.000Z"
+    },
+    "1b7782b3fdca": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:14.817Z"
+    },
+    "3984ad7de4fe": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:23.008Z"
+    },
+    "5f6253184519": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:43.218Z"
+    },
+    "4b4d9e80797d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:49.760Z"
+    },
+    "27b90beda8cb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T12:59:59.113Z"
+    },
+    "121fd0675352": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:06.705Z"
+    },
+    "024879c9ec69": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:32.529Z"
+    },
+    "6cd5c9c90f61": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:39.241Z"
+    },
+    "2697f2b91e8f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:46.745Z"
+    },
+    "62d14daa02d4": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:52.634Z"
+    },
+    "10c6801a69b8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:00:59.929Z"
+    },
+    "63c5eb88ca28": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:01:05.496Z"
+    },
+    "1e4af3caa264": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:01:17.186Z"
+    },
+    "7e9be904f5ce": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:01:33.049Z"
+    },
+    "4b10a2ab7f70": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:01:52.666Z"
+    },
+    "11f6a5dddc95": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:01:59.144Z"
+    },
+    "7917544c9fc7": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:02:15.288Z"
+    },
+    "5f545dc77615": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:02:20.873Z"
+    },
+    "275d4f2b35cb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:02:26.025Z"
+    },
+    "6a368ce0a7ac": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:02:41.816Z"
+    },
+    "10a144943b41": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:02:52.160Z"
+    },
+    "6c9da14dfaf1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:03:36.456Z"
+    },
+    "58dd976bf6b8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:03:42.081Z"
+    },
+    "05909740c4ac": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:03:47.912Z"
+    },
+    "2ee5f2a2c0a5": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:00.776Z"
+    },
+    "3ab1b41b7bf1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:06.952Z"
+    },
+    "7d6292729eb4": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:12.912Z"
+    },
+    "13000c7f9436": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:23.737Z"
+    },
+    "28b3eea8ea03": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:29.344Z"
+    },
+    "59a2496fd09c": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:37.081Z"
+    },
+    "470567dd1214": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:42.536Z"
+    },
+    "0f1ad1412bda": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:48.448Z"
+    },
+    "531750ea4730": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:04:54.496Z"
+    },
+    "619aa744e897": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:01.090Z"
+    },
+    "575c033e9ea9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:11.960Z"
+    },
+    "195ec190e778": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:18.184Z"
+    },
+    "62d45544b98b": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:32.216Z"
+    },
+    "1924c56885bb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:38.352Z"
+    },
+    "11f3aea1457b": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:44.296Z"
+    },
+    "0ad0ac7dca57": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:50.144Z"
+    },
+    "0acf124ed07a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:05:55.408Z"
+    },
+    "01c8aa0df799": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:07.482Z"
+    },
+    "6d3c4fd8ff0f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:14.657Z"
+    },
+    "69a6b0f15c7d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:23.616Z"
+    },
+    "4d329d86606d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:29.296Z"
+    },
+    "3fd93bedca9d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:34.928Z"
+    },
+    "24aa451c42b0": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:06:48.201Z"
+    },
+    "76c2002afbed": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:08.392Z"
+    },
+    "63e0eb5aae2e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:15.576Z"
+    },
+    "02e83aadaaca": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:23.488Z"
+    },
+    "66f64fb919e6": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:30.265Z"
+    },
+    "2fd40436b482": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:38.263Z"
+    },
+    "0c0e00da99c9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:44.040Z"
+    },
+    "302c8c1711e9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:08.384Z"
+    },
+    "780ab280b878": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:19.105Z"
+    },
+    "4ac3b8e511f2": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.856Z"
+    },
+    "1996978bea97": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:35.464Z"
+    },
+    "064df5812421": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:45.817Z"
+    },
+    "6b66a30e99a9": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:03.545Z"
+    },
+    "61172aff027f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:09.801Z"
+    },
+    "0efd3fe8e49a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:15.408Z"
+    },
+    "0ffd7fc68e8e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:20.978Z"
+    },
+    "3453014313a4": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:28.024Z"
+    },
+    "4a60361ffead": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:40.352Z"
+    },
+    "595c0597ec4d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:46.240Z"
+    },
+    "531a1270a0f5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:51.976Z"
+    },
+    "2f764f45c00b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:06.945Z"
+    },
+    "3e4ad1f7a34e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:13.025Z"
+    },
+    "0de5cf54a868": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:20.576Z"
+    },
+    "10e8beeaf59f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:25.848Z"
+    },
+    "37f49815785b": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:31.136Z"
+    },
+    "5721a753420c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:37.176Z"
+    },
+    "20c376ce73e8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:43.153Z"
+    },
+    "0f516e28d58f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:50.536Z"
+    },
+    "1511de749721": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:11:56.816Z"
+    },
+    "1d0b5d94aa43": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:03.625Z"
+    },
+    "29b4a534b496": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:09.688Z"
+    },
+    "0c2c18f4516f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:16.145Z"
+    },
+    "7bad7cbf80d5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:27.928Z"
+    },
+    "16a07d94c601": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:34.145Z"
+    },
+    "0717325f5ac1": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:12:59.113Z"
+    },
+    "430a562cf681": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:10.057Z"
+    },
+    "6831d1e9357f": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:17.440Z"
+    },
+    "59fd002795cb": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:23.808Z"
+    },
+    "6a877d3a6248": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:29.793Z"
+    },
+    "26857c9a7c8f": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:38.416Z"
+    },
+    "526a2c18e40a": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:46.985Z"
+    },
+    "5b9275f88336": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:13:59.520Z"
+    },
+    "4d8ef4cae8f5": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:12.808Z"
+    },
+    "3efee066c244": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:20.056Z"
+    },
+    "63a21207d6c6": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:30.905Z"
+    },
+    "63ae1c1021bb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:35.817Z"
+    },
+    "06d5381b6a5e": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:42.889Z"
+    },
+    "754ae453d5de": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:49.097Z"
+    },
+    "1e88e6197b49": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:14:54.832Z"
+    },
+    "12b5ce0badce": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:15:02.240Z"
+    },
+    "479419a98b97": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:15:18.344Z"
+    },
+    "139ed20b722a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:15:28.849Z"
+    },
+    "645cc3b74581": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:15:43.800Z"
+    },
+    "4859a81fed73": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:15:51.675Z"
+    },
+    "282da86edd8a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:00.178Z"
+    },
+    "0bbd83902f82": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:06.257Z"
+    },
+    "68855342eba1": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:12.632Z"
+    },
+    "374ed32154e6": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:21.040Z"
+    },
+    "0dca748fa90c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:30.584Z"
+    },
+    "0fb6882c8415": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:43.936Z"
+    },
+    "77d306540b0a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:49.992Z"
+    },
+    "6cf1dd270b02": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:16:58.840Z"
+    },
+    "36c588524eae": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:03.408Z"
+    },
+    "0ec860df3a52": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:08.680Z"
+    },
+    "314a9cd3e45e": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:16.952Z"
+    },
+    "2ac4c5ee485b": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:25.888Z"
+    },
+    "5e4c5f3b6776": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:39.975Z"
+    },
+    "0c5689ff0a24": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:46.864Z"
+    },
+    "2a38e4679817": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:17:58.016Z"
+    },
+    "6bfa43966b27": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:18:05.768Z"
+    },
+    "5382ed284b27": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:18:12.079Z"
+    },
+    "3a56e0a19054": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:18:33.633Z"
+    },
+    "14a48dbc5bc8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:18:47.096Z"
+    },
+    "7c3fd53688b1": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:18:53.809Z"
+    },
+    "63820071ffbf": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:02.905Z"
+    },
+    "746c353ab726": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:08.273Z"
+    },
+    "5bdf914200a0": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:13.768Z"
+    },
+    "49fc77d7358d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:21.168Z"
+    },
+    "1dc4da104d55": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:30.697Z"
+    },
+    "2e9dd812e5c9": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:35.936Z"
+    },
+    "08850028f0d9": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:49.904Z"
+    },
+    "0753604f9f58": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:19:55.953Z"
+    },
+    "766137e6b3b9": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:04.072Z"
+    },
+    "5805688862a3": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:09.904Z"
+    },
+    "3c1a67a289c5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:18.474Z"
+    },
+    "2e4fe028cdb8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:27.369Z"
+    },
+    "3738b61f9936": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:34.465Z"
+    },
+    "19923fa13561": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:44.546Z"
+    },
+    "01932268c5b2": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:50.136Z"
+    },
+    "283feb969f7a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:20:57.040Z"
+    },
+    "616d0697de2d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:21:15.063Z"
+    },
+    "33b7661f586e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:21:31.040Z"
+    },
+    "137ef685f812": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:21:36.593Z"
+    },
+    "642d06d338fb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:21:47.537Z"
+    },
+    "5e08105e681b": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:21:57.224Z"
+    },
+    "2ab4a45e5d82": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:02.552Z"
+    },
+    "03f1d6bbcd29": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:08.249Z"
+    },
+    "015f86022ab4": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:15.314Z"
+    },
+    "1886728a2882": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:21.671Z"
+    },
+    "153c6faddb12": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:46.265Z"
+    },
+    "2e2a05004360": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:52.951Z"
+    },
+    "0b938fce4fc8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:22:59.193Z"
+    },
+    "3092476a3789": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:03.840Z"
+    },
+    "23ff77f80f37": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:10.671Z"
+    },
+    "4269f3648ed8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:16.529Z"
+    },
+    "1e4da7eb71ce": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:27.529Z"
+    },
+    "3198e43aebbc": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:33.744Z"
+    },
+    "0523ad833928": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:41.824Z"
+    },
+    "1dc72bfd3b43": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:49.441Z"
+    },
+    "032e98873fe4": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:23:55.849Z"
+    },
+    "69efd1786ddc": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:01.376Z"
+    },
+    "6310fde68b6c": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:10.193Z"
+    },
+    "056bbe2d008f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:18.714Z"
+    },
+    "6bfab445eb98": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:26.368Z"
+    },
+    "4b4c09c3bd34": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:31.400Z"
+    },
+    "54009fb6a4fa": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:49.632Z"
+    },
+    "06f9ddc74131": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:24:56.512Z"
+    },
+    "10df8ce923c0": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:08.336Z"
+    },
+    "13a99664dac6": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:14.800Z"
+    },
+    "474cd45e9029": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:23.631Z"
+    },
+    "382e402fecc5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:31.424Z"
+    },
+    "64b9f020e5fe": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:38.225Z"
+    },
+    "54d8bc09c112": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:51.016Z"
+    },
+    "2729962f5c5d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:25:58.649Z"
+    },
+    "2a07bd6e6298": {
+      "primary": "poor_lighting",
+      "labels": [
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:07.129Z"
+    },
+    "3dc4ef9b2a61": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:15.089Z"
+    },
+    "60aea8baeaf0": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:25.400Z"
+    },
+    "6a2ab783a4da": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:37.113Z"
+    },
+    "289801da7b4a": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:47.177Z"
+    },
+    "513e732d498c": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:26:58.104Z"
+    },
+    "61c83ddc5d26": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:05.399Z"
+    },
+    "76ba5ea2c89c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:18.121Z"
+    },
+    "4944d5876fb4": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:24.200Z"
+    },
+    "744c5f402ee1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:31.745Z"
+    },
+    "37b142ada63f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:39.696Z"
+    },
+    "640171655e7e": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:46.409Z"
+    },
+    "0f2a4e57363f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:27:57.016Z"
+    },
+    "7732bfbc91cf": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:28:06.816Z"
+    },
+    "2397fabf7953": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:28:21.183Z"
+    },
+    "2b528ac370ca": {
+      "primary": "reflection",
+      "labels": [
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:28:34.353Z"
+    },
+    "631cf6d375f7": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:28:43.824Z"
+    },
+    "22a839070204": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:28:59.544Z"
+    },
+    "64ca943c9f86": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:29:08.104Z"
+    },
+    "491e26cad23f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:29:24.186Z"
+    },
+    "3abdc08bc71f": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:29:30.859Z"
+    },
+    "72057d03ec3e": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:29:40.931Z"
+    },
+    "00efae1b4883": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:29:50.997Z"
+    },
+    "24571c97d79d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:00.769Z"
+    },
+    "09393bf00729": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:11.934Z"
+    },
+    "5434dd373e7d": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:22.000Z"
+    },
+    "79176a2ff737": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:32.405Z"
+    },
+    "512618b192f8": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:43.110Z"
+    },
+    "3c9b4cfa4568": {
+      "primary": "poor_lighting",
+      "labels": [
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:30:56.660Z"
+    }
+  },
+  "finished": "2026-11-03T13:30:58.345Z",
+  "study_id": "5ea5b0bb5eb3",
+  "tool_version": "1"
+}
