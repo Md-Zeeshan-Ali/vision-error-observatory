@@ -114,6 +114,7 @@ web_app/data/app_data_v2.js
 study/
 study_manifest.json
 ratings/
+study_raters_results/
 study*.zip
 
 # Resume logs of long experiments
@@ -121,3 +122,6 @@ study*.zip
 
 # Paper drafts carry author names and stay local
 /paper/
+
+# Rater training guide, kept local while the human study is reported
+rater_cause_guide.docx

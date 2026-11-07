@@ -1,0 +1,3418 @@
+{
+  "rater_id": "R1",
+  "started": "2026-11-03T09:48:55.551Z",
+  "practice_order": [
+    "630947825419",
+    "063bc064fa00",
+    "0fdaf6fc009a",
+    "5fff75e7fc34",
+    "5dbfb9c540e9",
+    "73a03f69d350",
+    "24e4a9c413b6",
+    "637ffac7410c",
+    "56706a32f73d",
+    "3d1ee9977083",
+    "659760700979",
+    "7d2c6231a9a2",
+    "7b4a81602472",
+    "6ef3597abaf9",
+    "04bb74f01e83",
+    "46cc1afb5328",
+    "765c9fcda20f",
+    "47195e8b9c68",
+    "7c22e6d8b55b",
+    "7e262e267000"
+  ],
+  "order": [
+    "31a4cbf26064",
+    "5ad376143abe",
+    "54009fb6a4fa",
+    "6b66a30e99a9",
+    "253ccbb45142",
+    "10df8ce923c0",
+    "69efd1786ddc",
+    "37f49815785b",
+    "449de09d69bc",
+    "0ad0ac7dca57",
+    "6de68961376d",
+    "5d0e28d65d7a",
+    "4b879b605c65",
+    "2a38e4679817",
+    "6310fde68b6c",
+    "1d0b5d94aa43",
+    "68855342eba1",
+    "59a2496fd09c",
+    "2e2a05004360",
+    "5e4c5f3b6776",
+    "61a6ce5e65b0",
+    "700029755e35",
+    "4ba31e6b4e64",
+    "19923fa13561",
+    "0acf124ed07a",
+    "61c83ddc5d26",
+    "756b52237fc5",
+    "2729962f5c5d",
+    "3bd3290ab74e",
+    "6aaec5178bf1",
+    "69c3ef0bae8d",
+    "36c588524eae",
+    "195ec190e778",
+    "38c1cbe545d0",
+    "42985ffd5ddf",
+    "3ba566c83ceb",
+    "2ab4a45e5d82",
+    "474cd45e9029",
+    "64b9f020e5fe",
+    "75e25c45f527",
+    "531750ea4730",
+    "62d45544b98b",
+    "10c6801a69b8",
+    "3a56e0a19054",
+    "3efee066c244",
+    "1d77a6ecfcd1",
+    "01932268c5b2",
+    "558e3a6eb845",
+    "382e402fecc5",
+    "3738b61f9936",
+    "1e4da7eb71ce",
+    "744c5f402ee1",
+    "3cb06126bd17",
+    "33b7661f586e",
+    "049d9bd075d1",
+    "5535284d8311",
+    "58ef25244c79",
+    "754ae453d5de",
+    "10e8beeaf59f",
+    "62d14daa02d4",
+    "4ede848542a1",
+    "0ac44a9181c7",
+    "3092476a3789",
+    "24aa451c42b0",
+    "76c2002afbed",
+    "518ba3147060",
+    "137ef685f812",
+    "75e533c6106b",
+    "6430aafd3bca",
+    "0717325f5ac1",
+    "5b9275f88336",
+    "3984ad7de4fe",
+    "3a194b042314",
+    "510371e36215",
+    "20c376ce73e8",
+    "05539cfde4b8",
+    "76ba5ea2c89c",
+    "31109fbb5e66",
+    "631cf6d375f7",
+    "16a07d94c601",
+    "0f428518108e",
+    "3d2b151fb780",
+    "024879c9ec69",
+    "05909740c4ac",
+    "7aadceb1c039",
+    "54d8bc09c112",
+    "37b142ada63f",
+    "479419a98b97",
+    "49464d328c30",
+    "11969542dc98",
+    "3bbd838bae94",
+    "645cc3b74581",
+    "314a9cd3e45e",
+    "0c5689ff0a24",
+    "032e98873fe4",
+    "6d0ed82e5836",
+    "124e8a723a05",
+    "6a877d3a6248",
+    "5a42dbefbc5c",
+    "0dca748fa90c",
+    "76b70638cdd1",
+    "1886728a2882",
+    "0523ad833928",
+    "0ec860df3a52",
+    "2397fabf7953",
+    "02e83aadaaca",
+    "2ee5f2a2c0a5",
+    "7732bfbc91cf",
+    "77e97e4a00ad",
+    "2e4fe028cdb8",
+    "513e732d498c",
+    "26a58e88018c",
+    "6cd5c9c90f61",
+    "10a144943b41",
+    "0d9f27bc8588",
+    "72057d03ec3e",
+    "2e9dd812e5c9",
+    "1e88e6197b49",
+    "00b1ecc000b3",
+    "5f6253184519",
+    "3198e43aebbc",
+    "433617f060d5",
+    "79176a2ff737",
+    "746c353ab726",
+    "69a6b0f15c7d",
+    "1e4af3caa264",
+    "2471b52913f3",
+    "03b64176ee85",
+    "63820071ffbf",
+    "4269f3648ed8",
+    "220806e2ba8c",
+    "513b86e4334c",
+    "0efd3fe8e49a",
+    "7f9ed4e83209",
+    "619aa744e897",
+    "59fd002795cb",
+    "17289ac32736",
+    "302c8c1711e9",
+    "0d3c4ef656be",
+    "0c2c18f4516f",
+    "0de5cf54a868",
+    "064df5812421",
+    "4ac3b8e511f2",
+    "7ab2117c1364",
+    "5721a753420c",
+    "5f545dc77615",
+    "7dabd139db53",
+    "59db351ccb7b",
+    "63e0eb5aae2e",
+    "391ba61a3f70",
+    "5805688862a3",
+    "5f96cd4ede49",
+    "4d91ed2961f0",
+    "77d306540b0a",
+    "2fd40436b482",
+    "282da86edd8a",
+    "221b78511ff9",
+    "374ed32154e6",
+    "491e26cad23f",
+    "23ff77f80f37",
+    "121fd0675352",
+    "13000c7f9436",
+    "27b90beda8cb",
+    "323fd29febe5",
+    "5382ed284b27",
+    "5434dd373e7d",
+    "3ab1b41b7bf1",
+    "1924c56885bb",
+    "640171655e7e",
+    "531a1270a0f5",
+    "776d4e0f973a",
+    "6dc4ec8c7bc6",
+    "14a48dbc5bc8",
+    "58dd976bf6b8",
+    "3c12e7acbd67",
+    "7d6292729eb4",
+    "13bfc21145f5",
+    "6cf1dd270b02",
+    "7bad7cbf80d5",
+    "3fd93bedca9d",
+    "2f764f45c00b",
+    "15d5fd8a6590",
+    "06d5381b6a5e",
+    "6a2ab783a4da",
+    "6c9da14dfaf1",
+    "01e1209e738e",
+    "06f9ddc74131",
+    "526a2c18e40a",
+    "66f64fb919e6",
+    "139ed20b722a",
+    "7c3fd53688b1",
+    "2a07bd6e6298",
+    "6bfab445eb98",
+    "2a70da57fa15",
+    "550839e0ff80",
+    "0f98351f7c12",
+    "289801da7b4a",
+    "63c5eb88ca28",
+    "5bdf914200a0",
+    "780ab280b878",
+    "077676d8692c",
+    "09393bf00729",
+    "595c0597ec4d",
+    "01c8aa0df799",
+    "2562333c18a5",
+    "2b528ac370ca",
+    "28b3eea8ea03",
+    "642d06d338fb",
+    "0c0e00da99c9",
+    "11f3aea1457b",
+    "24571c97d79d",
+    "1996978bea97",
+    "0753604f9f58",
+    "08850028f0d9",
+    "4a60361ffead",
+    "0f2a4e57363f",
+    "610904e19526",
+    "00efae1b4883",
+    "25947af1f575",
+    "056bbe2d008f",
+    "49fc77d7358d",
+    "4cb89347af00",
+    "4859a81fed73",
+    "72227b0c9365",
+    "64ca943c9f86",
+    "7d7187d6b02d",
+    "03f1d6bbcd29",
+    "6da35d9a5a63",
+    "0fb6882c8415",
+    "5e08105e681b",
+    "6831d1e9357f",
+    "3e4ad1f7a34e",
+    "071cd978e933",
+    "4b10a2ab7f70",
+    "142c9e562810",
+    "1dc72bfd3b43",
+    "13a99664dac6",
+    "616d0697de2d",
+    "401849853fe9",
+    "12b5ce0badce",
+    "3c1a67a289c5",
+    "6bfa43966b27",
+    "2eed0607dccb",
+    "5c76456d62c2",
+    "3f400891b124",
+    "46fca2618bcb",
+    "5e10faa9169e",
+    "766137e6b3b9",
+    "4b4d9e80797d",
+    "26857c9a7c8f",
+    "3453014313a4",
+    "29b4a534b496",
+    "0b938fce4fc8",
+    "48504d38108e",
+    "0ffd7fc68e8e",
+    "153c6faddb12",
+    "0bbd83902f82",
+    "4d329d86606d",
+    "11e4de3784c5",
+    "1b7782b3fdca",
+    "0f1ad1412bda",
+    "7d7759b342e3",
+    "2ac4c5ee485b",
+    "0f516e28d58f",
+    "2fe543428f37",
+    "1dc4da104d55",
+    "430a562cf681",
+    "6a368ce0a7ac",
+    "283feb969f7a",
+    "22a839070204",
+    "26000c5e9e23",
+    "4d8ef4cae8f5",
+    "3abdc08bc71f",
+    "4944d5876fb4",
+    "60aea8baeaf0",
+    "63ae1c1021bb",
+    "3dc4ef9b2a61",
+    "7e9be904f5ce",
+    "7917544c9fc7",
+    "6d3c4fd8ff0f",
+    "470567dd1214",
+    "1066070b41b1",
+    "4b4c09c3bd34",
+    "63b6270d4ee2",
+    "16b88923321c",
+    "0d6ff9af422c",
+    "63a21207d6c6",
+    "46c87a0d1687",
+    "575c033e9ea9",
+    "11f6a5dddc95",
+    "537279d10e8e",
+    "275d4f2b35cb",
+    "512618b192f8",
+    "2697f2b91e8f",
+    "05b70fb47869",
+    "61172aff027f",
+    "66835f6815ae",
+    "015f86022ab4",
+    "1511de749721",
+    "3c9b4cfa4568"
+  ],
+  "practice": {
+    "630947825419": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:35.730Z"
+    },
+    "063bc064fa00": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:39.986Z"
+    },
+    "0fdaf6fc009a": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:42.703Z"
+    },
+    "5fff75e7fc34": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:46.575Z"
+    },
+    "5dbfb9c540e9": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:52.211Z"
+    },
+    "73a03f69d350": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:55.678Z"
+    },
+    "24e4a9c413b6": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:07:59.710Z"
+    },
+    "637ffac7410c": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:01.963Z"
+    },
+    "56706a32f73d": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:03.927Z"
+    },
+    "3d1ee9977083": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:07.853Z"
+    },
+    "659760700979": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:11.433Z"
+    },
+    "7d2c6231a9a2": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:16.198Z"
+    },
+    "7b4a81602472": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:21.694Z"
+    },
+    "6ef3597abaf9": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:24.612Z"
+    },
+    "04bb74f01e83": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:28.041Z"
+    },
+    "46cc1afb5328": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:33.464Z"
+    },
+    "765c9fcda20f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:37.748Z"
+    },
+    "47195e8b9c68": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:40.894Z"
+    },
+    "7c22e6d8b55b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:44.009Z"
+    },
+    "7e262e267000": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:46.828Z"
+    }
+  },
+  "ratings": {
+    "31a4cbf26064": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:53.171Z"
+    },
+    "5ad376143abe": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:54.937Z"
+    },
+    "54009fb6a4fa": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:55.536Z"
+    },
+    "6b66a30e99a9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:55.920Z"
+    },
+    "253ccbb45142": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:56.122Z"
+    },
+    "10df8ce923c0": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:56.330Z"
+    },
+    "69efd1786ddc": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:56.505Z"
+    },
+    "37f49815785b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:56.714Z"
+    },
+    "449de09d69bc": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:56.923Z"
+    },
+    "0ad0ac7dca57": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:57.158Z"
+    },
+    "6de68961376d": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:57.333Z"
+    },
+    "5d0e28d65d7a": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:57.535Z"
+    },
+    "4b879b605c65": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:57.717Z"
+    },
+    "2a38e4679817": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:57.932Z"
+    },
+    "6310fde68b6c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:58.108Z"
+    },
+    "1d0b5d94aa43": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:58.288Z"
+    },
+    "68855342eba1": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:58.479Z"
+    },
+    "59a2496fd09c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:58.700Z"
+    },
+    "2e2a05004360": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:58.882Z"
+    },
+    "5e4c5f3b6776": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:59.085Z"
+    },
+    "61a6ce5e65b0": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:59.260Z"
+    },
+    "700029755e35": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:59.462Z"
+    },
+    "4ba31e6b4e64": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:59.677Z"
+    },
+    "19923fa13561": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:08:59.846Z"
+    },
+    "0acf124ed07a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:00.027Z"
+    },
+    "61c83ddc5d26": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:00.249Z"
+    },
+    "756b52237fc5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:00.438Z"
+    },
+    "2729962f5c5d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:00.646Z"
+    },
+    "3bd3290ab74e": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:00.868Z"
+    },
+    "6aaec5178bf1": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:01.070Z"
+    },
+    "69c3ef0bae8d": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:01.285Z"
+    },
+    "36c588524eae": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:01.500Z"
+    },
+    "195ec190e778": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:01.714Z"
+    },
+    "38c1cbe545d0": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:01.918Z"
+    },
+    "42985ffd5ddf": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:02.151Z"
+    },
+    "3ba566c83ceb": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:02.379Z"
+    },
+    "2ab4a45e5d82": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:02.554Z"
+    },
+    "474cd45e9029": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:02.742Z"
+    },
+    "64b9f020e5fe": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:02.950Z"
+    },
+    "75e25c45f527": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:03.152Z"
+    },
+    "531750ea4730": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:03.355Z"
+    },
+    "62d45544b98b": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:03.582Z"
+    },
+    "10c6801a69b8": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:03.784Z"
+    },
+    "3a56e0a19054": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:04.005Z"
+    },
+    "3efee066c244": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:04.215Z"
+    },
+    "1d77a6ecfcd1": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:04.442Z"
+    },
+    "01932268c5b2": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:04.670Z"
+    },
+    "558e3a6eb845": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:04.872Z"
+    },
+    "382e402fecc5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:05.100Z"
+    },
+    "3738b61f9936": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:05.301Z"
+    },
+    "1e4da7eb71ce": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:05.504Z"
+    },
+    "744c5f402ee1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:05.725Z"
+    },
+    "3cb06126bd17": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:05.946Z"
+    },
+    "33b7661f586e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:06.181Z"
+    },
+    "049d9bd075d1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:06.383Z"
+    },
+    "5535284d8311": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:06.604Z"
+    },
+    "58ef25244c79": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:06.819Z"
+    },
+    "754ae453d5de": {
+      "primary": "poor_lighting",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:07.040Z"
+    },
+    "10e8beeaf59f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:07.261Z"
+    },
+    "62d14daa02d4": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:07.503Z"
+    },
+    "4ede848542a1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:07.710Z"
+    },
+    "0ac44a9181c7": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:07.938Z"
+    },
+    "3092476a3789": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:08.180Z"
+    },
+    "24aa451c42b0": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:08.381Z"
+    },
+    "76c2002afbed": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:08.603Z"
+    },
+    "518ba3147060": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:08.825Z"
+    },
+    "137ef685f812": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:09.018Z"
+    },
+    "75e533c6106b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:09.248Z"
+    },
+    "6430aafd3bca": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:09.482Z"
+    },
+    "0717325f5ac1": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:09.723Z"
+    },
+    "5b9275f88336": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:09.982Z"
+    },
+    "3984ad7de4fe": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:10.211Z"
+    },
+    "3a194b042314": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:10.453Z"
+    },
+    "510371e36215": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:10.673Z"
+    },
+    "20c376ce73e8": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:10.928Z"
+    },
+    "05539cfde4b8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:11.157Z"
+    },
+    "76ba5ea2c89c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:11.371Z"
+    },
+    "31109fbb5e66": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:11.592Z"
+    },
+    "631cf6d375f7": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:11.839Z"
+    },
+    "16a07d94c601": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:12.047Z"
+    },
+    "0f428518108e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:12.275Z"
+    },
+    "3d2b151fb780": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:12.476Z"
+    },
+    "024879c9ec69": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:12.679Z"
+    },
+    "05909740c4ac": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:12.894Z"
+    },
+    "7aadceb1c039": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:13.083Z"
+    },
+    "54d8bc09c112": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:13.278Z"
+    },
+    "37b142ada63f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "reflection",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:13.486Z"
+    },
+    "479419a98b97": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:13.682Z"
+    },
+    "49464d328c30": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:13.892Z"
+    },
+    "11969542dc98": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:14.092Z"
+    },
+    "3bbd838bae94": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:14.307Z"
+    },
+    "645cc3b74581": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:14.522Z"
+    },
+    "314a9cd3e45e": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:14.751Z"
+    },
+    "0c5689ff0a24": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:15.121Z"
+    },
+    "032e98873fe4": {
+      "primary": "reflection",
+      "labels": [
+        "reflection",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:15.310Z"
+    },
+    "6d0ed82e5836": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:15.524Z"
+    },
+    "124e8a723a05": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:15.721Z"
+    },
+    "6a877d3a6248": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:15.934Z"
+    },
+    "5a42dbefbc5c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:16.143Z"
+    },
+    "0dca748fa90c": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:16.352Z"
+    },
+    "76b70638cdd1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:16.554Z"
+    },
+    "1886728a2882": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:16.762Z"
+    },
+    "0523ad833928": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:16.970Z"
+    },
+    "0ec860df3a52": {
+      "primary": "reflection",
+      "labels": [
+        "boundary_mixing",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:17.172Z"
+    },
+    "2397fabf7953": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:17.381Z"
+    },
+    "02e83aadaaca": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:17.582Z"
+    },
+    "2ee5f2a2c0a5": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:17.783Z"
+    },
+    "7732bfbc91cf": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:17.992Z"
+    },
+    "77e97e4a00ad": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:18.175Z"
+    },
+    "2e4fe028cdb8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:18.390Z"
+    },
+    "513e732d498c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:18.607Z"
+    },
+    "26a58e88018c": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:19.874Z"
+    },
+    "6cd5c9c90f61": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:20.095Z"
+    },
+    "10a144943b41": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:20.304Z"
+    },
+    "0d9f27bc8588": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:20.506Z"
+    },
+    "72057d03ec3e": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:20.714Z"
+    },
+    "2e9dd812e5c9": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:20.922Z"
+    },
+    "1e88e6197b49": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:21.110Z"
+    },
+    "00b1ecc000b3": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:21.339Z"
+    },
+    "5f6253184519": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:21.527Z"
+    },
+    "3198e43aebbc": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:21.730Z"
+    },
+    "433617f060d5": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:21.958Z"
+    },
+    "79176a2ff737": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:22.178Z"
+    },
+    "746c353ab726": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:22.373Z"
+    },
+    "69a6b0f15c7d": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:22.576Z"
+    },
+    "1e4af3caa264": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:22.791Z"
+    },
+    "2471b52913f3": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:22.992Z"
+    },
+    "03b64176ee85": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:23.190Z"
+    },
+    "63820071ffbf": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:23.390Z"
+    },
+    "4269f3648ed8": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:23.598Z"
+    },
+    "220806e2ba8c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:23.787Z"
+    },
+    "513b86e4334c": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:24.008Z"
+    },
+    "0efd3fe8e49a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:24.216Z"
+    },
+    "7f9ed4e83209": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:24.430Z"
+    },
+    "619aa744e897": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:24.645Z"
+    },
+    "59fd002795cb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:24.848Z"
+    },
+    "17289ac32736": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:25.083Z"
+    },
+    "302c8c1711e9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:25.291Z"
+    },
+    "0d3c4ef656be": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:25.499Z"
+    },
+    "0c2c18f4516f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:25.701Z"
+    },
+    "0de5cf54a868": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:25.909Z"
+    },
+    "064df5812421": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.111Z"
+    },
+    "4ac3b8e511f2": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.312Z"
+    },
+    "7ab2117c1364": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.541Z"
+    },
+    "5721a753420c": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.769Z"
+    },
+    "5f545dc77615": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:26.977Z"
+    },
+    "7dabd139db53": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:27.198Z"
+    },
+    "59db351ccb7b": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:27.419Z"
+    },
+    "63e0eb5aae2e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:27.641Z"
+    },
+    "391ba61a3f70": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:27.849Z"
+    },
+    "5805688862a3": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:28.051Z"
+    },
+    "5f96cd4ede49": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:28.272Z"
+    },
+    "4d91ed2961f0": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:28.487Z"
+    },
+    "77d306540b0a": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:28.695Z"
+    },
+    "2fd40436b482": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:28.929Z"
+    },
+    "282da86edd8a": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:29.131Z"
+    },
+    "221b78511ff9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:29.367Z"
+    },
+    "374ed32154e6": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:29.607Z"
+    },
+    "491e26cad23f": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:29.841Z"
+    },
+    "23ff77f80f37": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:30.101Z"
+    },
+    "121fd0675352": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:30.330Z"
+    },
+    "13000c7f9436": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:30.551Z"
+    },
+    "27b90beda8cb": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:30.779Z"
+    },
+    "323fd29febe5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:30.993Z"
+    },
+    "5382ed284b27": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:31.209Z"
+    },
+    "5434dd373e7d": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:31.450Z"
+    },
+    "3ab1b41b7bf1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:31.664Z"
+    },
+    "1924c56885bb": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:31.899Z"
+    },
+    "640171655e7e": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:32.113Z"
+    },
+    "531a1270a0f5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:32.407Z"
+    },
+    "776d4e0f973a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:32.668Z"
+    },
+    "6dc4ec8c7bc6": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:32.862Z"
+    },
+    "14a48dbc5bc8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:33.122Z"
+    },
+    "58dd976bf6b8": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:33.338Z"
+    },
+    "3c12e7acbd67": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:33.559Z"
+    },
+    "7d6292729eb4": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:33.819Z"
+    },
+    "13bfc21145f5": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:34.034Z"
+    },
+    "6cf1dd270b02": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:34.268Z"
+    },
+    "7bad7cbf80d5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:34.489Z"
+    },
+    "3fd93bedca9d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:34.718Z"
+    },
+    "2f764f45c00b": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:34.926Z"
+    },
+    "15d5fd8a6590": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:35.146Z"
+    },
+    "06d5381b6a5e": {
+      "primary": "poor_lighting",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:35.420Z"
+    },
+    "6a2ab783a4da": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:35.675Z"
+    },
+    "6c9da14dfaf1": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:35.889Z"
+    },
+    "01e1209e738e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:36.123Z"
+    },
+    "06f9ddc74131": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:36.338Z"
+    },
+    "526a2c18e40a": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:36.562Z"
+    },
+    "66f64fb919e6": {
+      "primary": "poor_lighting",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:36.989Z"
+    },
+    "139ed20b722a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:37.224Z"
+    },
+    "7c3fd53688b1": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:37.432Z"
+    },
+    "2a07bd6e6298": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:37.641Z"
+    },
+    "6bfab445eb98": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:37.855Z"
+    },
+    "2a70da57fa15": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:38.050Z"
+    },
+    "550839e0ff80": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:38.239Z"
+    },
+    "0f98351f7c12": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:38.448Z"
+    },
+    "289801da7b4a": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:38.670Z"
+    },
+    "63c5eb88ca28": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:38.897Z"
+    },
+    "5bdf914200a0": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:39.111Z"
+    },
+    "780ab280b878": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:39.338Z"
+    },
+    "077676d8692c": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:40.933Z"
+    },
+    "09393bf00729": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:41.143Z"
+    },
+    "595c0597ec4d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:41.416Z"
+    },
+    "01c8aa0df799": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "reflection",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:41.631Z"
+    },
+    "2562333c18a5": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:41.852Z"
+    },
+    "2b528ac370ca": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:42.046Z"
+    },
+    "28b3eea8ea03": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:42.250Z"
+    },
+    "642d06d338fb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:42.503Z"
+    },
+    "0c0e00da99c9": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:42.731Z"
+    },
+    "11f3aea1457b": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:42.972Z"
+    },
+    "24571c97d79d": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:43.193Z"
+    },
+    "1996978bea97": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:43.421Z"
+    },
+    "0753604f9f58": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:43.720Z"
+    },
+    "08850028f0d9": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:43.923Z"
+    },
+    "4a60361ffead": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:44.130Z"
+    },
+    "0f2a4e57363f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:44.358Z"
+    },
+    "610904e19526": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:44.573Z"
+    },
+    "00efae1b4883": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:44.762Z"
+    },
+    "25947af1f575": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:44.970Z"
+    },
+    "056bbe2d008f": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:45.178Z"
+    },
+    "49fc77d7358d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:45.394Z"
+    },
+    "4cb89347af00": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:45.654Z"
+    },
+    "4859a81fed73": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:45.869Z"
+    },
+    "72227b0c9365": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:46.058Z"
+    },
+    "64ca943c9f86": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:46.273Z"
+    },
+    "7d7187d6b02d": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:46.585Z"
+    },
+    "03f1d6bbcd29": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:46.761Z"
+    },
+    "6da35d9a5a63": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:46.976Z"
+    },
+    "0fb6882c8415": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:47.172Z"
+    },
+    "5e08105e681b": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:47.366Z"
+    },
+    "6831d1e9357f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:47.575Z"
+    },
+    "3e4ad1f7a34e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:47.795Z"
+    },
+    "071cd978e933": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:47.998Z"
+    },
+    "4b10a2ab7f70": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:48.245Z"
+    },
+    "142c9e562810": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:48.467Z"
+    },
+    "1dc72bfd3b43": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:48.681Z"
+    },
+    "13a99664dac6": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:48.889Z"
+    },
+    "616d0697de2d": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:49.124Z"
+    },
+    "401849853fe9": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:49.352Z"
+    },
+    "12b5ce0badce": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:49.567Z"
+    },
+    "3c1a67a289c5": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:49.795Z"
+    },
+    "6bfa43966b27": {
+      "primary": "poor_lighting",
+      "labels": [
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:50.220Z"
+    },
+    "2eed0607dccb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:50.700Z"
+    },
+    "5c76456d62c2": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:50.934Z"
+    },
+    "3f400891b124": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:51.148Z"
+    },
+    "46fca2618bcb": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:51.390Z"
+    },
+    "5e10faa9169e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:51.598Z"
+    },
+    "766137e6b3b9": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:51.813Z"
+    },
+    "4b4d9e80797d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:52.015Z"
+    },
+    "26857c9a7c8f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:52.242Z"
+    },
+    "3453014313a4": {
+      "primary": "reflection",
+      "labels": [
+        "reflection",
+        "poor_lighting"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:52.444Z"
+    },
+    "29b4a534b496": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:52.652Z"
+    },
+    "0b938fce4fc8": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:52.881Z"
+    },
+    "48504d38108e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:53.088Z"
+    },
+    "0ffd7fc68e8e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:53.296Z"
+    },
+    "153c6faddb12": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:53.506Z"
+    },
+    "0bbd83902f82": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:53.766Z"
+    },
+    "4d329d86606d": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:53.967Z"
+    },
+    "11e4de3784c5": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:54.307Z"
+    },
+    "1b7782b3fdca": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:54.481Z"
+    },
+    "0f1ad1412bda": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:54.711Z"
+    },
+    "7d7759b342e3": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:54.932Z"
+    },
+    "2ac4c5ee485b": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:55.148Z"
+    },
+    "0f516e28d58f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:55.354Z"
+    },
+    "2fe543428f37": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:55.609Z"
+    },
+    "1dc4da104d55": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:55.810Z"
+    },
+    "430a562cf681": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:55.994Z"
+    },
+    "6a368ce0a7ac": {
+      "primary": "textureless",
+      "labels": [
+        "textureless"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:56.228Z"
+    },
+    "283feb969f7a": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:56.430Z"
+    },
+    "22a839070204": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:56.631Z"
+    },
+    "26000c5e9e23": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:09:59.866Z"
+    },
+    "4d8ef4cae8f5": {
+      "primary": "thin_object",
+      "labels": [
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:00.062Z"
+    },
+    "3abdc08bc71f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:00.282Z"
+    },
+    "4944d5876fb4": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "poor_lighting"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:00.504Z"
+    },
+    "60aea8baeaf0": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:00.739Z"
+    },
+    "63ae1c1021bb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:00.980Z"
+    },
+    "3dc4ef9b2a61": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:01.202Z"
+    },
+    "7e9be904f5ce": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:01.677Z"
+    },
+    "7917544c9fc7": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:01.904Z"
+    },
+    "6d3c4fd8ff0f": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:02.125Z"
+    },
+    "470567dd1214": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:02.353Z"
+    },
+    "1066070b41b1": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:02.583Z"
+    },
+    "4b4c09c3bd34": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:03.002Z"
+    },
+    "63b6270d4ee2": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "high",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:03.454Z"
+    },
+    "16b88923321c": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:04.515Z"
+    },
+    "0d6ff9af422c": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:07.320Z"
+    },
+    "63a21207d6c6": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:07.817Z"
+    },
+    "46c87a0d1687": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:08.289Z"
+    },
+    "575c033e9ea9": {
+      "primary": "reflection",
+      "labels": [
+        "textureless",
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:08.761Z"
+    },
+    "11f6a5dddc95": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:09.138Z"
+    },
+    "537279d10e8e": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:09.542Z"
+    },
+    "275d4f2b35cb": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:09.762Z"
+    },
+    "512618b192f8": {
+      "primary": "thin_object",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:10.229Z"
+    },
+    "2697f2b91e8f": {
+      "primary": "ambiguous",
+      "labels": [
+        "textureless",
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:10.556Z"
+    },
+    "05b70fb47869": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:10.913Z"
+    },
+    "61172aff027f": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:11.461Z"
+    },
+    "66835f6815ae": {
+      "primary": "reflection",
+      "labels": [
+        "reflection"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:12.223Z"
+    },
+    "015f86022ab4": {
+      "primary": "textureless",
+      "labels": [
+        "textureless",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:12.567Z"
+    },
+    "1511de749721": {
+      "primary": "thin_object",
+      "labels": [
+        "boundary_mixing",
+        "thin_object"
+      ],
+      "confidence": "medium",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:13.192Z"
+    },
+    "3c9b4cfa4568": {
+      "primary": "boundary_mixing",
+      "labels": [
+        "boundary_mixing"
+      ],
+      "confidence": "low",
+      "notes": "",
+      "saved_at": "2026-11-03T13:10:13.662Z"
+    }
+  },
+  "finished": "2026-11-03T13:10:16.054Z",
+  "study_id": "5ea5b0bb5eb3",
+  "tool_version": "1"
+}
