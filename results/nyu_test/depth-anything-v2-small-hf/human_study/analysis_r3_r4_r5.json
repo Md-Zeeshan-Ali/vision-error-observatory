@@ -1,19 +1,22 @@
 {
   "raters": {
-    "r3": {
+    "R3": {
       "practice_agreement": 0.65,
       "included": true,
-      "rated": 300
+      "rated": 300,
+      "typed_rater_id": "r3"
     },
-    "r1": {
+    "R4": {
       "practice_agreement": 0.65,
       "included": true,
-      "rated": 300
+      "rated": 300,
+      "typed_rater_id": "r1"
     },
-    "r2": {
+    "R5": {
       "practice_agreement": 0.8,
       "included": true,
-      "rated": 300
+      "rated": 300,
+      "typed_rater_id": "r2"
     }
   },
   "items_rated": 300,
@@ -23,9 +26,9 @@
     "krippendorff_alpha": 0.47841042129292277,
     "mean_pairwise_cohen_kappa": 0.4793781353664761,
     "dawid_skene_rater_accuracy": {
-      "r1": 0.8932989562619056,
-      "r2": 0.6938708739847417,
-      "r3": 0.7193921808194484
+      "R3": 0.7193921808194484,
+      "R4": 0.8932989562619056,
+      "R5": 0.6938708739847417
     }
   },
   "consensus": {
@@ -43,7 +46,7 @@
   "veo_vs_consensus": {
     "n": 300,
     "accuracy": 0.22333333333333333,
-    "kappa": 0.04272801972062447,
+    "kappa": 0.042728019720624504,
     "macro_f1": 0.148709161907501,
     "per_class": {
       "ambiguous": {
@@ -100,7 +103,7 @@
     "selective": {
       "n": 260,
       "accuracy": 0.25769230769230766,
-      "kappa": 0.05641218503196687,
+      "kappa": 0.05641218503196684,
       "majority_label": "textureless",
       "majority_baseline_accuracy": 0.33076923076923076
     },
@@ -111,8 +114,8 @@
         "upper": 0.2720930303399537
       },
       "kappa": {
-        "estimate": 0.04272801972062447,
-        "lower": -0.005642974884152617,
+        "estimate": 0.042728019720624504,
+        "lower": -0.005642974884152651,
         "upper": 0.09367988383315912
       },
       "weighted_accuracy": {
@@ -400,8 +403,8 @@
     "inter_rater_alpha_at_least_0_4": true
   },
   "provenance": {
-    "created_utc": "2026-11-07T07:31:33+00:00",
-    "git_commit": "b6d922957289f6c609be7e08e6b685e1647b01b5",
+    "created_utc": "2026-11-07T08:44:11+00:00",
+    "git_commit": "43260568cefb6bf9c9a84b75116237b9e8daab53",
     "git_dirty": true,
     "python": "3.11.9",
     "platform": "Windows-10-10.0.26300-SP0",
@@ -421,7 +424,7 @@
         "sha256": "88e51ef02ca1b718a01e5820de19baedf96d63b4e38109d43aecebe2ea10840f"
       },
       "ratings_0": {
-        "path": "results\\nyu_test\\depth-anything-v2-small-hf\\human_study\\ratings_r3.json",
+        "path": "results\\nyu_test\\depth-anything-v2-small-hf\\human_study\\ratings_R3.json",
         "sha256": "89142088838ebb922f8b306dd0af6f10a2d1daabf2caa387373d860f51db2499"
       },
       "ratings_1": {

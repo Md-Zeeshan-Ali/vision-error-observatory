@@ -16,13 +16,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--ratings", type=Path, nargs="+", required=True)
+    parser.add_argument("--rater-ids", nargs="+", help="study ID for each ratings file, in order, when raters typed theirs differently")
     parser.add_argument("--calibration", type=Path, help="silver_calibration.json with Phase 3 models (optional)")
     parser.add_argument("--replicates", type=int, default=1000)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
-    raters = load_ratings(args.ratings, manifest["study_id"])
+    raters = load_ratings(args.ratings, manifest["study_id"], args.rater_ids)
     calibration = json.loads(args.calibration.read_text(encoding="utf-8")) if args.calibration else None
     result = analyze(manifest, raters, calibration, args.replicates)
     write_result(args.output, result, inputs={"manifest": args.manifest, **{f"ratings_{i}": p for i, p in enumerate(args.ratings)}})

@@ -25,12 +25,18 @@ from .validation import ABSTAIN_LABEL, agreement_report, cohens_kappa
 PRACTICE_PASS = 0.4  # raters below this share of practice agreement are excluded from the primary analysis
 
 
-def load_ratings(paths: list[Path], study_id: str) -> list[dict]:
+def load_ratings(paths: list[Path], study_id: str, rater_ids: list[str] | None = None) -> list[dict]:
+    """Rating files as exported. ``rater_ids`` assigns the study's ID to each file, in order, when raters typed
+    their ID differently; the typed ID is kept as ``typed_rater_id`` and the files themselves are never changed."""
+    if rater_ids is not None and len(rater_ids) != len(paths):
+        raise ValueError("Give one rater ID per ratings file")
     raters = []
-    for path in paths:
+    for index, path in enumerate(paths):
         rating = json.loads(path.read_text(encoding="utf-8"))
         if rating.get("study_id") != study_id:
             raise ValueError(f"{path} belongs to study {rating.get('study_id')}, not {study_id}")
+        if rater_ids is not None:
+            rating = {**rating, "typed_rater_id": rating.get("rater_id"), "rater_id": rater_ids[index]}
         raters.append(rating)
     if len({rater["rater_id"] for rater in raters}) != len(raters):
         raise ValueError("Duplicate rater ids")
@@ -145,7 +151,8 @@ def analyze(manifest: dict, raters: list[dict], calibration: dict | None = None,
         multilabel[category] = entry
 
     result = {
-        "raters": {r["rater_id"]: {"practice_agreement": practice[r["rater_id"]], "included": r in included, "rated": len(r["ratings"])} for r in raters},
+        "raters": {r["rater_id"]: {"practice_agreement": practice[r["rater_id"]], "included": r in included, "rated": len(r["ratings"]),
+                                   **({"typed_rater_id": r["typed_rater_id"]} if "typed_rater_id" in r else {})} for r in raters},
         "items_rated": len(primary),
         "inter_rater": {
             "fleiss_kappa": fleiss_kappa(complete) if len(complete) >= 2 and len(included) >= 2 else None,

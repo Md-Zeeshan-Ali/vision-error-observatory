@@ -106,3 +106,7 @@ The rating files, the manifest and the analyses are now released in [`results/ny
 **Reading.** As the protocol states for low agreement, the main finding is how hard this attribution task is: five raters agreed only modestly. Where raters agreed well, VEO's labels still matched their consensus at chance level. `textureless` is the only label above chance against people (precision 0.50 [0.35, 0.65] against a base rate of 0.23), although it was close to chance against the wall-and-ceiling annotations. That suggests the annotation proxy, rather than the label, may be the weak point for this class; this was not a registered test.
 
 **Rater quality, reported as observed.** R4 and R5 rated quickly, with medians of 4.3 and 4.0 seconds per item and about 90 items each under 3 seconds. R4 marked every item "medium" confidence. R1's per-item times were lost to a review pass.
+
+### 2026-11-07: rater IDs
+
+Raters typed their own IDs into the tool, and three typed them differently from the study's names: R3 typed `r3`, R4 typed `r1` and R5 typed `r2`. The analysis now assigns R1 to R5 by file (`--rater-ids`), and each result keeps the typed ID as `typed_rater_id`. The rating files are unchanged, so their SHA-256 hashes still match those recorded above; `ratings_r3.json` was only renamed to `ratings_R3.json`. Rerunning the three analyses with these names changed no reported number; the only differences were in the 15th and 16th significant digits, from summing in a different order.

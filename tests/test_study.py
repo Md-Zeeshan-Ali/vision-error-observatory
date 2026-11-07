@@ -92,6 +92,18 @@ def test_analysis_of_simulated_raters(study, tmp_path):
     assert "Krippendorff" in text and "Pre-registered check" in text
 
 
+def test_rater_ids_are_assigned_without_changing_the_files(study, tmp_path):
+    _, manifest = study
+    path = tmp_path / "ratings_typed.json"
+    original = json.dumps(_simulated_rating(manifest, "r1", accuracy=0.8, seed=5))
+    path.write_text(original, encoding="utf-8")
+    [rater] = load_ratings([path], manifest["study_id"], ["R4"])
+    assert rater["rater_id"] == "R4" and rater["typed_rater_id"] == "r1"
+    assert path.read_text(encoding="utf-8") == original
+    with pytest.raises(ValueError):
+        load_ratings([path], manifest["study_id"], ["R4", "R5"])
+
+
 def test_ratings_from_another_study_are_rejected(study, tmp_path):
     path = tmp_path / "ratings_x.json"
     path.write_text(json.dumps({"study_id": "other", "rater_id": "x", "ratings": {}}), encoding="utf-8")
