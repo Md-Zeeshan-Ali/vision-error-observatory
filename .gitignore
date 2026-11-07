@@ -122,3 +122,6 @@ study*.zip
 
 # Paper drafts carry author names and stay local
 /paper/
+
+# Rater training guide, kept local while the human study is reported
+rater_cause_guide.docx
