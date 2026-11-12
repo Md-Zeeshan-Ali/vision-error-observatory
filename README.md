@@ -8,6 +8,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+**Live explorer:** [vision-error-observatory.netlify.app](https://vision-error-observatory.netlify.app/)
+
 </div>
 
 A depth model can score well on average and still fail badly in specific places. VEO audits any monocular depth model: it locates the regions where predictions fail, describes each one with measurable cues, names a likely cause or abstains, and tests those explanations by editing images and re-running the model.
@@ -191,7 +193,7 @@ The fitted labels expect indoor scenes. The `reflection` label also expects a Ki
 
 ## Explore in the browser
 
-An interactive explorer of real test images and failure regions, plus a 3D walkthrough of how the model works.
+An interactive explorer of real test images and failure regions, plus a 3D walkthrough of how the model works. It is live at [vision-error-observatory.netlify.app](https://vision-error-observatory.netlify.app/); to run it locally:
 
 ```bash
 python web_app/fetch_assets.py    # checksum-verified download
